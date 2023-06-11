@@ -1,70 +1,143 @@
-# Getting Started with Create React App
+# docker-django-react-postgres-nginx
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#### About Project
 
-## Available Scripts
+The project is a complete example of boilerplate project. This project uses:
+* Django
+* Gunicorn
+* React.js
+* Postgres
+* Nginx
+* Docker
+* Docker Compose
 
-In the project directory, you can run:
+There are two environments defined here. Development and production.
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Development Environment
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+#### About
 
-### `npm test`
+This environment uses three docker containers. `backend` django app, `frontend` react app, `db` postgres database.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Setup
 
-### `npm run build`
+Use `.env.sample` file to create `.env.dev` file. It can look like this:
+```
+DEBUG=1
+SECRET_KEY=foo
+DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1]
+DJANGO_SETTINGS_MODULE=app.settings.local
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+SQL_ENGINE=django.db.backends.postgresql
+SQL_DATABASE=django_dev
+SQL_USER=django
+SQL_PASSWORD=django
+SQL_HOST=db
+SQL_PORT=5432
+DATABASE=postgres
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Run
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Build the application:
 
-### `npm run eject`
+```docker-compose build```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Start application:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```docker-compose up```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+or to run it in the background
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```docker-compose up -d```
 
-## Learn More
+Now you can visit [localhost:3000/](http://localhost:3000/) to see your frontend app running
+and backend app at port `8000` so admin panel is here [localhost:8000/api/admin/](http://localhost:8000/api/admin/)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+to stop it:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```docker-compose down```
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+### Stand alone apps
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+You can run apps separetely without using docker. To do so for frontend app:
 
-### Making a Progressive Web App
+```
+cd frontend/
+npm install
+npm start
+```
+and for backend django app just follow:
+```
+cd backend/
+source env/bin/activate 
+pip install -r requirements/local.txt
+python manage.py migrate
+python manage.py runserver
+```
+by default this approach will use sqlite3 database
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## Production Environment
 
-### Advanced Configuration
+#### About
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+This environment is designed to be used in production setup. 
 
-### Deployment
+Backend app for this project uses multistage build. First is creating wheel for packages to be installed later. Second step is creating coping files/folders etc. It installs whell packages and runs entrypoint script. Entrypoint runs collectstatic for backend static files (to be used for django admin panel) and applies migrations. Gunicorn is used for django.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Postgres database is used.
 
-### `npm run build` fails to minify
+Frontend application is also a multistage build. First node container creates optimized static files. Then nginx container serves them. It also redirects requests for backed service (`/api`)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Setup
+
+Create `.env.prod` file (similar to `.env.sample` file) eg:
+```
+DEBUG=0
+SECRET_KEY=TODO-changeme
+DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1 [::1] your-domain-here
+DJANGO_SETTINGS_MODULE=app.settings.production
+
+SQL_ENGINE=django.db.backends.postgresql
+SQL_DATABASE=django_prod
+SQL_USER=django
+SQL_PASSWORD=django
+SQL_HOST=db-prod
+SQL_PORT=5432
+DATABASE=postgres
+
+```
+
+Create `.env.prod.db` file and fill it with:
+
+```
+POSTGRES_USER=django
+POSTGRES_PASSWORD=django
+POSTGRES_DB=django_prod
+```
+those of course need to match variables from previous file. 
+
+### Run
+
+Build the application:
+
+```docker-compose -f docker-compose.prod.yml build```
+
+Start application:
+
+```docker-compose -f docker-compose.prod.yml up```
+
+or to run it in the background
+
+```docker-compose -f docker-compose.prod.yml up -d```
+
+In your browser you can visit [localhost](http://localhost) to see app running.
+
+Admin panel can be found at [localhost/api/admin/](http://localhost/api/admin/)
+
+to stop it:
+
+```docker-compose -f docker-compose.prod.yml down```
