@@ -34,7 +34,7 @@ console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
 # 로그 출력
-logger.info("Hi 1 !!!!!!!!!")
+# logger.info("massage")
 
 urlpatterns = [
     path('login/', include('accounts.urls')),

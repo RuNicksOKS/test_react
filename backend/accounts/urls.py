@@ -19,7 +19,7 @@ console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
 # 로그 출력
-logger.info("Hi 2 !!!!!!!!!")
+# logger.info("messages")
 
 urlpatterns = [
   path('process/', login_process),

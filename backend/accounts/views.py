@@ -20,16 +20,13 @@ console_handler.setFormatter(formatter)
 logger.addHandler(console_handler)
 
 # 로그 출력
-logger.info("Hi 3 !!!!!!!!!")
+# logger.info("message")
 
 # Create your views here.
 def login_process(request):
-    logger.info("Hi 4 !!!!!!!!!")
     if request.method == 'POST':
-        print("1")
         email = request.POST['email']
         pw = request.POST['pw']
-        print("2")
         with connection.cursor() as cursor:
             # 사용자 조회 쿼리 실행
             cursor.execute(
@@ -37,7 +34,6 @@ def login_process(request):
                 (email, pw)
             )
             result = cursor.fetchone()
-            print("3")
             if result:
                 return JsonResponse({'message': 'Login successful'})
             else:

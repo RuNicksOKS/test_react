@@ -4,12 +4,18 @@ services:
   backend:
     build: ./backend
     container_name: "backend-app-dev"
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - ./backend/:/usr/src/app/
+    # command: python manage.py runserver 0.0.0.0:8000
     ports:
       - '8000:8000'
       - '30000:30000'
+    command:
+      - sh
+      - -c
+      - |
+        pip install debugpy &&
+        python -m debugpy --wait-for-client --listen 0.0.0.0:30000 manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend/:/usr/src/app/
     networks:
       - dev
     depends_on:
@@ -29,7 +35,6 @@ services:
       - dev
     ports:
       - '3000:3000'
-      - '31000:31000'
     stdin_open: true
     environment:
       - NODE_ENV=development

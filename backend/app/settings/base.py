@@ -36,11 +36,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'accounts',
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -103,12 +101,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3001',  # 허용할 프론트엔드 도메인 및 포트
-    # 다른 도메인 및 포트를 여기에 추가할 수 있음
-]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
