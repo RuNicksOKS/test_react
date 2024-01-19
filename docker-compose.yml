@@ -3,7 +3,7 @@ version: '3.7'
 services:
   backend:
     build: ./backend
-    container_name: "backend-app-dev"
+    container_name: "backend-dev"
     command: python manage.py runserver 0.0.0.0:8000
     ports:
       - '8000:8000'
@@ -15,7 +15,7 @@ services:
     #     pip install debugpy &&
     #     python -m debugpy --listen 0.0.0.0:9000 --wait-for-client manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./backend/:/usr/src/app/
+      - ./backend/:/usr/workspace/
     networks:
       - dev
     depends_on:
@@ -29,8 +29,8 @@ services:
     build: ./frontend
     container_name: "frontend-dev"
     volumes:
-      - ./frontend:/app
-      - node-modules:/app/node_modules
+      - ./frontend:/usr/workspace
+      - node-modules:/usr/workspace/node_modules
     networks:
       - dev
     ports:
@@ -48,7 +48,7 @@ services:
     image: postgres:15.3-alpine
     container_name: "db-dev"
     volumes:
-      - ./postgres_data:/var/lib/postgresql/data
+      - ./volumes/db/postgres_data:/var/lib/postgresql/data
       # - ./database_setting/initial_data.sql:/docker-entrypoint-initdb.d/initial_data.sql
     user: 0:1000
     ports:
@@ -63,7 +63,7 @@ services:
     #   - POSTGRES_DB=XXXX
 
   pgadmin:
-    image: dpage/pgadmin4:7.4
+    image: dpage/pgadmin4:8.1
     container_name: "pgadmin-dev"
     # restart: always
     ports:
@@ -72,7 +72,7 @@ services:
     #   - PGADMIN_DEFAULT_EMAIL=XXXX
     #   - PGADMIN_DEFAULT_PASSWORD=XXXX
     volumes:
-      - ./data/pgadmin/:/var/lib/pgadmin
+      - ./volumes/pgadmin/data/pgadmin/:/var/lib/pgadmin
       # - ./database_setting/config_local.py:/pgadmin4/config_local.py
     # user: 0:1000
     depends_on:

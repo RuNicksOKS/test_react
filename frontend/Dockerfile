@@ -1,9 +1,9 @@
 FROM node:lts-slim as development
 
-WORKDIR /workspace/
+WORKDIR /usr/workspace/
 
-COPY package.json /workspace/
-COPY package-lock.json /workspace/
+COPY package.json /usr/workspace/
+COPY package-lock.json /usr/workspace/
 
 # -- npm install
 RUN npm ci
@@ -18,10 +18,10 @@ RUN npm ci
 
 # -- module install
 
-COPY . /workspace/
+COPY . /usr/workspace/
 
 # 라이브러리 설치 스크립트 실행
-RUN chmod +x install-libraries.sh && ./install-libraries.sh
+# RUN chmod +x install-libraries.sh && ./install-libraries.sh
 
 EXPOSE 3000
 

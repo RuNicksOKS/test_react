@@ -4,7 +4,7 @@
 # FROM python:3.8.8-slim as builder
 FROM python:3.11.3-slim as builder
 
-WORKDIR /usr/src/workspace
+WORKDIR /usr/workspace
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
@@ -16,7 +16,7 @@ COPY . .
 
 # install dependencies
 COPY ./requirements ./requirements
-RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/workspace/wheels -r requirements/production.txt
+RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/workspace/wheels -r requirements/production.txt
 
 #########
 # FINAL #
@@ -34,8 +34,8 @@ RUN mkdir $APP_HOME/api/static
 WORKDIR $APP_HOME
 
 RUN apt-get update && apt-get install -y python3-dev gcc musl-dev libffi-dev netcat
-COPY --from=builder /usr/src/workspace/wheels /wheels
-COPY --from=builder /usr/src/workspace/requirements/production.txt .
+COPY --from=builder /usr/workspace/wheels /wheels
+COPY --from=builder /usr/workspace/requirements/production.txt .
 RUN pip install --no-cache /wheels/*
 
 COPY ./entrypoint.prod.sh $APP_HOME
