@@ -1,0 +1,57 @@
+{
+	"name": "Backend Development Container",
+	"dockerComposeFile": [
+		"../docker-compose.yml"
+	],
+	"service": "backend",
+	"workspaceFolder": "/usr/workspace",
+	"forwardPorts": [8000, 5432, 5050],
+	"runServices": ["backend", "db", "pgadmin"],
+	"shutdownAction": "stopCompose",
+	"postCreateCommand": "pip install -r requirements/local.txt",
+	"features": {
+		"ghcr.io/devcontainers/features/python:1": {
+			"version": "3.12"
+		},
+		"ghcr.io/devcontainers/features/git:1": {},
+		"ghcr.io/devcontainers/features/github-cli:1": {}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-python.python",
+				"ms-python.debugpy",
+				"ms-python.black-formatter",
+				"ms-python.flake8",
+				"ms-python.pylint",
+				"github.copilot",
+				"github.copilot-chat",
+				"ms-vscode.vscode-json",
+				"ms-vscode.vscode-yaml",
+				"ms-vscode.vscode-docker",
+				"ms-vscode.vscode-sqlite"
+			],
+			"settings": {
+				"editor.formatOnSave": true,
+				"editor.codeActionsOnSave": {
+					"source.organizeImports": true
+				},
+				"python.defaultInterpreterPath": "/usr/local/bin/python",
+				"python.linting.enabled": true,
+				"python.linting.pylintEnabled": true,
+				"python.linting.flake8Enabled": true,
+				"python.formatting.provider": "black",
+				"python.sortImports.args": ["--profile", "black"],
+				"files.associations": {
+					"*.py": "python",
+					"*.pyi": "python",
+					"*.pyx": "python",
+					"*.pyw": "python"
+				},
+				"python.terminal.activateEnvironment": true,
+				"python.analysis.typeCheckingMode": "basic"
+			}
+		}
+	},
+	"remoteUser": "root"
+} 

@@ -1,0 +1,43 @@
+# portainer 볼륨생성
+docker volume create portainer_data
+
+# portainer 컨테이너 기동
+docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:lts
+
+# portainer 브라우저에서 접속
+https://localhost:9443
+
+------------------------------------------------------------------------------------------------
+
+# dockerdesktop 사용안하는법
+# wsl 인스톨
+wsl --install -d Ubuntu
+
+# 인스톨한 환경 진입
+wsl -d Ubuntu
+
+# 인스톨한 환경 나오기
+exit
+
+# WSL2 안에 Docker 설치
+sudo apt update
+sudo apt install -y docker.io
+
+# Docker Daemon 실행
+sudo dockerd
+
+# Docker Daemon 실행중인지 확인
+ps aux | grep dockerd
+
+# portainer 볼륨생성
+sudo docker volume create portainer_data
+
+sudo docker run -d \
+  -p 9000:9000 \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v portainer_data:/data \
+  --name portainer \
+  portainer/portainer-ce
+
+# 브라우저에서 접속
+http://localhost:9000 

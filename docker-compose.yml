@@ -1,13 +1,23 @@
-version: '3.7'
+version: '3.7' # 도커 컴포즈 파일 버전 지정
 
-services:
-  backend:
-    build: ./backend
-    container_name: "backend-dev"
-    command: python manage.py runserver 0.0.0.0:8000
+services: # 서비스(컨테이너) 목록 시작
+  portainer: # 포테이너(도커 관리 UI) 서비스
+    image: portainer/portainer-ce:latest # 사용할 포테이너 이미지
+    container_name: portainer # 컨테이너 이름 지정
+    restart: always # 컨테이너가 중지되면 항상 재시작
     ports:
-      - '8000:8000'
-    #   - '9000:9000'
+      - "9000:9000" # 호스트 9000포트를 컨테이너 9000포트에 연결
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # 도커 데몬 소켓을 컨테이너에 마운트(도커 관리용)
+      - portainer_data:/data # 포테이너 데이터 영구 저장 볼륨
+  
+  backend: # 백엔드(Django 등) 서비스
+    build: ./backend # ./backend 디렉토리에서 도커 이미지 빌드
+    container_name: "backend-dev" # 컨테이너 이름 지정
+    command: python manage.py runserver 0.0.0.0:8000 # 컨테이너 시작 시 실행할 명령어
+    ports:
+      - '8000:8000' # 호스트 8000포트를 컨테이너 8000포트에 연결
+    #   - '9000:9000' # (주석) 디버그용 포트 매핑 예시
     # command:
     #   - sh
     #   - -c
@@ -15,78 +25,77 @@ services:
     #     pip install debugpy &&
     #     python -m debugpy --listen 0.0.0.0:9000 --wait-for-client manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./backend/:/usr/workspace/
+      - ./backend/:/usr/workspace/ # 호스트 backend 폴더를 컨테이너에 마운트
     networks:
-      - dev
+      - dev # dev 네트워크에 연결
     depends_on:
-      - db
+      - db # db 서비스가 먼저 실행되어야 함
     env_file:
-      - ./.env.backend.dev
-    stdin_open: true
-    tty: true
+      - ./env/.env.backend.dev # 환경변수 파일 지정
+    stdin_open: true # 표준 입력 활성화(터미널용)
+    tty: true # TTY 활성화(터미널용)
 
-  frontend:
-    build: ./frontend
-    container_name: "frontend-dev"
+  frontend: # 프론트엔드(React 등) 서비스
+    build: ./frontend # ./frontend 디렉토리에서 도커 이미지 빌드
+    container_name: "frontend-dev" # 컨테이너 이름 지정
     volumes:
-      - ./frontend:/usr/workspace
-      - node-modules:/usr/workspace/node_modules
+      - ./frontend:/usr/workspace # 호스트 frontend 폴더를 컨테이너에 마운트
+      - node-modules:/usr/workspace/node_modules # node_modules 폴더 별도 볼륨 마운트
     networks:
-      - dev
+      - dev # dev 네트워크에 연결
     ports:
-      - '3000:3000'
-    stdin_open: true
+      - '3000:3000' # 호스트 3000포트를 컨테이너 3000포트에 연결
+    stdin_open: true # 표준 입력 활성화
     environment:
-      - NODE_ENV=development
+      - NODE_ENV=development # 개발 환경 변수 지정
     depends_on:
-      - "backend"
+      - "backend" # backend 서비스가 먼저 실행되어야 함
     command:
-      npm start
+      npm start # 컨테이너 시작 시 npm start 실행
 
-  db:
-    # image: postgres:13.2-alpine
-    image: postgres:15.3-alpine
-    container_name: "db-dev"
+  db: # 데이터베이스(PostgreSQL) 서비스
+    image: postgres:15.3-alpine # 사용할 Postgres 이미지
+    container_name: "db-dev" # 컨테이너 이름 지정
     volumes:
-      - ./volumes/db/postgres_data:/var/lib/postgresql/data
-      # - ./database_setting/initial_data.sql:/docker-entrypoint-initdb.d/initial_data.sql
-    user: 0:1000
+      - postgres_data:/var/lib/postgresql/data # 도커 볼륨(postgres_data)에 데이터 영구 저장
+    user: 0:1000 # 컨테이너 내부 사용자/그룹 지정
     ports:
-      - '5432:5432'
+      - '5432:5432' # 호스트 5432포트를 컨테이너 5432포트에 연결
     networks:
-      - dev
+      - dev # dev 네트워크에 연결
     env_file:
-      - ./.env.db.dev
+      - ./env/.env.db.dev # 환경변수 파일 지정
     # environment:
     #   - POSTGRES_USER=XXXX
     #   - POSTGRES_PASSWORD=XXXX
     #   - POSTGRES_DB=XXXX
 
-  pgadmin:
-    image: dpage/pgadmin4:8.1
-    container_name: "pgadmin-dev"
-    # restart: always
+  pgadmin: # pgAdmin(데이터베이스 관리 UI) 서비스
+    image: dpage/pgadmin4:8.1 # 사용할 pgAdmin 이미지
+    container_name: "pgadmin-dev" # 컨테이너 이름 지정
+    # restart: always # (주석) 항상 재시작 옵션 예시
     ports:
-      - '5050:80'
+      - '5050:80' # 호스트 5050포트를 컨테이너 80포트에 연결
     # environment:
     #   - PGADMIN_DEFAULT_EMAIL=XXXX
     #   - PGADMIN_DEFAULT_PASSWORD=XXXX
     volumes:
-      - ./volumes/pgadmin/data/pgadmin/:/var/lib/pgadmin
-      # - ./database_setting/config_local.py:/pgadmin4/config_local.py
-    # user: 0:1000
+      - pgadmin_data:/var/lib/pgadmin # 도커 볼륨(pgadmin_data) 데이터 영구 저장
+    user: 5050:5050 # 컨테이너 내부 사용자/그룹 지정
     depends_on:
-      - db
+      - db # db 서비스가 먼저 실행되어야 함
     networks:
-      - dev
+      - dev # dev 네트워크에 연결
     env_file:
-      - ./.env.pgadmin.dev
-    stdin_open: true
-    tty: true
+      - ./env/.env.pgadmin.dev # 환경변수 파일 지정
+    stdin_open: true # 표준 입력 활성화
+    tty: true # TTY 활성화
 
-volumes:
-  postgres_data:
-  node-modules:
+volumes: # 도커 볼륨 정의(데이터 영구 저장용)
+  portainer_data: # 포테이너 데이터 볼륨
+  postgres_data: # Postgres 데이터 볼륨
+  pgadmin_data: # pgAdmin 데이터 볼륨
+  node-modules: # 프론트엔드 node_modules 볼륨
 
-networks:
-  dev:
+networks: # 도커 네트워크 정의
+  dev: # dev 네트워크
