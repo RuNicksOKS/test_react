@@ -4,15 +4,6 @@ FROM node:lts-slim as development
 # 작업 디렉토리 설정
 WORKDIR /usr/workspace/ 
 
-# Cursor 서버 설치 (안정적인 방법)
-RUN apt-get update \
-    && apt-get install -y curl wget unzip ca-certificates \
-    && curl -fsSL https://download.cursor.sh/linux/cursor-latest-linux-x64.tar.gz -o cursor.tar.gz \
-    && tar -xzf cursor.tar.gz -C /usr/local/bin --strip-components=1 \
-    && rm cursor.tar.gz \
-    && chmod +x /usr/local/bin/cursor \
-    && rm -rf /var/lib/apt/lists/*
-
 # package.json 복사
 COPY package.json /usr/workspace/
 # package-lock.json 복사

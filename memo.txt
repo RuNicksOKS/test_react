@@ -41,3 +41,29 @@ sudo docker run -d \
 
 # 브라우저에서 접속
 http://localhost:9000 
+
+------------------------------------------------------------------
+# 유저에 권한주기
+
+sudo usermod -aG sudo runicks
+
+sudo usermod -aG docker runicks
+
+---------------------------------------------------------------------
+# docker compose 설치
+
+1. 도커 컴포즈 설치
+sudo curl -L "https://github.com/docker/compose/releases/download/v2.39.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
+버전은 아래링크를 참조하여 수정
+https://github.com/docker/compose/releases
+
+2. 도커 컴포즈 권한 부여
+sudo chmod +x /usr/local/bin/docker-compose
+
+3. 심볼릭 링크 연결
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+ 
+
+4. 버전 확인
+docker-compose --version

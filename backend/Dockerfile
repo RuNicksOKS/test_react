@@ -15,12 +15,6 @@ RUN apt-get update \
     && apt-get install -y python3-dev gcc musl-dev libffi-dev netcat-openbsd \
     curl wget unzip ca-certificates
 
-# Cursor 서버 설치 (안정적인 방법)
-RUN curl -fsSL https://download.cursor.sh/linux/cursor-latest-linux-x64.tar.gz -o cursor.tar.gz \
-    && tar -xzf cursor.tar.gz -C /usr/local/bin --strip-components=1 \
-    && rm cursor.tar.gz \
-    && chmod +x /usr/local/bin/cursor
-
 # pip 최신 버전으로 업그레이드
 RUN pip install --upgrade pip
 # requirements 폴더 복사

@@ -121,6 +121,11 @@ ENV/
 env.bak/
 venv.bak/
 
+# git key
+.gitignore
+vscode_git_push
+vscode_git_push.pub
+
 # Spyder project settings
 .spyderproject
 .spyproject

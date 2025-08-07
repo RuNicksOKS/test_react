@@ -2,7 +2,6 @@ from .base import *  # noqa
 
 INSTALLED_APPS += [
     'corsheaders',
-    'accounts',
 ]
 
 MIDDLEWARE.insert(0, 'corsheaders.middleware.CorsMiddleware')

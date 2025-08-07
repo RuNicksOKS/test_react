@@ -11,14 +11,23 @@
           "program": "${workspaceFolder}/manage.py",
           "args": [
             "runserver", 
-            "8001"
+            "0.0.0.0:8001"
           ],
           "django": true,
           "console": "integratedTerminal",
           "cwd": "${workspaceFolder}",
           "env": {
             "PYTHONUNBUFFERED": "1",
-            "DJANGO_SETTINGS_MODULE": "app.settings.local"
+            "DJANGO_SETTINGS_MODULE": "app.settings.local",
+            "DEBUG": "1",
+            "SECRET_KEY": "foo",
+            "DJANGO_ALLOWED_HOSTS": "localhost 127.0.0.1",
+            "SQL_ENGINE": "django.db.backends.postgresql",
+            "SQL_DATABASE": "postgres_dev",
+            "SQL_USER": "postgres_dev",
+            "SQL_PASSWORD": "postgres_dev",
+            "SQL_HOST": "db",
+            "SQL_PORT": "5432"
           },
           "justMyCode": false
         }

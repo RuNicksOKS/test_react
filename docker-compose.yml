@@ -14,10 +14,11 @@ services: # 서비스(컨테이너) 목록 시작
   backend: # 백엔드(Django 등) 서비스
     build: ./backend # ./backend 디렉토리에서 도커 이미지 빌드
     container_name: "backend-dev" # 컨테이너 이름 지정
-    command: python manage.py runserver 0.0.0.0:8000 # 컨테이너 시작 시 실행할 명령어
-    ports:
-      - '8000:8000' # 호스트 8000포트를 컨테이너 8000포트에 연결
-    #   - '9000:9000' # (주석) 디버그용 포트 매핑 예시
+    command: tail -f /dev/null # 컨테이너를 계속 실행시키기 위한 명령어
+    # command: python manage.py runserver 0.0.0.0:8000 # 컨테이너 시작 시 실행할 명령어
+    # ports:
+    #   - '8000:8000' # 호스트 8000포트를 컨테이너 8000포트에 연결
+    #  - '8001:8001' # 호스트 8001포트를 컨테이너 8001포트에 연결 (디버깅용)
     # command:
     #   - sh
     #   - -c

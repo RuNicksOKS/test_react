@@ -1,19 +1,22 @@
 import React from 'react';
-import HeaderComponent from './components/header/Header';
-import NavigationComponent from './components/navigation/Navigation';
+import { Routes, Route } from 'react-router-dom';
 import LoginComponent from './components/login/Login';
-import AsdfComponent from './components/login/asdf';
-//import { BrowserRouter as Router, Route, Link, Redirect } from 'react-router-dom';
+import SignUpComponent from './components/login/SignUp';
+import LoginSucces from './pages/LoginSucces';
+import EnitecHome from './pages/EnitecHome';
 
 function App() {
- 
     return(
         <div>
-            <HeaderComponent/>
+            {/* <HeaderComponent/>
             <NavigationComponent/>
-            <h1>My React Login</h1>
-            <LoginComponent/>
-            <AsdfComponent/>
+            <h1>My React Login</h1> */}
+            <Routes>
+                <Route path="/" element={<LoginComponent />} />
+                <Route path="/signup" element={<SignUpComponent />} />
+                <Route path="/login-success" element={<LoginSucces />} />
+                <Route path="/enitec" element={<EnitecHome />} />
+            </Routes>
         </div>
     )
 }

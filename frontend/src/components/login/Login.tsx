@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Button } from '@mui/material';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
-    const backendURL = 'http://localhost:8001';
+    const backendURL = 'http://localhost:8001'; // 디버깅용 포트
     const [email, setEmail] = useState('');
     const [pw, setPw] = useState('');
+    const navigate = useNavigate();
 
     // Axios 인스턴스 생성
     const axiosInstance = axios.create({
@@ -37,7 +39,11 @@ const Login: React.FC = () => {
         )
         .then(response => {
             // 로그인 성공 처리
-            console.log(response.data.message);
+            if (response.data.message === 'Login successful') {
+                navigate('/login-success');
+            } else {
+                alert('로그인 실패');
+            }
         })
         .catch(error => {
             // 로그인 실패 처리
@@ -61,7 +67,7 @@ const Login: React.FC = () => {
             </label>
             <button type="submit">Login</button>
             <Button variant="contained" color="primary" type="submit">Click me</Button>
-            {/* <button type="submit" onClick={handleLogin}>Login</button> */}
+            <Button variant="outlined" color="secondary" type="button" onClick={() => navigate('/signup')}>회원가입</Button>
         </form>
     );
 };

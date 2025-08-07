@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import login_process
+from .views import login_process, signup_process
 
 import logging
 
@@ -23,4 +23,5 @@ logger.addHandler(console_handler)
 
 urlpatterns = [
   path('process/', login_process),
+  path('signup/', signup_process),
 ]
