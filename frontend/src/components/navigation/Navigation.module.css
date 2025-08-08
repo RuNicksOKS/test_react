@@ -1,3 +1,281 @@
-.container{
-    background-color: #66e20d;
+/* 헤더 스타일 */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.headerScrolled {
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.headerTransparent {
+  background-color: transparent;
+}
+
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+}
+
+.logo {
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.logoScrolled {
+  color: #00136C;
+}
+
+.logoTransparent {
+  color: white;
+}
+
+.navigation {
+  display: flex;
+  gap: 32px;
+}
+
+.navigationItemContainer {
+  position: relative;
+  cursor: pointer;
+}
+
+.navigationItem {
+  cursor: pointer;
+  transition: color 0.3s ease;
+  padding: 8px 0;
+  position: relative;
+}
+
+.navigationItemScrolled {
+  color: #00136C;
+}
+
+.navigationItemTransparent {
+  color: white;
+}
+
+/* 드롭다운 메뉴 스타일 */
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  left: -16px;
+  background-color: white;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  padding: 8px 0 16px 0;
+  min-width: 200px;
+  opacity: 0;
+  transform: translateY(-10px);
+  animation: slideDown 0.3s ease forwards;
+  z-index: 1001;
+  border-top: 2px solid #00136C;
+}
+
+.dropdownItem {
+  padding: 12px 24px;
+  color: #666;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: block;
+  position: relative;
+}
+
+.dropdownItem:hover {
+  background-color: #f8f9fa;
+  color: #00136C;
+  padding-left: 28px;
+}
+
+.dropdownItem:hover::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: #00136C;
+}
+
+/* 드롭다운 애니메이션 */
+@keyframes slideDown {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.rightIcons {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.hamburgerMenu {
+  cursor: pointer;
+}
+
+.hamburgerMenuScrolled {
+  color: #00136C;
+}
+
+.hamburgerMenuTransparent {
+  color: white;
+}
+
+/* 모바일 메뉴 */
+.mobileMenu {
+  width: 100%;
+  background-color: white;
+  box-shadow: none;
+}
+
+.mobileMenuContent {
+  padding: 24px;
+}
+
+.mobileMenuHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.closeButton {
+  color: #FF3B30;
+  font-size: 2rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.menuList {
+  margin-top: 32px;
+}
+
+.mobileMenuItem {
+  margin-bottom: 8px;
+}
+
+.menuItem {
+  padding: 16px 0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.menuItem:hover {
+  background-color: #f8f9fa;
+}
+
+.menuItemText {
+  color: #FF3B30;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* V 모양 꺾쇠표 아이콘 */
+.chevronIcon {
+  width: 16px;
+  height: 16px;
+  position: relative;
+  margin-left: 8px;
+  transition: transform 0.6s ease;
+}
+
+.chevronIcon::before {
+  content: '';
+  position: absolute;
+  top: 80%;
+  left: 0;
+  width: 60%;
+  height: 3px;
+  background-color: #FF3B30;
+  transform: translateY(-60%) rotate(45deg);
+  transform-origin: right center;
+}
+
+.chevronIcon::after {
+  content: '';
+  position: absolute;
+  top: 80%;
+  right: 0;
+  width: 60%;
+  height: 3px;
+  background-color: #FF3B30;
+  transform: translateY(-60%) rotate(-45deg);
+  transform-origin: left center;
+}
+
+.chevronIconExpanded {
+  transform: rotate(180deg);
+}
+
+/* 모바일 세부 항목 */
+.mobileSubItems {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  margin: 8px 0 16px 16px;
+  overflow: hidden;
+  animation: slideDownMobile 0.3s ease forwards;
+}
+
+.mobileSubItem {
+  padding: 12px 24px;
+  color: #666;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.mobileSubItem:last-child {
+  border-bottom: none;
+}
+
+.mobileSubItem:hover {
+  background-color: #e8e8e8;
+  color: #00136C;
+  padding-left: 32px;
+}
+
+/* 모바일 세부 항목 애니메이션 */
+@keyframes slideDownMobile {
+  0% {
+    opacity: 0;
+    max-height: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    max-height: 200px;
+    transform: translateY(0);
+  }
+}
+
+/* 반응형 스타일 */
+@media (max-width: 768px) {
+  .navigation {
+    display: none;
+  }
+  
+  .hamburgerMenu {
+    display: block;
+  }
+}
+
+@media (min-width: 768px) {
+  .hamburgerMenu {
+    display: none;
+  }
 }
