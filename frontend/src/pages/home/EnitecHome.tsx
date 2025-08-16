@@ -276,7 +276,7 @@ const EnitecHome: React.FC = () => {
               className={`${styles.slideButton} ${slideDirection === 'right' ? styles.slideButtonRight : ''}`}
               onClick={() => swiperRef.current?.swiper?.slideNext()}
             >
-              ›
+              › 
             </Typography>
           </div>
         </div>
