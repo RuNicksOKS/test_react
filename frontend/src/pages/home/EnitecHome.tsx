@@ -13,16 +13,20 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
 // GSAP 플러그인 등록
-gsap.registerPlugin(ScrollTrigger);
+try {
+  gsap.registerPlugin(ScrollTrigger);
+} catch (error) {
+  console.warn('GSAP ScrollTrigger 플러그인 등록 실패:', error);
+}
 
 const EnitecHome: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoplay, setIsAutoplay] = useState(true);
   const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null);
   const [counterValues, setCounterValues] = useState({
-    channels: 0,
-    businesses: 0,
-    countries: 0
+    companies: 0,
+    developers: 0,
+    satisfaction: 0
   });
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
@@ -37,11 +41,15 @@ const EnitecHome: React.FC = () => {
 
   // 마우스 움직임 감지
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (currentSlide === 0) {
-      const rect = e.currentTarget.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 100;
-      const y = ((e.clientY - rect.top) / rect.height) * 100;
-      setMousePosition({ x, y });
+    try {
+      if (currentSlide === 0 && e.currentTarget) {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        setMousePosition({ x, y });
+      }
+    } catch (error) {
+      console.warn('마우스 움직임 처리 중 오류:', error);
     }
   };
 
@@ -50,18 +58,18 @@ const EnitecHome: React.FC = () => {
       const duration = 2000;
       const steps = 60;
       const stepValue = {
-        channels: 20000 / steps,
-        businesses: 1.3 / steps,
-        countries: 200 / steps
+        companies: 15000 / steps,
+        developers: 27000000 / steps,
+        satisfaction: 80 / steps
       };
 
       let currentStep = 0;
       const interval = setInterval(() => {
         currentStep++;
         setCounterValues({
-          channels: Math.round(stepValue.channels * currentStep),
-          businesses: Math.round((stepValue.businesses * currentStep) * 10) / 10,
-          countries: Math.round(stepValue.countries * currentStep)
+          companies: Math.round(stepValue.companies * currentStep),
+          developers: Math.round(stepValue.developers * currentStep),
+          satisfaction: Math.round((stepValue.satisfaction * currentStep) * 10) / 10
         });
 
         if (currentStep >= steps) {
@@ -75,31 +83,43 @@ const EnitecHome: React.FC = () => {
 
   // 자동 재생 토글
   const toggleAutoplay = () => {
-    if (isAutoplay) {
-      swiperRef.current?.swiper?.autoplay?.stop();
-    } else {
-      swiperRef.current?.swiper?.autoplay?.start();
+    try {
+      if (swiperRef.current?.swiper?.autoplay) {
+        if (isAutoplay) {
+          swiperRef.current.swiper.autoplay.stop();
+        } else {
+          swiperRef.current.swiper.autoplay.start();
+        }
+        setIsAutoplay(!isAutoplay);
+      }
+    } catch (error) {
+      console.warn('자동 재생 토글 처리 중 오류:', error);
     }
-    setIsAutoplay(!isAutoplay);
   };
 
   // 슬라이드 변경 핸들러
   const handleSlideChange = (swiper: any) => {
-    const newSlide = swiper.realIndex;
-    const prevSlide = prevSlideRef.current;
-    
-    // 슬라이드 방향 결정
-    if (newSlide > prevSlide || (prevSlide === heroSlides.length - 1 && newSlide === 0)) {
-      setSlideDirection('right');
-    } else if (newSlide < prevSlide || (prevSlide === 0 && newSlide === heroSlides.length - 1)) {
-      setSlideDirection('left');
+    try {
+      if (swiper && typeof swiper.realIndex !== 'undefined') {
+        const newSlide = swiper.realIndex;
+        const prevSlide = prevSlideRef.current;
+        
+        // 슬라이드 방향 결정
+        if (newSlide > prevSlide || (prevSlide === heroSlides.length - 1 && newSlide === 0)) {
+          setSlideDirection('right');
+        } else if (newSlide < prevSlide || (prevSlide === 0 && newSlide === heroSlides.length - 1)) {
+          setSlideDirection('left');
+        }
+        
+        setCurrentSlide(newSlide);
+        prevSlideRef.current = newSlide;
+        
+        // 0.5초 후 방향 초기화
+        setTimeout(() => setSlideDirection(null), 500);
+      }
+    } catch (error) {
+      console.warn('슬라이드 변경 처리 중 오류:', error);
     }
-    
-    setCurrentSlide(newSlide);
-    prevSlideRef.current = newSlide;
-    
-    // 0.5초 후 방향 초기화
-    setTimeout(() => setSlideDirection(null), 500);
   };
 
   // Hero 슬라이드 데이터
@@ -276,7 +296,7 @@ const EnitecHome: React.FC = () => {
               className={`${styles.slideButton} ${slideDirection === 'right' ? styles.slideButtonRight : ''}`}
               onClick={() => swiperRef.current?.swiper?.slideNext()}
             >
-              › 
+              ›
             </Typography>
           </div>
         </div>
@@ -408,7 +428,7 @@ const EnitecHome: React.FC = () => {
             variant="h2"
             className={styles.sectionTitle}
           >
-            Global Presence
+            SI Global Presence
           </Typography>
           
           <div className={styles.counterGrid}>
@@ -417,9 +437,9 @@ const EnitecHome: React.FC = () => {
                 variant="h1"
                 className={styles.counterNumber}
               >
-                {counterValues.channels.toLocaleString()}
+                {counterValues.companies.toLocaleString()}+
               </Typography>
-              <Typography variant="h6" className={styles.counterLabel}>기술 파트너</Typography>
+              <Typography variant="h6" className={styles.counterLabel}>글로벌 SI 회사</Typography>
             </div>
             
             <div className={styles.counterItem}>
@@ -427,9 +447,9 @@ const EnitecHome: React.FC = () => {
                 variant="h1"
                 className={styles.counterNumber}
               >
-                {counterValues.businesses}M
+                {(counterValues.developers / 1000000).toFixed(1)}M
               </Typography>
-              <Typography variant="h6" className={styles.counterLabel}>고객사</Typography>
+              <Typography variant="h6" className={styles.counterLabel}>SI 개발자</Typography>
             </div>
             
             <div className={styles.counterItem}>
@@ -437,9 +457,9 @@ const EnitecHome: React.FC = () => {
                 variant="h1"
                 className={styles.counterNumber}
               >
-                {counterValues.countries}
+                {counterValues.satisfaction}%
               </Typography>
-              <Typography variant="h6" className={styles.counterLabel}>국가</Typography>
+              <Typography variant="h6" className={styles.counterLabel}>개발자 만족도</Typography>
             </div>
           </div>
           

@@ -257,7 +257,7 @@
   display: flex;
   align-items: center;
   gap: 24px;
-  z-index: 1001;
+  z-index: 999;
 }
 
 .slideIndicators {
@@ -378,7 +378,7 @@
   transition: all 0.3s ease;
   min-width: 300px;
   max-width: 300px;
-  height: 100%;
+  height: 400px;
   display: flex;
   flex-direction: column;
 }
@@ -403,6 +403,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 }
 
 .newsCategory {
@@ -418,7 +419,11 @@
   font-weight: bold;
   margin-bottom: 16px;
   line-height: 1.4;
-  flex: 1;
+  max-height: 80px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 
 .newsType {
