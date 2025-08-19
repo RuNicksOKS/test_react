@@ -67,3 +67,44 @@ sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
 
 4. 버전 확인
 docker-compose --version
+
+---------------------------------------------------------------------
+
+# 실행 중 컨테이너 확인
+docker ps
+
+# 모든 컨테이너 확인 (종료 포함)
+docker ps -a
+
+# 실행 중인 컨테이너 모두 종료
+docker stop $(docker ps -aq)
+
+# 모든 컨테이너 삭제
+docker rm $(docker ps -aq)
+
+# 현재 이미지 확인
+docker images
+
+# 모든 이미지 삭제
+docker rmi $(docker images -q)
+
+# 강제로 삭제 (컨테이너가 걸려 있을 때)
+docker rmi -f $(docker images -q)
+
+# 볼륨 목록
+docker volume ls
+
+# 모든 볼륨 삭제
+docker volume rm $(docker volume ls -q)
+
+# 네트워크 목록
+docker network ls
+
+# 기본 bridge/host/none 제외하고 삭제
+docker network rm $(docker network ls -q)
+
+# 멈춘 컨테이너, 사용하지 않는 네트워크, dangling 이미지 삭제
+docker system prune
+
+# 진짜 다 삭제 (컨테이너/이미지/볼륨/네트워크 모두)
+docker system prune -a --volumes
