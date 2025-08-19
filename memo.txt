@@ -108,3 +108,16 @@ docker system prune
 
 # 진짜 다 삭제 (컨테이너/이미지/볼륨/네트워크 모두)
 docker system prune -a --volumes
+
+---------------------------------------------------------------------
+
+# master 브랜치를 origin/master에 연결
+git push --set-upstream origin master
+
+---------------------------------------------------------------------
+
+# 컨테이너에 접속
+docker exec -it frontend-dev bash
+
+# 컨테이너 내부에서 프론트엔드 실행
+npm start

@@ -55,6 +55,8 @@ services: # 서비스(컨테이너) 목록 시작
     stdin_open: true # 표준 입력 활성화
     environment:
       - NODE_ENV=development # 개발 환경 변수 지정
+    env_file:
+      - ./env/.env.frontend.dev # 환경변수 파일 지정
     depends_on:
       - "backend" # backend 서비스가 먼저 실행되어야 함
     command:

@@ -5,8 +5,15 @@ import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useInView } from 'react-intersection-observer';
-import { GoogleMap } from '../../components/map';
+import GoogleMap from '../../components/map/GoogleMap';
 import styles from './EnitecHome.module.css';
+
+// images
+import aiImage from '../../assets/images/AI.jpg';
+import itDImage from '../../assets/images/IT Developers.jpg';
+import securityImage from '../../assets/images/Security.jpg';
+import semiImage from '../../assets/images/Semiconductor.jpg';
+import rndImage from '../../assets/images/R&D.jpg';
 
 // Swiper CSS
 import 'swiper/css';
@@ -151,34 +158,35 @@ const EnitecHome: React.FC = () => {
       id: 1,
       category: "AI",
       title: "AI 시대, 개발자의 역할 재정의.",
-      thumbnail: "/images/news-1.jpg",
+      thumbnail: aiImage,
       type: "Details"
     },
     {
       id: 2,
       category: "IT",
       title: "IT 인재 부족, 미래를 경쟁하자!",
-      thumbnail: "/images/news-2.jpg",
+      thumbnail: itDImage,
       type: "Details"
     },
     {
       id: 3,
       category: "Security",
-      title: "보안, 개발자가 지켜야 할 가치!",      thumbnail: "/images/news-3.jpg",
+      title: "보안, 개발자가 지켜야 할 가치!",
+      thumbnail: securityImage,
       type: "Details"
     },
     {
       id: 4,
       category: "semiconductor",
       title: "반도체 혁신, 글로벌 IT 판도 흔든다!",
-      thumbnail: "/images/news-4.jpg",
+      thumbnail: semiImage,
       type: "Details"
     },
     {
       id: 5,
       category: "R&D",
       title: "R&D 투자, 기업 생존의 필수 조건",
-      thumbnail: "/images/news-5.jpg",
+      thumbnail: rndImage,
       type: "Details"
     }
   ];
@@ -320,7 +328,11 @@ const EnitecHome: React.FC = () => {
               {latestNews.map((news) => (
                 <div key={news.id} className={styles.newsCard}>
                   <div className={styles.newsImage}>
-                    {news.thumbnail}
+                    <img 
+                      src={news.thumbnail} 
+                      alt={news.title}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
                   </div>
                   <div className={styles.newsContent}>
                     <Typography
@@ -345,7 +357,11 @@ const EnitecHome: React.FC = () => {
               {latestNews.map((news) => (
                 <div key={`clone-${news.id}`} className={styles.newsCard}>
                   <div className={styles.newsImage}>
-                    {news.thumbnail}
+                    <img 
+                      src={news.thumbnail} 
+                      alt={news.title}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
                   </div>
                   <div className={styles.newsContent}>
                     <Typography
@@ -463,11 +479,11 @@ const EnitecHome: React.FC = () => {
           </div>
           
           <GoogleMap 
-            title="Global Presence"
-            height="1000px"
-            address="Tokyo Tower, Tokyo, Japan"
-            latitude={35.6586}
-            longitude={139.7454}
+            title="Access"
+            height="500px"
+            address="エニテック株式会社"
+            latitude = {35.674279067542734}
+            longitude = {139.66539339810726}
             zoom={15}
             language="ja"
           />
@@ -542,12 +558,12 @@ const EnitecHome: React.FC = () => {
           <div className={styles.footerBottom}>
             <div className={styles.footerBottomContent}>
               <Typography variant="body2" className={styles.footerCopyright}>
-                © 2024 Enitec. All rights reserved.
+                © Enitec. All rights reserved.
               </Typography>
               
               <div className={styles.footerContact}>
                 <Typography variant="body2" className={styles.footerEmail}>
-                  contact@enitec.com
+                  info@enitec.com
                 </Typography>
                 <Typography variant="body2" className={styles.footerSocial}>
                   📷
