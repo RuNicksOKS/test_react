@@ -1,15 +1,15 @@
 version: '3.7' # 도커 컴포즈 파일 버전 지정
 
 services: # 서비스(컨테이너) 목록 시작
-  portainer: # 포테이너(도커 관리 UI) 서비스
-    image: portainer/portainer-ce:latest # 사용할 포테이너 이미지
-    container_name: portainer # 컨테이너 이름 지정
-    restart: always # 컨테이너가 중지되면 항상 재시작
-    ports:
-      - "9000:9000" # 호스트 9000포트를 컨테이너 9000포트에 연결
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock # 도커 데몬 소켓을 컨테이너에 마운트(도커 관리용)
-      - portainer_data:/data # 포테이너 데이터 영구 저장 볼륨
+  # portainer: # 포테이너(도커 관리 UI) 서비스
+  #   image: portainer/portainer-ce:latest # 사용할 포테이너 이미지
+  #   container_name: portainer # 컨테이너 이름 지정
+  #   restart: always # 컨테이너가 중지되면 항상 재시작
+  #   ports:
+  #     - "9000:9000" # 호스트 9000포트를 컨테이너 9000포트에 연결
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock # 도커 데몬 소켓을 컨테이너에 마운트(도커 관리용)
+  #     - portainer_data:/data # 포테이너 데이터 영구 저장 볼륨
   
   backend: # 백엔드(Django 등) 서비스
     build: ./backend # ./backend 디렉토리에서 도커 이미지 빌드
@@ -26,7 +26,10 @@ services: # 서비스(컨테이너) 목록 시작
     #     pip install debugpy &&
     #     python -m debugpy --listen 0.0.0.0:9000 --wait-for-client manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./backend/:/usr/workspace/ # 호스트 backend 폴더를 컨테이너에 마운트
+      # 전체 폴더 마운트
+      - ./backend:/usr/workspace
+      
+      # 예외 처리 (컨테이너 내부에서 관리)
     networks:
       - dev # dev 네트워크에 연결
     depends_on:
@@ -40,8 +43,11 @@ services: # 서비스(컨테이너) 목록 시작
     build: ./frontend # ./frontend 디렉토리에서 도커 이미지 빌드
     container_name: "frontend-dev" # 컨테이너 이름 지정
     volumes:
-      - ./frontend:/usr/workspace # 호스트 frontend 폴더를 컨테이너에 마운트
-      - node-modules:/usr/workspace/node_modules # node_modules 폴더 별도 볼륨 마운트
+      # 전체 폴더 마운트
+      - ./frontend:/usr/workspace
+      
+      # 예외 처리 (컨테이너 내부에서 관리)
+      - /usr/workspace/node_modules
     networks:
       - dev # dev 네트워크에 연결
     ports:
@@ -55,7 +61,7 @@ services: # 서비스(컨테이너) 목록 시작
       npm start # 컨테이너 시작 시 npm start 실행
 
   db: # 데이터베이스(PostgreSQL) 서비스
-    image: postgres:15.3-alpine # 사용할 Postgres 이미지
+    image: postgres:16.2-alpine # 사용할 Postgres 이미지
     container_name: "db-dev" # 컨테이너 이름 지정
     volumes:
       - postgres_data:/var/lib/postgresql/data # 도커 볼륨(postgres_data)에 데이터 영구 저장
@@ -72,7 +78,7 @@ services: # 서비스(컨테이너) 목록 시작
     #   - POSTGRES_DB=XXXX
 
   pgadmin: # pgAdmin(데이터베이스 관리 UI) 서비스
-    image: dpage/pgadmin4:8.1 # 사용할 pgAdmin 이미지
+    image: dpage/pgadmin4:8.8 # 사용할 pgAdmin 이미지
     container_name: "pgadmin-dev" # 컨테이너 이름 지정
     # restart: always # (주석) 항상 재시작 옵션 예시
     ports:
@@ -93,10 +99,9 @@ services: # 서비스(컨테이너) 목록 시작
     tty: true # TTY 활성화
 
 volumes: # 도커 볼륨 정의(데이터 영구 저장용)
-  portainer_data: # 포테이너 데이터 볼륨
+  # portainer_data: # 포테이너 데이터 볼륨
   postgres_data: # Postgres 데이터 볼륨
   pgadmin_data: # pgAdmin 데이터 볼륨
-  node-modules: # 프론트엔드 node_modules 볼륨
 
 networks: # 도커 네트워크 정의
   dev: # dev 네트워크

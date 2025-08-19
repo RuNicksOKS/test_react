@@ -1,6 +1,6 @@
 # FROM python:3.8.8-slim # (이전 버전) Python 3.8.8 slim 이미지 사용 예시
-# Python 3.12.1 slim 이미지 사용
-FROM python:3.12.1-slim
+# Python 3.12.2 slim 이미지 사용
+FROM python:3.12.2-slim
 
 # 작업 디렉토리 설정
 WORKDIR /usr/workspace

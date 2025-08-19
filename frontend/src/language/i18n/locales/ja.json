@@ -1,0 +1,98 @@
+{
+  "common": {
+    "welcome": "ようこそ",
+    "home": "ホーム",
+    "about": "会社概要",
+    "contact": "お問い合わせ",
+    "language": "言語",
+    "readMore": "詳細を見る"
+  },
+  "home": {
+    "title": "Enitecへようこそ",
+    "subtitle": "革新的な技術ソリューション",
+    "description": "ビジネスニーズに合わせた最先端の技術ソリューションを提供します",
+    "learnMore": "詳細を見る",
+    "getStarted": "始める",
+    "features": {
+      "title": "主な機能",
+      "feature1": "先進技術",
+      "feature2": "専門チーム",
+      "feature3": "24/7サポート"
+    },
+    "stats": {
+      "companies": "サービス提供企業",
+      "developers": "開発者",
+      "satisfaction": "顧客満足度"
+    }
+  },
+  "hero": {
+    "slide1": {
+      "title": "Enitec",
+      "subtitle": "革新的な技術ソリューション"
+    },
+    "slide2": {
+      "title": "デジタル変革",
+      "subtitle": "最先端技術でビジネスを強化"
+    },
+    "slide3": {
+      "title": "グローバルソリューション",
+      "subtitle": "技術で世界を繋ぐ"
+    }
+  },
+  "sections": {
+    "latestNews": "最新ニュース",
+    "hyperConnectedSolutions": "ハイパーコネクテッドソリューション",
+    "globalPresence": "SIグローバル現況",
+    "worldMap": "世界地図"
+  },
+  "solutions": {
+    "aiSolutions": {
+      "title": "AIソリューション",
+      "description": "AIベースのソリューションで継続的な革新を構築"
+    },
+    "cloudSystem": {
+      "title": "クラウドシステム",
+      "description": "安全で高速なクラウドシステムでスムーズなサービスを保証"
+    },
+    "digitalPlatform": {
+      "title": "デジタルプラットフォーム",
+      "description": "パーソナライズされたデジタル体験を提供する統合プラットフォーム"
+    },
+    "dataSolutions": {
+      "title": "データソリューション",
+      "description": "ビッグデータ分析でスマートな技術インサイトを提供"
+    }
+  },
+  "news": {
+    "categories": {
+      "technology": "技術",
+      "innovation": "革新",
+      "business": "ビジネス"
+    },
+    "types": {
+      "press": "プレスリリース",
+      "article": "記事",
+      "announcement": "お知らせ"
+    }
+  },
+  "footer": {
+    "whoWeAre": "会社概要",
+    "whatWeDo": "事業領域",
+    "media": "メディア",
+    "investors": "投資家",
+    "aboutUs": "会社概要",
+    "leadership": "リーダーシップ",
+    "culture": "文化",
+    "solutions": "ソリューション",
+    "technology": "技術",
+    "innovation": "革新",
+    "pressReleases": "プレスリリース",
+    "blog": "ブログ",
+    "news": "ニュース",
+    "financialReports": "財務報告書",
+    "stockInformation": "株式情報",
+    "irContact": "IRお問い合わせ",
+    "copyright": "© Enitec Co. Ltd.",
+    "email": "info@enitec.com"
+  }
+}

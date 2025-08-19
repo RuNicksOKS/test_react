@@ -1,0 +1,25 @@
+# Dependencies (빌드 시 제외)
+node_modules
+npm-debug.log*
+
+# Production builds
+build
+dist
+
+# Environment files
+.env*
+
+# IDE files
+.vscode
+.idea
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Git
+.git
+.gitignore
+
+# Logs
+*.log

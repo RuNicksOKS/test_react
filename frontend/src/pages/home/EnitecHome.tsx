@@ -5,6 +5,7 @@ import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useInView } from 'react-intersection-observer';
+import { GoogleMap } from '../../components/map';
 import styles from './EnitecHome.module.css';
 
 // Swiper CSS
@@ -133,13 +134,13 @@ const EnitecHome: React.FC = () => {
     {
       id: 2,
       title: "Bridging the world through advanced AI technology",
-      subtitle: "최첨단 AI 기술로 세상과 연결됩니다다",
+      subtitle: "최첨단 AI 기술로 세상과 연결됩니다",
       backgroundClass: styles.heroSlide2
     },
     {
       id: 3,
       title: "Your vision drives the future we create together",
-      subtitle: "당신의 비전이 우리가 함께 만들어갈 미래를 이끕니다다",
+      subtitle: "당신의 비전이 우리가 함께 만들어갈 미래를 이끕니다",
       backgroundClass: styles.heroSlide3
     }
   ];
@@ -148,45 +149,37 @@ const EnitecHome: React.FC = () => {
   const latestNews = [
     {
       id: 1,
-      category: "Press Release",
-      title: "Enitec, AI 기술 플랫폼 혁신 기술 발표",
+      category: "AI",
+      title: "AI 시대, 개발자의 역할 재정의.",
       thumbnail: "/images/news-1.jpg",
-      type: "Press Release"
+      type: "Details"
     },
     {
       id: 2,
-      category: "Blog",
-      title: "기술의 미래: AI와 개인화",
+      category: "IT",
+      title: "IT 인재 부족, 미래를 경쟁하자!",
       thumbnail: "/images/news-2.jpg",
-      type: "Blog"
+      type: "Details"
     },
     {
       id: 3,
-      category: "Press Release",
-      title: "Enitec, 글로벌 확장 전략 발표",
-      thumbnail: "/images/news-3.jpg",
-      type: "Press Release"
+      category: "Security",
+      title: "보안, 개발자가 지켜야 할 가치!",      thumbnail: "/images/news-3.jpg",
+      type: "Details"
     },
     {
       id: 4,
-      category: "Blog",
-      title: "디지털 기술의 새로운 패러다임",
+      category: "semiconductor",
+      title: "반도체 혁신, 글로벌 IT 판도 흔든다!",
       thumbnail: "/images/news-4.jpg",
-      type: "Blog"
+      type: "Details"
     },
     {
       id: 5,
-      category: "Press Release",
-      title: "Enitec, ESG 경영 성과 보고서 발표",
+      category: "R&D",
+      title: "R&D 투자, 기업 생존의 필수 조건",
       thumbnail: "/images/news-5.jpg",
-      type: "Press Release"
-    },
-    {
-      id: 6,
-      category: "Blog",
-      title: "지속가능한 기술의 미래",
-      thumbnail: "/images/news-6.jpg",
-      type: "Blog"
+      type: "Details"
     }
   ];
 
@@ -195,31 +188,32 @@ const EnitecHome: React.FC = () => {
     {
       id: 1,
       title: "AI Solutions",
-      description: "인공지능 기반 솔루션으로 지속적인 혁신을 구축합니다",
+      description: "Building continuous innovation with AI-based solutions",
       icon: "🤖"
     },
     {
       id: 2,
-      title: "Cloud Solutions",
-      description: "안전하고 빠른 클라우드 시스템으로 원활한 서비스를 보장합니다",
+      title: "Cloud System",
+      description: "Safe and fast cloud system ensuring smooth service",
       icon: "☁️"
     },
     {
       id: 3,
       title: "Digital Platform",
-      description: "개인화된 디지털 경험을 제공하는 통합 플랫폼입니다",
+      description: "Integrated platform providing personalized digital experience",
       icon: "💻"
     },
     {
       id: 4,
       title: "Data Solutions",
-      description: "빅데이터 분석으로 스마트한 기술 인사이트를 제공합니다",
+      description: "Providing smart technology insights through big data analysis",
       icon: "📊"
     }
   ];
 
   return (
     <div className={styles.container}>
+      {/* Language Switcher */}
       {/* Hero 섹션 */}
       <div className={styles.heroSection}>
         <Swiper
@@ -240,7 +234,12 @@ const EnitecHome: React.FC = () => {
             <SwiperSlide key={slide.id}>
               <div
                 className={slide.backgroundClass}
+                onMouseMove={handleMouseMove}
               >
+                {/* 마우스 물결 효과 - 3번째 슬라이드에만 적용 */}
+                {slide.id === 3 && (
+                  <div className={styles.mouseWave} />
+                )}
                 <Container maxWidth="xl">
                   <div className={styles.heroContent}>
                     <Typography
@@ -410,7 +409,7 @@ const EnitecHome: React.FC = () => {
                   variant="outlined"
                   className={styles.readMoreButton}
                 >
-                  Read More
+                  더 보기
                 </Button>
               </div>
             ))}
@@ -439,7 +438,7 @@ const EnitecHome: React.FC = () => {
               >
                 {counterValues.companies.toLocaleString()}+
               </Typography>
-              <Typography variant="h6" className={styles.counterLabel}>글로벌 SI 회사</Typography>
+              <Typography variant="h6" className={styles.counterLabel}>SI기업수</Typography>
             </div>
             
             <div className={styles.counterItem}>
@@ -449,7 +448,7 @@ const EnitecHome: React.FC = () => {
               >
                 {(counterValues.developers / 1000000).toFixed(1)}M
               </Typography>
-              <Typography variant="h6" className={styles.counterLabel}>SI 개발자</Typography>
+              <Typography variant="h6" className={styles.counterLabel}>개발자수</Typography>
             </div>
             
             <div className={styles.counterItem}>
@@ -463,9 +462,15 @@ const EnitecHome: React.FC = () => {
             </div>
           </div>
           
-          <div className={styles.worldMap}>
-            <Typography variant="h6">World Map</Typography>
-          </div>
+          <GoogleMap 
+            title="Global Presence"
+            height="1000px"
+            address="Tokyo Tower, Tokyo, Japan"
+            latitude={35.6586}
+            longitude={139.7454}
+            zoom={15}
+            language="ja"
+          />
         </Container>
       </div>
 
@@ -537,12 +542,12 @@ const EnitecHome: React.FC = () => {
           <div className={styles.footerBottom}>
             <div className={styles.footerBottomContent}>
               <Typography variant="body2" className={styles.footerCopyright}>
-                © Enitec Co. Ltd.
+                © 2024 Enitec. All rights reserved.
               </Typography>
               
               <div className={styles.footerContact}>
                 <Typography variant="body2" className={styles.footerEmail}>
-                  info@enitec.com
+                  contact@enitec.com
                 </Typography>
                 <Typography variant="body2" className={styles.footerSocial}>
                   📷
