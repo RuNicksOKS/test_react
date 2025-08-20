@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Container, Typography, Drawer, List, ListItem, ListItemText } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import styles from "./Navigation.module.css";
 
 interface NavigationProps {
@@ -12,30 +13,23 @@ interface MenuItem {
 }
 
 const Navigation: React.FC<NavigationProps> = ({ isScrolled }) => {
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
 
   const menuItems: MenuItem[] = [
     {
-      label: "Who We Are",
-      subItems: ["About Us", "Leadership", "Brand Center"]
+      label: "会社情報",
+      subItems: ["代表の一言", "企業理念", "会社概要", "沿革", "組織構成"]
     },
     {
-      label: "What We Do",
-      subItems: ["Solutions", "Technology", "Innovation"]
+      label: "事業分野",
+      subItems: ["SI事業", "ソリューション", "コンサルティング"]
     },
     {
-      label: "Media",
-      subItems: ["Press Releases", "Blog", "News"]
-    },
-    {
-      label: "Investors",
-      subItems: ["Financial Reports", "Stock Information", "IR Contact"]
-    },
-    {
-      label: "Careers",
-      subItems: ["Job Openings", "Culture", "Benefits"]
+      label: "採用情報",
+      subItems: ["人材像", "福利厚生", "募集案内", "志願方法"]
     }
   ];
 
@@ -58,12 +52,13 @@ const Navigation: React.FC<NavigationProps> = ({ isScrolled }) => {
         <Container maxWidth="xl">
           <div className={styles.headerContent}>
             {/* 로고 */}
-            <Typography
-              variant="h4"
-              className={`${styles.logo} ${isScrolled ? styles.logoScrolled : styles.logoTransparent}`}
-            >
-              Enitec
-            </Typography>
+            <img
+              src="/logo.png"
+              alt="Enitec"
+              className={styles.logo}
+              onClick={() => navigate('/')}
+              style={{ cursor: 'pointer' }}
+            />
 
             {/* 네비게이션 - 데스크톱에서만 표시 */}
             <div className={styles.navigation}>

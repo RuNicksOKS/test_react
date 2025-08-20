@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Typography, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { gsap } from 'gsap';
@@ -15,6 +16,14 @@ import securityImage from '../../assets/images/Security.jpg';
 import semiImage from '../../assets/images/Semiconductor.jpg';
 import rndImage from '../../assets/images/R&D.jpg';
 
+// icon
+import copyrightIcon from '../../assets/icon/copyright.png';
+import codeIcon from '../../assets/icon/code.png';
+import dataIcon from '../../assets/icon/database.png';
+import agileIcon from '../../assets/icon/agile.png';
+import securityIcon from '../../assets/icon/security.png';
+
+
 // Swiper CSS
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -28,6 +37,7 @@ try {
 }
 
 const EnitecHome: React.FC = () => {
+  const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoplay, setIsAutoplay] = useState(true);
   const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null);
@@ -46,20 +56,6 @@ const EnitecHome: React.FC = () => {
     threshold: 0.5,
     triggerOnce: true
   });
-
-  // 마우스 움직임 감지
-  const handleMouseMove = (e: React.MouseEvent) => {
-    try {
-      if (currentSlide === 0 && e.currentTarget) {
-        const rect = e.currentTarget.getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width) * 100;
-        const y = ((e.clientY - rect.top) / rect.height) * 100;
-        setMousePosition({ x, y });
-      }
-    } catch (error) {
-      console.warn('마우스 움직임 처리 중 오류:', error);
-    }
-  };
 
   useEffect(() => {
     if (inView) {
@@ -135,19 +131,19 @@ const EnitecHome: React.FC = () => {
     {
       id: 1,
       title: "Empowering visionary talents to change the world",
-      subtitle: "세상을 바꾸는 인재에게 힘을 실어줍니다",
+      subtitle: "世界を変える人材に力を与えます",
       backgroundClass: styles.heroSlide1
     },
     {
       id: 2,
       title: "Bridging the world through advanced AI technology",
-      subtitle: "최첨단 AI 기술로 세상과 연결됩니다",
+      subtitle: "最先端のAI技術で世界とつながります",
       backgroundClass: styles.heroSlide2
     },
     {
       id: 3,
       title: "Your vision drives the future we create together",
-      subtitle: "당신의 비전이 우리가 함께 만들어갈 미래를 이끕니다",
+      subtitle: "あなたのビジョンは、私たちが共に作る未来を導きます",
       backgroundClass: styles.heroSlide3
     }
   ];
@@ -157,37 +153,32 @@ const EnitecHome: React.FC = () => {
     {
       id: 1,
       category: "AI",
-      title: "AI 시대, 개발자의 역할 재정의.",
-      thumbnail: aiImage,
-      type: "Details"
+      title: "AI時代、開発者の役割再定義。",
+      thumbnail: aiImage
     },
     {
       id: 2,
       category: "IT",
-      title: "IT 인재 부족, 미래를 경쟁하자!",
+      title: "IT人材の不足、未来を競争しよう！",
       thumbnail: itDImage,
-      type: "Details"
     },
     {
       id: 3,
       category: "Security",
-      title: "보안, 개발자가 지켜야 할 가치!",
-      thumbnail: securityImage,
-      type: "Details"
+      title: "セキュリティ、開発者が守るべき価値！",
+      thumbnail: securityImage
     },
     {
       id: 4,
       category: "semiconductor",
-      title: "반도체 혁신, 글로벌 IT 판도 흔든다!",
-      thumbnail: semiImage,
-      type: "Details"
+      title: "半導体革新、グローバルITの勢力図を揺さぶる！",
+      thumbnail: semiImage
     },
     {
       id: 5,
       category: "R&D",
-      title: "R&D 투자, 기업 생존의 필수 조건",
-      thumbnail: rndImage,
-      type: "Details"
+      title: "R&D投資、企業生存の必須条件",
+      thumbnail: rndImage
     }
   ];
 
@@ -195,27 +186,27 @@ const EnitecHome: React.FC = () => {
   const solutions = [
     {
       id: 1,
-      title: "AI Solutions",
-      description: "Building continuous innovation with AI-based solutions",
-      icon: "🤖"
+      title: "Full Stack",
+      description: "企画、開発、QAまで最高の専門人材",
+      icon: codeIcon
     },
     {
       id: 2,
-      title: "Cloud System",
-      description: "Safe and fast cloud system ensuring smooth service",
-      icon: "☁️"
+      title: "Data Solutions",
+      description: "体系的なデータ分析による最適なソリューション",
+      icon: dataIcon
     },
     {
       id: 3,
-      title: "Digital Platform",
-      description: "Integrated platform providing personalized digital experience",
-      icon: "💻"
+      title: "Agile Process",
+      description: "迅速かつ柔軟な開発プロセスで迅速に対応",
+      icon: agileIcon
     },
     {
       id: 4,
-      title: "Data Solutions",
-      description: "Providing smart technology insights through big data analysis",
-      icon: "📊"
+      title: "Secure Systems",
+      description: "徹底したセキュリティで安全なITインフラを提供",
+      icon: securityIcon
     }
   ];
 
@@ -242,7 +233,6 @@ const EnitecHome: React.FC = () => {
             <SwiperSlide key={slide.id}>
               <div
                 className={slide.backgroundClass}
-                onMouseMove={handleMouseMove}
               >
                 {/* 마우스 물결 효과 - 3번째 슬라이드에만 적용 */}
                 {slide.id === 3 && (
@@ -347,9 +337,29 @@ const EnitecHome: React.FC = () => {
                     >
                       {news.title}
                     </Typography>
-                    <div className={styles.newsType}>
-                      {news.type}
-                    </div>
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      onClick={() => navigate(`/news?newsId=${news.id}`)}
+                      sx={{
+                        marginTop: 'auto',
+                        alignSelf: 'flex-start',
+                        color: '#cf4506',
+                        borderColor: '#cf4506',
+                        fontSize: '0.75rem',
+                        padding: '4px 12px',
+                        backgroundColor: 'white',
+                        borderRadius: '20px',
+                        transition: 'all 0.3s ease',
+                        '&:hover': {
+                          borderColor: '#cf4506',
+                          backgroundColor: '#cf4506',
+                          color: 'white'
+                        }
+                      }}
+                    >
+                      Details
+                    </Button>
                   </div>
                 </div>
               ))}
@@ -376,9 +386,29 @@ const EnitecHome: React.FC = () => {
                     >
                       {news.title}
                     </Typography>
-                    <div className={styles.newsType}>
-                      {news.type}
-                    </div>
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      onClick={() => navigate(`/news?newsId=${news.id}`)}
+                      sx={{
+                        marginTop: 'auto',
+                        alignSelf: 'flex-start',
+                        color: '#cf4506',
+                        borderColor: '#cf4506',
+                        fontSize: '0.75rem',
+                        padding: '4px 12px',
+                        backgroundColor: 'white',
+                        borderRadius: '20px',
+                        transition: 'all 0.3s ease',
+                        '&:hover': {
+                          borderColor: '#cf4506',
+                          backgroundColor: '#cf4506',
+                          color: 'white'
+                        }
+                      }}
+                    >
+                      Details
+                    </Button>
                   </div>
                 </div>
               ))}
@@ -394,7 +424,7 @@ const EnitecHome: React.FC = () => {
             variant="h2"
             className={styles.sectionTitle}
           >
-            Hyper-Connected Solutions
+            最高のチームが開発とビジネスをリードしていきます
           </Typography>
           
           <div className={styles.solutionsGrid}>
@@ -403,12 +433,19 @@ const EnitecHome: React.FC = () => {
                 key={solution.id}
                 className={styles.solutionCard}
               >
-                <Typography
-                  variant="h1"
-                  className={styles.solutionIcon}
-                >
-                  {solution.icon}
-                </Typography>
+                {solution.id === 1 ? (
+                  <img src={codeIcon} alt={solution.title} className={styles.solutionIcon} />
+                ) : solution.id === 2 ? (
+                  <img src={dataIcon} alt={solution.title} className={styles.solutionIcon} />
+                ) : solution.id === 3 ? (
+                  <img src={agileIcon} alt={solution.title} className={styles.solutionIcon} />
+                ) : solution.id === 4 ? (
+                  <img src={securityIcon} alt={solution.title} className={styles.solutionIcon} />
+                ) : (
+                  <Typography variant="h1" className={styles.solutionIcon}>
+                    {solution.icon}
+                  </Typography>
+                )}
                 <Typography
                   variant="h5"
                   className={styles.solutionTitle}
@@ -421,12 +458,6 @@ const EnitecHome: React.FC = () => {
                 >
                   {solution.description}
                 </Typography>
-                <Button
-                  variant="outlined"
-                  className={styles.readMoreButton}
-                >
-                  더 보기
-                </Button>
               </div>
             ))}
           </div>
@@ -454,7 +485,7 @@ const EnitecHome: React.FC = () => {
               >
                 {counterValues.companies.toLocaleString()}+
               </Typography>
-              <Typography variant="h6" className={styles.counterLabel}>SI기업수</Typography>
+              <Typography variant="h6" className={styles.counterLabel}>SI企業数</Typography>
             </div>
             
             <div className={styles.counterItem}>
@@ -464,7 +495,7 @@ const EnitecHome: React.FC = () => {
               >
                 {(counterValues.developers / 1000000).toFixed(1)}M
               </Typography>
-              <Typography variant="h6" className={styles.counterLabel}>개발자수</Typography>
+              <Typography variant="h6" className={styles.counterLabel}>開発者数</Typography>
             </div>
             
             <div className={styles.counterItem}>
@@ -472,9 +503,9 @@ const EnitecHome: React.FC = () => {
                 variant="h1"
                 className={styles.counterNumber}
               >
-                {counterValues.satisfaction}%
+                {counterValues.satisfaction.toFixed(1)}%
               </Typography>
-              <Typography variant="h6" className={styles.counterLabel}>개발자 만족도</Typography>
+              <Typography variant="h6" className={styles.counterLabel}>開発者満足度</Typography>
             </div>
           </div>
           
@@ -496,61 +527,55 @@ const EnitecHome: React.FC = () => {
           <div className={styles.footerGrid}>
             <div className={styles.footerSection}>
               <Typography variant="h6" className={styles.footerTitle}>
-                Who We Are
+                会社情報
               </Typography>
               <Typography variant="body2" className={styles.footerLink}>
-                About Us
+                代表の一言
               </Typography>
               <Typography variant="body2" className={styles.footerLink}>
-                Leadership
+                企業理念
               </Typography>
               <Typography variant="body2" className={styles.footerLink}>
-                Culture
+                会社概要
+              </Typography>
+              <Typography variant="body2" className={styles.footerLink}>
+                沿革
+              </Typography>
+              <Typography variant="body2" className={styles.footerLink}>
+                組織構成
               </Typography>
             </div>
             
             <div className={styles.footerSection}>
               <Typography variant="h6" className={styles.footerTitle}>
-                What We Do
+                事業分野
               </Typography>
               <Typography variant="body2" className={styles.footerLink}>
-                Solutions
+                SI事業
               </Typography>
               <Typography variant="body2" className={styles.footerLink}>
-                Technology
+                ソリューション
               </Typography>
               <Typography variant="body2" className={styles.footerLink}>
-                Innovation
+                コンサルティング
               </Typography>
             </div>
             
             <div className={styles.footerSection}>
               <Typography variant="h6" className={styles.footerTitle}>
-                Media
+                採用情報
               </Typography>
               <Typography variant="body2" className={styles.footerLink}>
-                Press Releases
+                人材像
               </Typography>
               <Typography variant="body2" className={styles.footerLink}>
-                Blog
+                福利厚生
               </Typography>
               <Typography variant="body2" className={styles.footerLink}>
-                News
-              </Typography>
-            </div>
-            
-            <div className={styles.footerSection}>
-              <Typography variant="h6" className={styles.footerTitle}>
-                Investors
+                募集案内
               </Typography>
               <Typography variant="body2" className={styles.footerLink}>
-                Financial Reports
-              </Typography>
-              <Typography variant="body2" className={styles.footerLink}>
-                Stock Information
-              </Typography>
-              <Typography variant="body2" className={styles.footerLink}>
-                IR Contact
+                志願方法
               </Typography>
             </div>
           </div>
@@ -565,9 +590,13 @@ const EnitecHome: React.FC = () => {
                 <Typography variant="body2" className={styles.footerEmail}>
                   info@enitec.com
                 </Typography>
-                <Typography variant="body2" className={styles.footerSocial}>
-                  📷
-                </Typography>
+                <img 
+                  src={copyrightIcon}
+                  alt="저작권"
+                  className={styles.footerSocial}
+                  onClick={() => navigate('/copyright')}
+                  style={{ cursor: 'pointer', width: '20px', height: '20px' }}
+                />
               </div>
             </div>
           </div>

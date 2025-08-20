@@ -1,7 +1,12 @@
 /* 전체 컨테이너 */
 .container {
-  font-family: 'Pretendard, sans-serif';
+  font-family: 'Noto Sans JP', sans-serif;
   background-color: #f2ebe1;
+}
+
+/* 전체 요소에 폰트 적용 */
+.container * {
+  font-family: 'Noto Sans JP', sans-serif;
 }
 
 /* Hero 섹션 */
@@ -481,17 +486,6 @@
   -webkit-box-orient: vertical;
 }
 
-.newsType {
-  background: rgba(0,19,108,0.1);
-  color: #00136C;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: bold;
-  align-self: flex-start;
-  border: 1px solid rgba(0,19,108,0.2);
-}
-
 /* Hyper-Connected Solutions 섹션 */
 .solutionsSection {
   padding: 80px 0;
@@ -531,16 +525,6 @@
   margin-bottom: 24px;
   color: #666;
   line-height: 1.6;
-}
-
-.readMoreButton {
-  color: #00136C;
-  border-color: #00136C;
-}
-
-.readMoreButton:hover {
-  background-color: #00136C;
-  color: white;
 }
 
 /* Global Presence 섹션 */

@@ -25,21 +25,15 @@
 }
 
 .logo {
-  font-weight: bold;
+  height: 40px;
+  width: auto;
   cursor: pointer;
-}
-
-.logoScrolled {
-  color: #00136C;
-}
-
-.logoTransparent {
-  color: white;
+  transition: all 0.3s ease;
 }
 
 .navigation {
   display: flex;
-  gap: 32px;
+  gap: 100px;
 }
 
 .navigationItemContainer {
