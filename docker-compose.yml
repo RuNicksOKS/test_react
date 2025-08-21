@@ -1,85 +1,20 @@
-version: '3.7' # 도커 컴포즈 파일 버전 지정
+version: '3.9' # 도커 컴포즈 파일 버전 지정
 
-services: # 서비스(컨테이너) 목록 시작
-  # portainer: # 포테이너(도커 관리 UI) 서비스
-  #   image: portainer/portainer-ce:latest # 사용할 포테이너 이미지
-  #   container_name: portainer # 컨테이너 이름 지정
-  #   restart: always # 컨테이너가 중지되면 항상 재시작
-  #   ports:
-  #     - "9000:9000" # 호스트 9000포트를 컨테이너 9000포트에 연결
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock # 도커 데몬 소켓을 컨테이너에 마운트(도커 관리용)
-  #     - portainer_data:/data # 포테이너 데이터 영구 저장 볼륨
-  
-  backend: # 백엔드(Django 등) 서비스
-    build: ./backend # ./backend 디렉토리에서 도커 이미지 빌드
-    container_name: "backend-dev" # 컨테이너 이름 지정
-    command: tail -f /dev/null # 컨테이너를 계속 실행시키기 위한 명령어
-    # command: python manage.py runserver 0.0.0.0:8000 # 컨테이너 시작 시 실행할 명령어
-    # ports:
-    #   - '8000:8000' # 호스트 8000포트를 컨테이너 8000포트에 연결
-    #  - '8001:8001' # 호스트 8001포트를 컨테이너 8001포트에 연결 (디버깅용)
-    # command:
-    #   - sh
-    #   - -c
-    #   - |
-    #     pip install debugpy &&
-    #     python -m debugpy --listen 0.0.0.0:9000 --wait-for-client manage.py runserver 0.0.0.0:8000
-    volumes:
-      # 전체 폴더 마운트
-      - ./backend:/usr/workspace
-      
-      # 예외 처리 (컨테이너 내부에서 관리)
-    networks:
-      - dev # dev 네트워크에 연결
-    depends_on:
-      - db # db 서비스가 먼저 실행되어야 함
-    env_file:
-      - ./env/.env.backend.dev # 환경변수 파일 지정
-    stdin_open: true # 표준 입력 활성화(터미널용)
-    tty: true # TTY 활성화(터미널용)
-
-  frontend: # 프론트엔드(React 등) 서비스
-    build: ./frontend # ./frontend 디렉토리에서 도커 이미지 빌드
-    container_name: "frontend-dev" # 컨테이너 이름 지정
-    volumes:
-      # 전체 폴더 마운트
-      - ./frontend:/usr/workspace
-      
-      # 예외 처리 (컨테이너 내부에서 관리)
-      - /usr/workspace/node_modules
-    networks:
-      - dev # dev 네트워크에 연결
-    ports:
-      - '3000:3000' # 호스트 3000포트를 컨테이너 3000포트에 연결
-    stdin_open: true # 표준 입력 활성화
-    environment:
-      - NODE_ENV=development # 개발 환경 변수 지정
-    env_file:
-      - ./env/.env.frontend.dev # 환경변수 파일 지정
-    depends_on:
-      - "backend" # backend 서비스가 먼저 실행되어야 함
-    command:
-      npm start # 컨테이너 시작 시 npm start 실행
-
-  db: # 데이터베이스(PostgreSQL) 서비스
+services: # 서비스(컨테이너) 목록 시작  
+  db-dev: # 데이터베이스(PostgreSQL) 서비스
     image: postgres:16.2-alpine # 사용할 Postgres 이미지
-    container_name: "db-dev" # 컨테이너 이름 지정
-    volumes:
-      - postgres_data:/var/lib/postgresql/data # 도커 볼륨(postgres_data)에 데이터 영구 저장
-    user: 0:1000 # 컨테이너 내부 사용자/그룹 지정
+    container_name: "db-container-dev" # 컨테이너 이름 지정
     ports:
       - '5432:5432' # 호스트 5432포트를 컨테이너 5432포트에 연결
+    volumes:
+      - postgres_data:/var/lib/postgresql/data # 도커 볼륨(postgres_data)에 데이터 영구 저장 (PostgreSQL 공식 권장 경로)
+    user: 0:1000 # 컨테이너 내부 사용자/그룹 지정
     networks:
-      - dev # dev 네트워크에 연결
+      - network-dev # dev 네트워크에 연결
     env_file:
       - ./env/.env.db.dev # 환경변수 파일 지정
-    # environment:
-    #   - POSTGRES_USER=XXXX
-    #   - POSTGRES_PASSWORD=XXXX
-    #   - POSTGRES_DB=XXXX
 
-  pgadmin: # pgAdmin(데이터베이스 관리 UI) 서비스
+  pgadmin-dev: # pgAdmin(데이터베이스 관리 UI) 서비스
     image: dpage/pgadmin4:8.8 # 사용할 pgAdmin 이미지
     container_name: "pgadmin-dev" # 컨테이너 이름 지정
     # restart: always # (주석) 항상 재시작 옵션 예시
@@ -92,13 +27,58 @@ services: # 서비스(컨테이너) 목록 시작
       - pgadmin_data:/var/lib/pgadmin # 도커 볼륨(pgadmin_data) 데이터 영구 저장
     user: 5050:5050 # 컨테이너 내부 사용자/그룹 지정
     depends_on:
-      - db # db 서비스가 먼저 실행되어야 함
+      - db-dev # db 서비스가 먼저 실행되어야 함
     networks:
-      - dev # dev 네트워크에 연결
+      - network-dev # dev 네트워크에 연결
     env_file:
       - ./env/.env.pgadmin.dev # 환경변수 파일 지정
     stdin_open: true # 표준 입력 활성화
     tty: true # TTY 활성화
+
+  backend-dev: # 백엔드(Django 등) 서비스
+    build: 
+      context: ./backend
+      target: development # development 스테이지 사용
+    container_name: "backend-container-dev" # 컨테이너 이름 지정
+    command: tail -f /dev/null # 컨테이너를 계속 실행시키기 위한 명령어
+    volumes:
+      # 전체 폴더 마운트
+      - ./backend:/usr/workspace
+      # Poetry 가상환경 예외 처리
+      - /usr/workspace/.venv
+    networks:
+      - network-dev # dev 네트워크에 연결
+    depends_on:
+      - db-dev # db 서비스가 먼저 실행되어야 함
+    env_file:
+      - ./env/.env.backend.dev # 환경변수 파일 지정
+    stdin_open: true # 표준 입력 활성화(터미널용)
+    tty: true # TTY 활성화(터미널용)
+
+  frontend-dev: # 프론트엔드(React 등) 서비스
+    build: 
+      context: ./frontend
+      target: development # development 스테이지 사용
+    container_name: "frontend-container-dev" # 컨테이너 이름 지정
+    environment:
+      - NODE_ENV=development # 개발 환경 변수 지정
+    ports:
+      - '3000:3000' # 호스트 3000포트를 컨테이너 3000포트에 연결
+    volumes:
+      # 전체 폴더 마운트
+      - ./frontend:/usr/workspace
+      
+      # 예외 처리 (컨테이너 내부에서 관리)
+      - /usr/workspace/node_modules
+    networks:
+      - network-dev # dev 네트워크에 연결
+    env_file:
+      - ./env/.env.frontend.dev # 환경변수 파일 지정
+    depends_on:
+      - "backend-dev" # backend 서비스가 먼저 실행되어야 함
+    command:
+      npm start # 컨테이너 시작 시 npm start 실행
+    stdin_open: true # 표준 입력 활성화
 
 volumes: # 도커 볼륨 정의(데이터 영구 저장용)
   # portainer_data: # 포테이너 데이터 볼륨
@@ -106,4 +86,4 @@ volumes: # 도커 볼륨 정의(데이터 영구 저장용)
   pgadmin_data: # pgAdmin 데이터 볼륨
 
 networks: # 도커 네트워크 정의
-  dev: # dev 네트워크
+  network-dev: # dev 네트워크

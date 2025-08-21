@@ -1,49 +1,60 @@
-###########
-# BUILDER #
-###########
-# FROM python:3.8.8-slim as builder
-FROM python:3.11.3-slim as builder
+# Production stage
+FROM python:3.12.2-slim as production
+
+# Poetry 설치
+RUN pip install poetry
+
+# Poetry 설정
+ENV POETRY_NO_INTERACTION=1 \
+    POETRY_VENV_IN_PROJECT=1 \
+    POETRY_CACHE_DIR=/tmp/poetry_cache
+
+# 비root 사용자 생성
+RUN addgroup --system django \
+    && adduser --system --ingroup django django
 
 WORKDIR /usr/workspace
 
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+# 파이썬 환경 변수 설정
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
 
-RUN apt-get update && apt-get install -y python3-dev gcc musl-dev libffi-dev
+# 필요한 패키지 설치 (최소한만)
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        netcat-openbsd \
+        curl \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN pip install --upgrade pip
+# Poetry 설정 파일 복사
+COPY pyproject.toml ./
+
+# Lock 파일이 없으면 생성하고 의존성 설치
+RUN if [ ! -f poetry.lock ]; then poetry lock; fi && \
+    poetry install --only=main,prod --no-dev
+
+# 소스 코드 복사
 COPY . .
 
-# install dependencies
-COPY ./requirements ./requirements
-RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/workspace/wheels -r requirements/production.txt
+# 정적 파일 수집
+RUN poetry run python manage.py collectstatic --noinput
 
-#########
-# FINAL #
-#########
-# FROM python:3.8.8-slim
-FROM python:3.11.3-slim
+# 권한 설정
+RUN chown -R django:django /usr/workspace
 
-RUN useradd -ms /bin/bash workspace
+# Poetry 가상환경 활성화
+ENV PATH="/usr/workspace/.venv/bin:$PATH"
 
-ENV HOME=/home/workspace
-ENV APP_HOME=/home/workspace/web
-RUN mkdir $APP_HOME
-RUN mkdir $APP_HOME/api
-RUN mkdir $APP_HOME/api/static
-WORKDIR $APP_HOME
+# 비root 사용자로 전환
+USER django
 
-RUN apt-get update && apt-get install -y python3-dev gcc musl-dev libffi-dev netcat
-COPY --from=builder /usr/workspace/wheels /wheels
-COPY --from=builder /usr/workspace/requirements/production.txt .
-RUN pip install --no-cache /wheels/*
+# entrypoint.sh 실행 권한 부여
+RUN chmod +x /usr/workspace/entrypoint.prod.sh
 
-COPY ./entrypoint.prod.sh $APP_HOME
+# 컨테이너 시작 시 entrypoint.sh 실행
+ENTRYPOINT ["/usr/workspace/entrypoint.prod.sh"]
 
-COPY . $APP_HOME
-
-RUN chown -R workspace:workspace $APP_HOME
-
-USER workspace
-
-ENTRYPOINT ["/home/workspace/web/entrypoint.prod.sh"]
+# 기본 명령어 (Docker Compose에서 오버라이드)
+CMD ["gunicorn", "app.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3", "--timeout", "120"]
