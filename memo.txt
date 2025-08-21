@@ -121,3 +121,18 @@ docker exec -it frontend-dev bash
 
 # 컨테이너 내부에서 프론트엔드 실행
 npm start
+
+# 특정 컨테이너의 실시간 로그 확인
+docker logs -f <container_name>
+
+# 예시
+docker logs -f frontend-container
+
+# 마지막 100줄부터 실시간 로그 확인
+docker logs -f --tail 100 <container_name>
+
+# 타임스탬프와 함께 실시간 로그 확인
+docker logs -f -t <container_name>
+
+# 여러 컨테이너의 로그를 동시에 확인
+docker logs -f container1 container2 container3

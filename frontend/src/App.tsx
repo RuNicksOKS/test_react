@@ -3,6 +3,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import EnitecHome from './pages/home/EnitecHome';
 import Copyright from './pages/copyright/Copyright';
 import News from './pages/news/News';
+import Company from './pages/company/Company';
 import NavigationComponent from './components/navigation/Navigation';
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
         <Route path="/" element={<EnitecHome />} />
         <Route path="/copyright" element={<Copyright />} />
         <Route path="/news" element={<News />} />
+        <Route path="/company" element={<Company />} />
       </Routes>
     </div>
   );

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import styles from './GoogleMap.module.css';
 
 interface GoogleMapProps {
@@ -18,6 +19,14 @@ interface GoogleMapProps {
   minHeight?: string;
   maxHeight?: string;
 }
+
+// Styled Components
+const MapTitle = styled(Typography)`
+  margin-bottom: 20px !important;
+  text-align: center !important;
+  color: #00136C !important;
+  font-weight: bold !important;
+`;
 
 const GoogleMap: React.FC<GoogleMapProps> = ({ 
   title = "Global Presence",
@@ -50,32 +59,18 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   // API 키가 있으면 mapUrl, 없으면 fallbackUrl 사용
   const finalMapUrl = apiKey ? mapUrl : fallbackUrl;
   
-  // 동적 스타일 객체 생성
-  const containerStyle: React.CSSProperties = {
-    width,
-    height,
-    margin,
-    padding,
-    maxWidth,
-    minHeight,
-    maxHeight,
-  };
-  
-  // 맵 래퍼 스타일 - 컨테이너에서 제목 높이를 뺀 크기
-  const mapWrapperStyle: React.CSSProperties = {
-    height: `calc(${height} - 50px)`, // 제목과 여백을 고려한 높이
-    width: '100%',
-  };
-  
   return (
     <div 
       className={`${styles.googleMapContainer} ${className}`}
-      style={containerStyle}
+      style={{ width, height, margin, padding, maxWidth, minHeight, maxHeight }}
     >
-      <Typography variant="h6" className={styles.mapTitle}>
+      <MapTitle variant="h6">
         {title}
-      </Typography>
-      <div className={styles.mapWrapper} style={mapWrapperStyle}>
+      </MapTitle>
+      <div 
+        className={styles.mapWrapper} 
+        style={{ height: `calc(${height} - 100px)`, width: '100%' }}
+      >
         <iframe
           width="100%"
           height="100%"

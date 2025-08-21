@@ -1,7 +1,245 @@
 import React, { useState } from "react";
-import { Container, Typography, Drawer, List, ListItem, ListItemText } from '@mui/material';
+import { Container, Typography, Drawer, List, ListItem, ListItemText, Box } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
-import styles from "./Navigation.module.css";
+
+// Styled Components
+const Header = styled('div')<{ isScrolled: boolean }>(({ theme, isScrolled }) => ({
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  right: 0,
+  zIndex: 1000,
+  transition: 'all 0.3s ease',
+  fontFamily: "'Noto Sans JP', sans-serif",
+  backgroundColor: isScrolled ? 'white' : 'transparent',
+  boxShadow: isScrolled ? '0 2px 10px rgba(0,0,0,0.1)' : 'none'
+}));
+
+const HeaderContent = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  padding: '16px 0'
+}));
+
+const Logo = styled('img')(({ theme }) => ({
+  height: '40px',
+  width: 'auto',
+  cursor: 'pointer',
+  transition: 'all 0.3s ease'
+}));
+
+const NavigationContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  gap: '100px',
+  [theme.breakpoints.down('md')]: {
+    display: 'none'
+  }
+}));
+
+const NavigationItemContainer = styled(Box)(({ theme }) => ({
+  position: 'relative',
+  cursor: 'pointer'
+}));
+
+const NavigationItem = styled(Typography)<{ isScrolled: boolean }>(({ theme, isScrolled }) => ({
+  cursor: 'pointer',
+  transition: 'color 0.3s ease',
+  padding: '8px 0',
+  position: 'relative',
+  fontFamily: "'Noto Sans JP', sans-serif",
+  color: isScrolled ? '#00136C' : 'white'
+}));
+
+const DropdownMenu = styled(Box)(({ theme }) => ({
+  position: 'absolute',
+  top: '100%',
+  left: '-16px',
+  backgroundColor: 'white',
+  borderRadius: '0 0 8px 8px',
+  boxShadow: '0 4px 20px rgba(0,0,0,0.15)',
+  padding: '8px 0 16px 0',
+  minWidth: '200px',
+  opacity: 0,
+  transform: 'translateY(-10px)',
+  animation: 'slideDown 0.3s ease forwards',
+  zIndex: 1001,
+  borderTop: '2px solid #00136C',
+  '@keyframes slideDown': {
+    '0%': {
+      opacity: 0,
+      transform: 'translateY(-10px)'
+    },
+    '100%': {
+      opacity: 1,
+      transform: 'translateY(0)'
+    }
+  }
+}));
+
+const DropdownItem = styled(Typography)(({ theme }) => ({
+  padding: '12px 24px',
+  color: '#666',
+  fontSize: '0.9rem',
+  cursor: 'pointer',
+  transition: 'all 0.2s ease',
+  display: 'block',
+  position: 'relative',
+  fontFamily: "'Noto Sans JP', sans-serif",
+  '&:hover': {
+    backgroundColor: '#f8f9fa',
+    color: '#00136C',
+    paddingLeft: '28px',
+    '&::before': {
+      content: '""',
+      position: 'absolute',
+      left: 0,
+      top: 0,
+      bottom: 0,
+      width: '3px',
+      backgroundColor: '#00136C'
+    }
+  }
+}));
+
+const RightIcons = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  gap: '16px',
+  alignItems: 'center'
+}));
+
+const HamburgerMenu = styled(Typography)<{ isScrolled: boolean }>(({ theme, isScrolled }) => ({
+  cursor: 'pointer',
+  color: isScrolled ? '#00136C' : 'white',
+  [theme.breakpoints.up('md')]: {
+    display: 'none'
+  },
+  [theme.breakpoints.down('md')]: {
+    display: 'block'
+  }
+}));
+
+const StyledDrawer = styled(Drawer)(({ theme }) => ({
+  '& .MuiDrawer-paper': {
+    width: '100%',
+    backgroundColor: 'white',
+    boxShadow: 'none'
+  }
+}));
+
+const MobileMenuContent = styled(Box)(({ theme }) => ({
+  padding: '24px'
+}));
+
+const MobileMenuHeader = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  marginBottom: '32px'
+}));
+
+const CloseButton = styled(Typography)(({ theme }) => ({
+  color: '#FF3B30',
+  fontSize: '2rem',
+  cursor: 'pointer',
+  fontWeight: 'bold'
+}));
+
+const MenuList = styled(List)(({ theme }) => ({
+  marginTop: '32px'
+}));
+
+const MobileMenuItem = styled(Box)(({ theme }) => ({
+  marginBottom: '8px'
+}));
+
+const MenuItem = styled(ListItem)(({ theme }) => ({
+  padding: '16px 0',
+  cursor: 'pointer',
+  transition: 'all 0.3s ease',
+  '&:hover': {
+    backgroundColor: '#f8f9fa'
+  }
+}));
+
+const MenuItemText = styled(ListItemText)(({ theme }) => ({
+  '& .MuiListItemText-primary': {
+    color: '#FF3B30',
+    fontSize: '1.2rem',
+    fontWeight: 'bold',
+    fontFamily: "'Noto Sans JP', sans-serif"
+  }
+}));
+
+const ChevronIcon = styled(Box)<{ isExpanded: boolean }>(({ theme, isExpanded }) => ({
+  width: '16px',
+  height: '16px',
+  position: 'relative',
+  marginLeft: '8px',
+  transition: 'transform 0.6s ease',
+  transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+  '&::before': {
+    content: '""',
+    position: 'absolute',
+    top: '80%',
+    left: 0,
+    width: '60%',
+    height: '3px',
+    backgroundColor: '#FF3B30',
+    transform: 'translateY(-60%) rotate(45deg)',
+    transformOrigin: 'right center'
+  },
+  '&::after': {
+    content: '""',
+    position: 'absolute',
+    top: '80%',
+    right: 0,
+    width: '60%',
+    height: '3px',
+    backgroundColor: '#FF3B30',
+    transform: 'translateY(-60%) rotate(-45deg)',
+    transformOrigin: 'left center'
+  }
+}));
+
+const MobileSubItems = styled(Box)(({ theme }) => ({
+  backgroundColor: '#f8f9fa',
+  borderRadius: '8px',
+  margin: '8px 0 16px 16px',
+  overflow: 'hidden',
+  animation: 'slideDownMobile 0.3s ease forwards',
+  '@keyframes slideDownMobile': {
+    '0%': {
+      opacity: 0,
+      maxHeight: 0,
+      transform: 'translateY(-10px)'
+    },
+    '100%': {
+      opacity: 1,
+      maxHeight: '200px',
+      transform: 'translateY(0)'
+    }
+  }
+}));
+
+const MobileSubItem = styled(Typography)(({ theme }) => ({
+  padding: '12px 24px',
+  color: '#666',
+  fontSize: '1rem',
+  cursor: 'pointer',
+  transition: 'all 0.2s ease',
+  borderBottom: '1px solid #e0e0e0',
+  fontFamily: "'Noto Sans JP', sans-serif",
+  '&:last-child': {
+    borderBottom: 'none'
+  },
+  '&:hover': {
+    backgroundColor: '#e8e8e8',
+    color: '#00136C',
+    paddingLeft: '32px'
+  }
+}));
 
 interface NavigationProps {
   isScrolled: boolean;
@@ -48,119 +286,116 @@ const Navigation: React.FC<NavigationProps> = ({ isScrolled }) => {
   return (
     <>
       {/* 헤더 */}
-      <div className={`${styles.header} ${isScrolled ? styles.headerScrolled : styles.headerTransparent}`}>
+      <Header isScrolled={isScrolled}>
         <Container maxWidth="xl">
-          <div className={styles.headerContent}>
+          <HeaderContent>
             {/* 로고 */}
-            <img
+            <Logo
               src="/logo.png"
               alt="Enitec"
-              className={styles.logo}
               onClick={() => navigate('/')}
-              style={{ cursor: 'pointer' }}
             />
 
             {/* 네비게이션 - 데스크톱에서만 표시 */}
-            <div className={styles.navigation}>
+            <NavigationContainer>
               {menuItems.map((item) => (
-                <div
+                <NavigationItemContainer
                   key={item.label}
-                  className={styles.navigationItemContainer}
                   onMouseEnter={() => setHoveredItem(item.label)}
                   onMouseLeave={() => setHoveredItem(null)}
                 >
-                  <Typography 
-                    className={`${styles.navigationItem} ${isScrolled ? styles.navigationItemScrolled : styles.navigationItemTransparent}`}
+                  <NavigationItem 
+                    isScrolled={isScrolled}
+                    onClick={() => {
+                      if (item.label === "会社情報") {
+                        navigate('/company');
+                      }
+                    }}
                   >
                     {item.label}
-                  </Typography>
+                  </NavigationItem>
                   
                   {/* 드롭다운 메뉴 */}
                   {hoveredItem === item.label && (
-                    <div className={styles.dropdownMenu}>
+                    <DropdownMenu>
                       {item.subItems.map((subItem) => (
-                        <Typography
+                        <DropdownItem
                           key={subItem}
-                          className={styles.dropdownItem}
                         >
                           {subItem}
-                        </Typography>
+                        </DropdownItem>
                       ))}
-                    </div>
+                    </DropdownMenu>
                   )}
-                </div>
+                </NavigationItemContainer>
               ))}
-            </div>
+            </NavigationContainer>
 
             {/* 우측 아이콘들 */}
-            <div className={styles.rightIcons}>
+            <RightIcons>
               {/* 햄버거 메뉴 - 모바일에서만 표시 */}
-              <Typography 
-                className={`${styles.hamburgerMenu} ${isScrolled ? styles.hamburgerMenuScrolled : styles.hamburgerMenuTransparent}`}
+              <HamburgerMenu 
+                isScrolled={isScrolled}
                 onClick={() => setIsMenuOpen(true)}
               >
                 ☰
-              </Typography>
-            </div>
-          </div>
+              </HamburgerMenu>
+            </RightIcons>
+          </HeaderContent>
         </Container>
-      </div>
+      </Header>
 
       {/* 모바일 메뉴 Drawer - 오른쪽에서 왼쪽으로 */}
-      <Drawer
+      <StyledDrawer
         anchor="right"
         open={isMenuOpen}
         onClose={() => setIsMenuOpen(false)}
-        classes={{
-          paper: styles.mobileMenu
-        }}
       >
-        <div className={styles.mobileMenuContent}>
+        <MobileMenuContent>
           {/* 닫기 버튼 */}
-          <div className={styles.mobileMenuHeader}>
-            <Typography
-              className={styles.closeButton}
+          <MobileMenuHeader>
+            <CloseButton
               onClick={() => setIsMenuOpen(false)}
             >
               ✕
-            </Typography>
-          </div>
+            </CloseButton>
+          </MobileMenuHeader>
 
           {/* 메뉴 아이템들 */}
-          <List className={styles.menuList}>
+          <MenuList>
             {menuItems.map((item) => (
-              <div key={item.label} className={styles.mobileMenuItem}>
-                <ListItem 
-                  className={styles.menuItem}
-                  onClick={() => toggleExpandedItem(item.label)}
+              <MobileMenuItem key={item.label}>
+                <MenuItem 
+                  onClick={() => {
+                    if (item.label === "会社情報") {
+                      navigate('/company');
+                      setIsMenuOpen(false);
+                    } else {
+                      toggleExpandedItem(item.label);
+                    }
+                  }}
                 >
-                  <ListItemText 
-                    primary={item.label} 
-                    classes={{ primary: styles.menuItemText }}
-                  />
-                  <div 
-                    className={`${styles.chevronIcon} ${isItemExpanded(item.label) ? styles.chevronIconExpanded : ''}`}
-                  />
-                </ListItem>
+                  <MenuItemText primary={item.label} />
+                  <ChevronIcon isExpanded={isItemExpanded(item.label)} />
+                </MenuItem>
                 
                 {/* 세부 항목들 */}
                 {isItemExpanded(item.label) && (
-                  <div className={styles.mobileSubItems}>
+                  <MobileSubItems>
                     {item.subItems.map((subItem) => (
-                      <Typography
+                      <MobileSubItem
                         key={subItem}
-                        className={styles.mobileSubItem}
                       >
                         {subItem}
-                      </Typography>
+                      </MobileSubItem>
                     ))}
-                  </div>
+                  </MobileSubItems>
                 )}
-              </div>
+              </MobileMenuItem>
             ))}
-          </List>
-        </div>
-      </Drawer>
+          </MenuList>
+        </MobileMenuContent>
+      </StyledDrawer>
     </>
   );
 };

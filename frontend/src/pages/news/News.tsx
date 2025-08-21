@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Container, Typography, Box, Card, CardContent, Chip, Divider } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { useSearchParams } from 'react-router-dom';
 import styles from './News.module.css';
 
@@ -9,6 +10,81 @@ import itImage from '../../assets/images/IT Developers.jpg';
 import securityImage from '../../assets/images/Security.jpg';
 import semiconductorImage from '../../assets/images/Semiconductor.jpg';
 import rdImage from '../../assets/images/R&D.jpg';
+
+// Styled Components
+const NewsTitle = styled(Typography)`
+  font-size: 2rem;
+  font-weight: 700;
+  color: #00136C;
+  margin-bottom: 24px;
+  line-height: 1.3;
+`;
+
+const NewsContent = styled(Typography)`
+  font-size: 1rem;
+  line-height: 1.8;
+  color: #333;
+  margin-top: 20px;
+`;
+
+const CategoryChip = styled(Chip)`
+  background-color: #cf4506;
+  color: white;
+  font-weight: 600;
+  font-size: 0.8rem;
+`;
+
+const NewsDivider = styled(Divider)`
+  margin: 40px 0;
+  border-color: rgba(0, 19, 108, 0.1);
+`;
+
+const NewsListContainer = styled(Box)`
+  padding: 100px 0 60px 0;
+  margin-top: 50px;
+`;
+
+const NewsList = styled(Box)`
+  max-width: 900px;
+  margin: 0 auto;
+  background-color: #f2ebe1;
+  min-height: calc(100vh - 200px);
+  padding-bottom: 40px;
+`;
+
+const NewsDetailCard = styled(Card)`
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 32px;
+  border: none;
+  transition: all 0.3s ease;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    transform: translateY(-2px);
+  }
+`;
+
+const NewsDetailContent = styled(CardContent)`
+  padding: 32px;
+`;
+
+const NewsMeta = styled(Box)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+`;
+
+const NewsImageContainer = styled(Box)`
+  margin: 24px 0;
+  text-align: center;
+`;
 
 const News: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -23,10 +99,14 @@ const News: React.FC = () => {
       const newsIndex = parseInt(targetNewsId) - 1;
       if (newsRefs.current[newsIndex]) {
         setTimeout(() => {
-          newsRefs.current[newsIndex]?.scrollIntoView({
-            behavior: 'smooth',
-            block: 'center'
-          });
+          const element = newsRefs.current[newsIndex];
+          if (element) {
+            const elementTop = element.offsetTop;
+            window.scrollTo({
+              top: elementTop - 40, // 100px 위로
+              behavior: 'smooth'
+            });
+          }
         }, 100);
       }
     }
@@ -36,98 +116,87 @@ const News: React.FC = () => {
     {
       id: 1,
       category: "AI",
-      title: "AI 시대, 개발자의 역할 재정의.",
+      title: "AI時代、開発者の役割の再定義。",
       image: aiImage,
-      content: `AI는 이제 단순한 기술적 도구가 아니라 산업 전반의 패러다임을 바꾸는 핵심 동력이 되고 있습니다. 자동화와 효율화를 넘어, 창의적 문제 해결과 새로운 비즈니스 모델 창출을 가능하게 하며, 모든 기업이 반드시 도입해야 하는 전략적 자산으로 자리 잡았습니다. 그러나 동시에 AI의 발전은 개발자에게 새로운 역할과 책임을 요구합니다. 단순히 코드를 작성하는 것에서 벗어나, 데이터를 이해하고 분석하며, AI가 올바른 방향으로 작동할 수 있도록 윤리적 기준을 마련하는 것이 중요합니다. 또한 AI는 인간의 일을 대체하는 것이 아니라 인간과 협력하여 더 큰 가치를 만들어내는 수단이 되어야 합니다. 개발자는 AI를 통해 업무 효율을 높이는 동시에, 사람이 중심이 되는 기술 생태계를 구축하는 데 기여해야 합니다. 즉, AI 시대의 개발자는 단순한 기술자가 아니라 문제 해결가, 전략가, 그리고 윤리적 조정자라는 다층적인 역할을 담당하게 됩니다.`
+      content: `AIはもはや単なる技術的なツールではなく、産業全体のパラダイムを変える中核的な原動力となっています。自動化や効率化を超えて、創造的な問題解決や新たなビジネスモデルの創出を可能にし、すべての企業が導入すべき戦略的資産として位置づけられています。しかし同時に、AIの進展は開発者に新たな役割と責任を求めています。単にコードを書くことにとどまらず、データを理解し分析し、AIが正しい方向で機能するように倫理的基準を整えることが重要です。また、AIは人間の仕事を代替するのではなく、人間と協力しながらより大きな価値を生み出す手段であるべきです。開発者はAIによって業務効率を高めると同時に、人間中心の技術エコシステムを構築することに貢献しなければなりません。`
     },
     {
       id: 2,
       category: "IT",
-      title: "IT 인재 부족, 미래를 경쟁하자!",
+      title: "IT人材不足、未来を競おう！",
       image: itImage,
-      content: `오늘날 전 세계 IT 산업은 빠른 속도로 성장하고 있지만, 그와 동시에 심각한 인재 부족 문제에 직면하고 있습니다. 클라우드, 빅데이터, AI, 사이버 보안 등 각 분야에서 요구되는 전문 인력은 폭발적으로 증가하고 있으나, 공급은 수요를 따라가지 못하고 있습니다. 이로 인해 기업들은 우수한 인재 확보를 위해 치열한 경쟁을 벌이고 있으며, 인재 부족은 곧 기업의 성장 정체와 직결되는 중요한 과제가 되고 있습니다. 특히 기술 변화의 속도가 빠른 만큼, 단순한 인력 확보만으로는 충분하지 않습니다. 지속적인 교육과 리스킬링(Reskilling), 그리고 직원들이 장기적으로 성장할 수 있는 환경을 제공하는 것이 중요합니다. 기업은 더 이상 단순히 인재를 고용하는 수준에 머무를 수 없으며, 함께 성장하고 발전할 수 있는 IT 파트너십을 구축해야 합니다. 미래 경쟁력은 결국 사람에서 나오며, 이를 준비하는 기업만이 시장에서 살아남고 앞서 나갈 수 있습니다.`
+      content: `世界のIT産業は急速に成長を続けていますが、その一方で深刻な人材不足に直面しています。クラウド、ビッグデータ、AI、サイバーセキュリティなど各分野で求められる専門人材は爆発的に増加しているものの、供給が需要に追いついていません。そのため企業は優秀な人材を確保するために熾烈な競争を繰り広げており、人材不足は企業の成長停滞に直結する重要課題となっています。特に技術変化のスピードが速い今、単なる人材確保だけでは十分ではありません。継続的な教育、そして社員が長期的に成長できる環境を提供することが重要です。企業はもはや単に人材を雇用するだけにとどまらず、ともに成長・発展できるITパートナーシップを築かなければなりません。未来の競争力は結局「人」から生まれるものであり、それを準備できる企業だけが市場で生き残り、先を行くことができるのです。`
     },
     {
       id: 3,
       category: "Security",
-      title: "보안, 개발자가 지켜야 할 가치!",
+      title: "セキュリティ、開発者が守るべき価値！",
       image: securityImage,
-      content: `보안은 디지털 시대에 기업과 사용자가 지켜야 할 가장 중요한 가치 중 하나입니다. 한 번의 보안 사고는 기업의 신뢰도를 무너뜨리고, 회복하기 어려운 타격을 입힐 수 있습니다. 따라서 보안은 단순히 IT 부서나 보안 전담 조직만의 과제가 아니라, 모든 개발자가 반드시 고려해야 하는 기본 원칙입니다. 개발 단계에서부터 보안을 내재화하는 '시큐어 코딩(Secure Coding)'은 이제 선택이 아닌 필수이며, 보안은 제품이나 서비스의 품질을 평가하는 중요한 지표가 되고 있습니다. 개인정보 보호, 네트워크 보안, 클라우드 환경 보안 등 다양한 영역에서 새로운 위협이 끊임없이 등장하고 있는 만큼, 개발자는 지속적으로 최신 보안 트렌드를 학습하고 코드에 반영해야 합니다. 이는 단순히 기술적 대응을 넘어 고객과의 신뢰를 구축하는 핵심 과정이며, 기업 브랜드의 가치를 지키는 가장 확실한 방법입니다. 결국 보안을 지키는 것은 곧 고객의 신뢰를 지키는 것과 같습니다.`
+      content: `セキュリティはデジタル時代において、企業とユーザーが守るべき最も重要な価値の一つです。たった一度のセキュリティ事故でも企業の信頼を失墜させ、回復困難な打撃を与える可能性があります。したがって、セキュリティは単にIT部門や専門組織だけの課題ではなく、すべての開発者が必ず考慮すべき基本原則です。開発段階からセキュリティを組み込む「セキュアコーディング（Secure Coding）」はもはや選択ではなく必須であり、セキュリティは製品やサービスの品質を評価する重要な指標となっています。個人情報保護、ネットワークセキュリティ、クラウド環境のセキュリティなど、多様な領域で新たな脅威が次々と現れる中、開発者は常に最新のセキュリティトレンドを学び、コードに反映させる必要があります。これは単なる技術的対応にとどまらず、顧客との信頼を構築する核心的なプロセスであり、企業ブランドの価値を守る最も確実な方法です。結局、セキュリティを守ることはすなわち顧客の信頼を守ることに他なりません。`
     },
     {
       id: 4,
       category: "Semiconductor",
-      title: "반도체 혁신, 글로벌 IT 판도 흔든다!",
+      title: "半導体革新、グローバルITの勢力図を揺さぶる！",
       image: semiconductorImage,
-      content: `반도체는 현대 IT 산업의 심장과도 같은 존재입니다. 스마트폰, 서버, 인공지능, 자율주행 자동차까지, 거의 모든 첨단 기술의 기반에는 반도체가 존재합니다. 최근 글로벌 공급망 불안과 기술 패권 경쟁은 반도체의 중요성을 더욱 부각시키고 있으며, 각국은 자국 내 반도체 산업을 강화하기 위해 막대한 투자를 아끼지 않고 있습니다. 반도체 기술의 발전은 단순히 하드웨어 성능을 높이는 데서 끝나지 않습니다. 더 작고, 더 빠르며, 더 효율적인 반도체는 인공지능 학습 속도를 높이고, 클라우드 컴퓨팅 성능을 향상시키며, 미래 기술 발전을 가속화하는 핵심 원동력이 됩니다. 따라서 반도체는 이제 단순한 부품이 아니라, 글로벌 IT 판도를 뒤흔드는 전략적 무기라 할 수 있습니다. 기업과 국가는 반도체 혁신을 통해 시장의 우위를 선점하고, 차세대 산업을 이끌어갈 힘을 확보해야 합니다.`
+      content: `半導体は現代IT産業の「心臓」とも言える存在です。スマートフォン、サーバー、人工知能、自動運転車に至るまで、ほぼすべての先端技術の基盤には半導体があります。近年のグローバルなサプライチェーン不安や技術覇権競争は、半導体の重要性を一層際立たせており、各国は自国の半導体産業を強化するために莫大な投資を惜しんでいません。半導体技術の進化は単にハードウェア性能を高めることにとどまりません。より小さく、より速く、より効率的な半導体はAIの学習速度を高め、クラウドコンピューティングの性能を向上させ、未来技術の発展を加速させる核心的な原動力となります。したがって半導体は、もはや単なる部品ではなく、グローバルITの勢力図を揺るがす「戦略的な武器」と言えます。企業や国家は半導体の革新を通じて市場優位を確保し、次世代産業をリードする力を持たなければなりません。`
     },
     {
       id: 5,
       category: "R&D",
-      title: "R&D 투자, 기업 생존의 필수 조건",
+      title: "R&D投資、企業生存の必須条件",
       image: rdImage,
-      content: `기술의 발전은 멈추지 않고 있으며, 기업이 시장에서 생존하고 성장하기 위해서는 끊임없는 연구개발(R&D) 투자가 필수적입니다. 단기적인 이익만을 추구하는 기업은 결국 경쟁에서 뒤처지게 마련입니다. 반대로 꾸준히 R&D에 투자하는 기업은 새로운 기술을 선도하고, 시장 변화에 능동적으로 대응하며, 장기적인 경쟁력을 확보할 수 있습니다. R&D는 단순히 신기술을 개발하는 것을 넘어, 고객의 요구를 예측하고 그에 맞는 솔루션을 제시하는 과정이기도 합니다. 또한 R&D 투자는 기업의 혁신 DNA를 강화하고, 구성원들이 끊임없이 배우고 도전할 수 있는 환경을 만들어줍니다. 특히 IT 산업과 같이 변화 속도가 빠른 분야에서는 R&D의 중요성이 더욱 크며, 이는 곧 기업의 생존 여부를 결정짓는 핵심 요인이 됩니다. 오늘의 R&D는 내일의 시장 점유율로 이어지며, 이는 장기적인 기업 가치를 창출하는 가장 확실한 투자입니다.`
+      content: `技術の進歩は止まることがなく、企業が市場で生き残り成長するためには、絶え間ない研究開発（R&D）への投資が不可欠です。短期的な利益だけを追求する企業は、結局競争から取り残されてしまいます。逆に継続的にR&Dへ投資する企業は、新しい技術をリードし、市場の変化に能動的に対応し、長期的な競争力を確保することができます。R&Dは単に新技術を開発することにとどまらず、顧客のニーズを先取りし、それに適したソリューションを提示するプロセスでもあります。また、R&D投資は企業のイノベーションを強化し、社員が絶えず学び挑戦できる環境を生み出します。特にIT産業のように変化のスピードが速い分野では、R&Dの重要性は一層大きく、これはすなわち企業の存続を左右する核心要因となります。今日のR&Dは明日の市場シェアにつながり、長期的な企業価値を創出する最も確実な投資なのです。`
     }
   ];
 
   return (
     <div className={styles.container}>
       <Container maxWidth="lg">
-        {/* 헤더 섹션 */}
-        <Box className={styles.header}>
-          <Typography variant="h1" className={styles.mainTitle}>
-            Latest News
-          </Typography>
-          <Typography variant="h2" className={styles.subTitle}>
-            최신 기술 트렌드와 인사이트
-          </Typography>
-        </Box>
-
         {/* 뉴스 목록 */}
-        <Box className={styles.newsList}>
+        <NewsListContainer>
+          <NewsList>
           {newsData.map((news, index) => (
-            <Card 
+            <NewsDetailCard 
               key={news.id} 
-              className={styles.newsDetailCard}
               ref={(el) => (newsRefs.current[index] = el)}
             >
-              <CardContent className={styles.newsDetailContent}>
-                {/* 카테고리와 날짜 */}
-                <Box className={styles.newsMeta}>
-                  <Chip 
+              <NewsDetailContent>
+                <NewsMeta>
+                  <CategoryChip 
                     label={news.category} 
-                    className={styles.categoryChip}
                     size="small"
                   />
-                </Box>
+                </NewsMeta>
 
                 {/* 제목 */}
-                <Typography variant="h3" className={styles.newsDetailTitle}>
+                <NewsTitle variant="h3">
                   {news.title}
-                </Typography>
+                </NewsTitle>
 
                 {/* 이미지 */}
-                <Box className={styles.newsImageContainer}>
+                <NewsImageContainer>
                   <img 
                     src={news.image} 
                     alt={news.title}
                     className={styles.newsImage}
                   />
-                </Box>
+                </NewsImageContainer>
 
                 {/* 내용 */}
-                <Typography variant="body1" className={styles.newsText}>
+                <NewsContent variant="body1">
                   {news.content}
-                </Typography>
+                </NewsContent>
 
                 {/* 구분선 (마지막 항목 제외) */}
                 {index < newsData.length - 1 && (
-                  <Divider className={styles.divider} />
+                  <NewsDivider />
                 )}
-              </CardContent>
-            </Card>
+              </NewsDetailContent>
+            </NewsDetailCard>
           ))}
-        </Box>
+          </NewsList>
+        </NewsListContainer>
       </Container>
     </div>
   );

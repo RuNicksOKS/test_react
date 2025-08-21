@@ -5,25 +5,27 @@
   border-radius: 12px;
   border: 1px solid rgba(0,19,108,0.1);
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-}
-
-.mapTitle {
-  margin-bottom: 20px !important;
-  text-align: center !important;
-  color: #00136C !important;
-  font-weight: bold !important;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .mapWrapper {
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .googleMapIframe {
   display: block;
   width: 100%;
-  height: 100% !important;
+  height: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 /* 반응형 스타일 */
@@ -31,11 +33,24 @@
   .googleMapContainer {
     margin-top: 20px;
     padding: 15px;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
   }
   
-  .mapTitle {
-    font-size: 1.1rem !important;
-    margin-bottom: 15px !important;
+  .mapWrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+  
+  .googleMapIframe {
+    width: 100% !important;
+    max-width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
   }
 }
 
@@ -43,5 +58,32 @@
   .googleMapContainer {
     margin-top: 50px;
     padding: 30px;
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .googleMapContainer {
+    margin-top: 15px;
+    padding: 10px;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+  
+  .mapWrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+  
+  .googleMapIframe {
+    width: 100% !important;
+    max-width: 100%;
+    overflow: hidden;
+    box-sizing: border-box;
   }
 }
