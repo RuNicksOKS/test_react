@@ -4,7 +4,9 @@ import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 
 // Styled Components
-const Header = styled('div')<{ isScrolled: boolean }>(({ theme, isScrolled }) => ({
+const Header = styled('div', {
+  shouldForwardProp: (prop) => prop !== 'isScrolled'
+})<{ isScrolled: boolean }>(({ theme, isScrolled }) => ({
   position: 'fixed',
   top: 0,
   left: 0,
@@ -43,7 +45,9 @@ const NavigationItemContainer = styled(Box)(({ theme }) => ({
   cursor: 'pointer'
 }));
 
-const NavigationItem = styled(Typography)<{ isScrolled: boolean }>(({ theme, isScrolled }) => ({
+const NavigationItem = styled(Typography, {
+  shouldForwardProp: (prop) => prop !== 'isScrolled'
+})<{ isScrolled: boolean }>(({ theme, isScrolled }) => ({
   cursor: 'pointer',
   transition: 'color 0.3s ease',
   padding: '8px 0',
@@ -109,7 +113,9 @@ const RightIcons = styled(Box)(({ theme }) => ({
   alignItems: 'center'
 }));
 
-const HamburgerMenu = styled(Typography)<{ isScrolled: boolean }>(({ theme, isScrolled }) => ({
+const HamburgerMenu = styled(Typography, {
+  shouldForwardProp: (prop) => prop !== 'isScrolled'
+})<{ isScrolled: boolean }>(({ theme, isScrolled }) => ({
   cursor: 'pointer',
   color: isScrolled ? '#00136C' : 'white',
   [theme.breakpoints.up('md')]: {
@@ -154,7 +160,7 @@ const MobileMenuItem = styled(Box)(({ theme }) => ({
   marginBottom: '8px'
 }));
 
-const MenuItem = styled(ListItem)(({ theme }) => ({
+const StyledMenuItem = styled(ListItem)(({ theme }) => ({
   padding: '16px 0',
   cursor: 'pointer',
   transition: 'all 0.3s ease',
@@ -172,7 +178,9 @@ const MenuItemText = styled(ListItemText)(({ theme }) => ({
   }
 }));
 
-const ChevronIcon = styled(Box)<{ isExpanded: boolean }>(({ theme, isExpanded }) => ({
+const ChevronIcon = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isExpanded'
+})<{ isExpanded: boolean }>(({ theme, isExpanded }) => ({
   width: '16px',
   height: '16px',
   position: 'relative',
@@ -365,7 +373,7 @@ const Navigation: React.FC<NavigationProps> = ({ isScrolled }) => {
           <MenuList>
             {menuItems.map((item) => (
               <MobileMenuItem key={item.label}>
-                <MenuItem 
+                <StyledMenuItem 
                   onClick={() => {
                     if (item.label === "会社情報") {
                       navigate('/company');
@@ -377,7 +385,7 @@ const Navigation: React.FC<NavigationProps> = ({ isScrolled }) => {
                 >
                   <MenuItemText primary={item.label} />
                   <ChevronIcon isExpanded={isItemExpanded(item.label)} />
-                </MenuItem>
+                </StyledMenuItem>
                 
                 {/* 세부 항목들 */}
                 {isItemExpanded(item.label) && (

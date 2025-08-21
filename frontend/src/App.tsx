@@ -1,9 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
-import EnitecHome from './pages/home/EnitecHome';
-import Copyright from './pages/copyright/Copyright';
-import News from './pages/news/News';
-import Company from './pages/company/Company';
+import { Outlet, useLocation } from 'react-router-dom';
 import NavigationComponent from './components/navigation/Navigation';
 
 function App() {
@@ -38,12 +34,8 @@ function App() {
       {/* 전역 네비게이션 컴포넌트 */}
       <NavigationComponent isScrolled={isScrolled} />
       
-      <Routes>
-        <Route path="/" element={<EnitecHome />} />
-        <Route path="/copyright" element={<Copyright />} />
-        <Route path="/news" element={<News />} />
-        <Route path="/company" element={<Company />} />
-      </Routes>
+      {/* 라우트 컴포넌트들이 여기에 렌더링됩니다 */}
+      <Outlet />
     </div>
   );
 }

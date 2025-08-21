@@ -253,7 +253,9 @@ const SlideIndicators = styled(Box)(({ theme }) => ({
   justifyContent: 'center'
 }));
 
-const SlideIndicator = styled(Box)<{ isActive: boolean }>(({ theme, isActive }) => ({
+const SlideIndicator = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isActive'
+})<{ isActive: boolean }>(({ theme, isActive }) => ({
   width: isActive ? '24px' : '12px',
   height: '12px',
   borderRadius: '50%',
@@ -274,7 +276,9 @@ const SlideControlButtons = styled(Box)(({ theme }) => ({
   justifyContent: 'center'
 }));
 
-const SlideButton = styled(Typography)<{ direction?: 'left' | 'right' }>(({ theme, direction }) => ({
+const SlideButton = styled(Typography, {
+  shouldForwardProp: (prop) => prop !== 'direction'
+})<{ direction?: 'left' | 'right' }>(({ theme, direction }) => ({
   color: 'white',
   fontSize: '2rem',
   cursor: 'pointer',
@@ -426,137 +430,23 @@ const SolutionDescription = styled(Typography)(({ theme }) => ({
   fontFamily: "'Noto Sans JP', sans-serif"
 }));
 
-// Global Presence 섹션 Styled Components
-const GlobalPresenceSection = styled(Box)(({ theme }) => ({
-  padding: '80px 0',
-  backgroundColor: '#f2ebe1'
-}));
-
-const CounterGrid = styled(Box)(({ theme }) => ({
-  display: 'grid',
-  gridTemplateColumns: 'repeat(3, 1fr)',
-  gap: '48px',
-  [theme.breakpoints.down('md')]: {
-    gridTemplateColumns: '1fr',
-    gap: '32px'
-  }
-}));
-
-const CounterItem = styled(Box)(({ theme }) => ({
-  textAlign: 'center'
-}));
-
-const CounterNumber = styled(Typography)(({ theme }) => ({
-  color: '#00136C',
-  fontWeight: 900,
-  fontSize: '3.5rem',
-  marginBottom: '16px',
-  fontFamily: "'Noto Sans JP', sans-serif"
-}));
-
-const CounterLabel = styled(Typography)(({ theme }) => ({
-  color: '#666',
-  fontWeight: 600,
-  fontSize: '1.2rem',
-  fontFamily: "'Noto Sans JP', sans-serif"
-}));
-
-// Footer Styled Components
-const Footer = styled(Box)(({ theme }) => ({
-  backgroundColor: '#00136C',
-  color: 'white',
-  padding: '60px 0 20px'
-}));
-
-const FooterGrid = styled(Box)(({ theme }) => ({
-  display: 'grid',
-  gridTemplateColumns: 'repeat(3, 1fr)',
-  gap: '48px',
-  marginBottom: '40px',
-  [theme.breakpoints.down('md')]: {
-    gridTemplateColumns: '1fr',
-    gap: '32px'
-  }
-}));
-
-const FooterSection = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  gap: '12px'
-}));
-
-const FooterTitle = styled(Typography)(({ theme }) => ({
-  color: 'white',
-  fontWeight: 700,
-  fontSize: '1.2rem',
-  marginBottom: '16px',
-  fontFamily: "'Noto Sans JP', sans-serif"
-}));
-
-const FooterLink = styled(Typography)(({ theme }) => ({
-  color: 'rgba(255,255,255,0.8)',
-  cursor: 'pointer',
-  transition: 'color 0.3s ease',
-  fontFamily: "'Noto Sans JP', sans-serif",
-  '&:hover': {
-    color: 'white'
-  }
-}));
-
-const FooterBottom = styled(Box)(({ theme }) => ({
-  borderTop: '1px solid rgba(255,255,255,0.2)',
-  paddingTop: '20px'
-}));
-
-const FooterBottomContent = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  [theme.breakpoints.down('sm')]: {
-    flexDirection: 'column',
-    gap: '16px',
-    textAlign: 'center'
-  }
-}));
-
-const FooterCopyright = styled(Typography)(({ theme }) => ({
-  color: 'rgba(255,255,255,0.8)',
-  fontFamily: "'Noto Sans JP', sans-serif"
-}));
-
-const FooterContact = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center',
-  gap: '16px'
-}));
-
-const FooterEmail = styled(Typography)(({ theme }) => ({
-  color: 'rgba(255,255,255,0.8)',
-  fontFamily: "'Noto Sans JP', sans-serif"
-}));
-
-const FooterSocial = styled('img')(({ theme }) => ({
-  cursor: 'pointer',
-  width: '20px',
-  height: '20px',
-  transition: 'opacity 0.3s ease',
-  '&:hover': {
-    opacity: 0.8
-  }
-}));
-
 const EnitecHome: React.FC = () => {
   const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoplay, setIsAutoplay] = useState(true);
-  const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null);
+  // const [slideDirection, setSlideDirection] = useState<'left' | 'right' | null>(null);
   const [counterValues, setCounterValues] = useState({
     companies: 0,
     developers: 0,
     satisfaction: 0
   });
 
-  const swiperRef = useRef<any>(null);
+  const swiperRef = useRef<{ swiper?: { 
+    autoplay?: { stop: () => void; start: () => void };
+    slidePrev: () => void;
+    slideNext: () => void;
+    slideTo: (index: number) => void;
+  } }>(null);
   const prevSlideRef = useRef(0);
 
   // 카운터 애니메이션
@@ -610,24 +500,15 @@ const EnitecHome: React.FC = () => {
   };
 
   // 슬라이드 변경 핸들러
-  const handleSlideChange = (swiper: any) => {
+  const handleSlideChange = (swiper: { realIndex?: number }) => {
     try {
       if (swiper && typeof swiper.realIndex !== 'undefined') {
         const newSlide = swiper.realIndex;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const prevSlide = prevSlideRef.current;
-        
-        // 슬라이드 방향 결정
-        if (newSlide > prevSlide || (prevSlide === heroSlides.length - 1 && newSlide === 0)) {
-          setSlideDirection('right');
-        } else if (newSlide < prevSlide || (prevSlide === 0 && newSlide === heroSlides.length - 1)) {
-          setSlideDirection('left');
-        }
         
         setCurrentSlide(newSlide);
         prevSlideRef.current = newSlide;
-        
-        // 0.5초 후 방향 초기화
-        setTimeout(() => setSlideDirection(null), 500);
       }
     } catch (error) {
       console.warn('슬라이드 변경 처리 중 오류:', error);
