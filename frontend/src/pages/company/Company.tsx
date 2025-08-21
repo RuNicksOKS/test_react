@@ -223,10 +223,6 @@ const Company: React.FC = () => {
               人は会社の成長に大きな<br />
               影響を与える
             </CeoMainMessage>
-            <SectionContent variant="body1">
-              エニテックのホームページをご訪問いただき誠にありがとうございます。<br />
-              当社は2006年9月に設立し、今はまだ小さい会社にすぎませんが、大きな目標を目指して邁進してまいります。
-            </SectionContent>
             
             <CeoPointsContainer>
               <CeoPoint>
@@ -265,8 +261,6 @@ const Company: React.FC = () => {
                 </PointContent>
               </CeoPoint>
             </CeoPointsContainer>
-
-            代表取締役
           </SectionBox>
 
           <SectionBox ref={section2Ref}>
