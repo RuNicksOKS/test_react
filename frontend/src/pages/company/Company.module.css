@@ -1,11 +1,12 @@
+/* Material이 아닌 요소들만 관리 */
 .container {
   min-height: 100vh;
   background-color: #f2ebe1;
   color: #00136C;
-  padding-top: 120px; /* 네비게이션 높이 + 추가 여백 */
+  padding-top: 100px; /* 네비게이션 높이 + 추가 여백 */
   font-family: 'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif;
 }
 
 .content {
-  padding: 60px 0;
+  padding: 50px 0;
 }

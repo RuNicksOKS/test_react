@@ -7,6 +7,8 @@ import EnitecHome from './pages/home/EnitecHome';
 import Copyright from './pages/copyright/Copyright';
 import News from './pages/news/News';
 import Company from './pages/company/Company';
+import Business from './pages/business/Business';
+import Recruitment from './pages/recruitment/Recruitment';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +30,14 @@ const router = createBrowserRouter([
       {
         path: "company",
         element: <Company />
+      },
+      {
+        path: "business",
+        element: <Business />
+      },
+      {
+        path: "recruitment",
+        element: <Recruitment />
       }
     ]
   }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import NavigationComponent from './components/navigation/Navigation';
+import { ScrollToTop } from './components/scrolltotop';
 
 function App() {
   const location = useLocation();
@@ -36,6 +37,9 @@ function App() {
       
       {/* 라우트 컴포넌트들이 여기에 렌더링됩니다 */}
       <Outlet />
+      
+      {/* 스크롤을 맨 위로 올려주는 버튼 */}
+      <ScrollToTop />
     </div>
   );
 }

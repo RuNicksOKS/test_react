@@ -53,6 +53,8 @@ const NavigationItem = styled(Typography, {
   padding: '8px 0',
   position: 'relative',
   fontFamily: "'Noto Sans JP', sans-serif",
+  fontSize: '1.1rem',
+  fontWeight: '550',
   color: isScrolled ? '#00136C' : 'white'
 }));
 
@@ -264,10 +266,73 @@ const Navigation: React.FC<NavigationProps> = ({ isScrolled }) => {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [expandedItems, setExpandedItems] = useState<string[]>([]);
 
+  // 스크롤 함수
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const headerHeight = 120; // 네비게이션 바 높이 + 여유 공간
+      const elementPosition = element.offsetTop - headerHeight;
+      
+      window.scrollTo({
+        top: elementPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  // 메인 항목 클릭 핸들러
+  const handleMainItemClick = (itemLabel: string) => {
+    if (itemLabel === "会社情報") {
+      navigate('/company');
+    } else if (itemLabel === "事業分野") {
+      navigate('/business');
+    } else if (itemLabel === "採用情報") {
+      navigate('/recruitment');
+    }
+  };
+
+  // 서브 항목 클릭 핸들러
+  const handleSubItemClick = (subItem: string) => {
+    if (subItem === "代表の一言") {
+      navigate('/company');
+      setTimeout(() => scrollToSection('ceo-message'), 100);
+    } else if (subItem === "企業理念") {
+      navigate('/company');
+      setTimeout(() => scrollToSection('corporate-philosophy'), 100);
+    } else if (subItem === "会社概要") {
+      navigate('/company');
+      setTimeout(() => scrollToSection('company-summary'), 100);
+    } else if (subItem === "沿革") {
+      navigate('/company');
+      setTimeout(() => scrollToSection('company-history'), 100);
+    } else if (subItem === "SI事業") {
+      navigate('/business');
+      setTimeout(() => scrollToSection('si-business'), 100);
+    } else if (subItem === "ソリューション") {
+      navigate('/business');
+      setTimeout(() => scrollToSection('solutions'), 100);
+    } else if (subItem === "コンサルティング") {
+      navigate('/business');
+      setTimeout(() => scrollToSection('consulting'), 100);
+    } else if (subItem === "人材像") {
+      navigate('/recruitment');
+      setTimeout(() => scrollToSection('ideal-candidate'), 100);
+    } else if (subItem === "福利厚生") {
+      navigate('/recruitment');
+      setTimeout(() => scrollToSection('benefits'), 100);
+    } else if (subItem === "募集案内") {
+      navigate('/recruitment');
+      setTimeout(() => scrollToSection('recruitment-info'), 100);
+    } else if (subItem === "志願方法") {
+      navigate('/recruitment');
+      setTimeout(() => scrollToSection('application-method'), 100);
+    }
+  };
+
   const menuItems: MenuItem[] = [
     {
       label: "会社情報",
-      subItems: ["代表の一言", "企業理念", "会社概要", "沿革", "組織構成"]
+      subItems: ["代表の一言", "企業理念", "会社概要", "沿革"]
     },
     {
       label: "事業分野",
@@ -314,11 +379,7 @@ const Navigation: React.FC<NavigationProps> = ({ isScrolled }) => {
                 >
                   <NavigationItem 
                     isScrolled={isScrolled}
-                    onClick={() => {
-                      if (item.label === "会社情報") {
-                        navigate('/company');
-                      }
-                    }}
+                    onClick={() => handleMainItemClick(item.label)}
                   >
                     {item.label}
                   </NavigationItem>
@@ -329,6 +390,7 @@ const Navigation: React.FC<NavigationProps> = ({ isScrolled }) => {
                       {item.subItems.map((subItem) => (
                         <DropdownItem
                           key={subItem}
+                          onClick={() => handleSubItemClick(subItem)}
                         >
                           {subItem}
                         </DropdownItem>
@@ -375,12 +437,8 @@ const Navigation: React.FC<NavigationProps> = ({ isScrolled }) => {
               <MobileMenuItem key={item.label}>
                 <StyledMenuItem 
                   onClick={() => {
-                    if (item.label === "会社情報") {
-                      navigate('/company');
-                      setIsMenuOpen(false);
-                    } else {
-                      toggleExpandedItem(item.label);
-                    }
+                    handleMainItemClick(item.label);
+                    setIsMenuOpen(false);
                   }}
                 >
                   <MenuItemText primary={item.label} />
@@ -393,6 +451,10 @@ const Navigation: React.FC<NavigationProps> = ({ isScrolled }) => {
                     {item.subItems.map((subItem) => (
                       <MobileSubItem
                         key={subItem}
+                        onClick={() => {
+                          handleSubItemClick(subItem);
+                          setIsMenuOpen(false);
+                        }}
                       >
                         {subItem}
                       </MobileSubItem>

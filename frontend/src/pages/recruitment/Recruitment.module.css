@@ -1,0 +1,21 @@
+.container {
+  min-height: 100vh;
+  background-color: #f2ebe1;
+  padding-top: 120px;
+  padding-bottom: 80px;
+}
+
+.content {
+  padding: 0 20px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-top: 100px;
+    padding-bottom: 60px;
+  }
+  
+  .content {
+    padding: 0 15px;
+  }
+}

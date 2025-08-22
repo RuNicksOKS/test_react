@@ -321,13 +321,13 @@ const NewsScrollContent = styled(Box)(({ theme }) => ({
   display: 'flex',
   gap: '24px',
   paddingTop: '10px',
-  animation: 'scroll 30s linear infinite',
+  animation: 'scroll 20s linear infinite',
   '&:hover': {
     animationPlayState: 'paused'
   },
   '@keyframes scroll': {
     '0%': { transform: 'translateX(0)' },
-    '100%': { transform: 'translateX(-50%)' }
+    '100%': { transform: 'translateX(-109%)' }
   }
 }));
 
@@ -440,6 +440,69 @@ const EnitecHome: React.FC = () => {
     developers: 0,
     satisfaction: 0
   });
+
+  // 스크롤 함수
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const headerHeight = 120; // 네비게이션 바 높이 + 여유 공간
+      const elementPosition = element.offsetTop - headerHeight;
+      
+      window.scrollTo({
+        top: elementPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  // 메인 항목 클릭 핸들러
+  const handleMainItemClick = (itemLabel: string) => {
+    if (itemLabel === "会社情報") {
+      navigate('/company');
+    } else if (itemLabel === "事業分野") {
+      navigate('/business');
+    } else if (itemLabel === "採用情報") {
+      navigate('/recruitment');
+    }
+  };
+
+  // 서브 항목 클릭 핸들러
+  const handleSubItemClick = (subItem: string) => {
+    if (subItem === "代表の一言") {
+      navigate('/company');
+      setTimeout(() => scrollToSection('ceo-message'), 100);
+    } else if (subItem === "企業理念") {
+      navigate('/company');
+      setTimeout(() => scrollToSection('corporate-philosophy'), 100);
+    } else if (subItem === "会社概要") {
+      navigate('/company');
+      setTimeout(() => scrollToSection('company-summary'), 100);
+    } else if (subItem === "沿革") {
+      navigate('/company');
+      setTimeout(() => scrollToSection('company-history'), 100);
+    } else if (subItem === "SI事業") {
+      navigate('/business');
+      setTimeout(() => scrollToSection('si-business'), 100);
+    } else if (subItem === "ソリューション") {
+      navigate('/business');
+      setTimeout(() => scrollToSection('solutions'), 100);
+    } else if (subItem === "コンサルティング") {
+      navigate('/business');
+      setTimeout(() => scrollToSection('consulting'), 100);
+    } else if (subItem === "人材像") {
+      navigate('/recruitment');
+      setTimeout(() => scrollToSection('ideal-candidate'), 100);
+    } else if (subItem === "福利厚生") {
+      navigate('/recruitment');
+      setTimeout(() => scrollToSection('benefits'), 100);
+    } else if (subItem === "募集案内") {
+      navigate('/recruitment');
+      setTimeout(() => scrollToSection('recruitment-info'), 100);
+    } else if (subItem === "志願方法") {
+      navigate('/recruitment');
+      setTimeout(() => scrollToSection('application-method'), 100);
+    }
+  };
 
   const swiperRef = useRef<{ swiper?: { 
     autoplay?: { stop: () => void; start: () => void };
@@ -713,6 +776,7 @@ const EnitecHome: React.FC = () => {
             onMouseLeave={() => document.documentElement.style.setProperty('--scroll-paused', 'running')}
           >
             <NewsScrollContent>
+              {/* 원본 뉴스 카드들 */}
               {latestNews.map((news) => (
                 <NewsCard key={news.id}>
                   <NewsImage>
@@ -739,9 +803,36 @@ const EnitecHome: React.FC = () => {
                   </NewsContent>
                 </NewsCard>
               ))}
-              {/* 무한 스크롤을 위한 복제 */}
+              {/* 첫 번째 복제본 */}
               {latestNews.map((news) => (
-                <NewsCard key={`clone-${news.id}`}>
+                <NewsCard key={`clone-1-${news.id}`}>
+                  <NewsImage>
+                    <img 
+                      src={news.thumbnail} 
+                      alt={news.title}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                    />
+                  </NewsImage>
+                  <NewsContent>
+                    <NewsCategory variant="caption">
+                      {news.category}
+                    </NewsCategory>
+                    <NewsTitle variant="h6">
+                      {news.title}
+                    </NewsTitle>
+                    <NewsDetailsButton
+                      variant="outlined"
+                      size="small"
+                      onClick={() => navigate(`/news?newsId=${news.id}`)}
+                    >
+                      Details
+                    </NewsDetailsButton>
+                  </NewsContent>
+                </NewsCard>
+              ))}
+              {/* 두 번째 복제본 */}
+              {latestNews.map((news) => (
+                <NewsCard key={`clone-2-${news.id}`}>
                   <NewsImage>
                     <img 
                       src={news.thumbnail} 
@@ -856,20 +947,37 @@ const EnitecHome: React.FC = () => {
               <Typography variant="h6" className={styles.footerTitle}>
                 会社情報
               </Typography>
-              <Typography variant="body2" className={styles.footerLink}>
+              <Typography 
+                variant="body2" 
+                className={styles.footerLink}
+                onClick={() => handleSubItemClick("代表の一言")}
+                style={{ cursor: 'pointer' }}
+              >
                 代表の一言
               </Typography>
-              <Typography variant="body2" className={styles.footerLink}>
+              <Typography 
+                variant="body2" 
+                className={styles.footerLink}
+                onClick={() => handleSubItemClick("企業理念")}
+                style={{ cursor: 'pointer' }}
+              >
                 企業理念
               </Typography>
-              <Typography variant="body2" className={styles.footerLink}>
+              <Typography 
+                variant="body2" 
+                className={styles.footerLink}
+                onClick={() => handleSubItemClick("会社概要")}
+                style={{ cursor: 'pointer' }}
+              >
                 会社概要
               </Typography>
-              <Typography variant="body2" className={styles.footerLink}>
+              <Typography 
+                variant="body2" 
+                className={styles.footerLink}
+                onClick={() => handleSubItemClick("沿革")}
+                style={{ cursor: 'pointer' }}
+              >
                 沿革
-              </Typography>
-              <Typography variant="body2" className={styles.footerLink}>
-                組織構成
               </Typography>
             </div>
             
@@ -877,13 +985,28 @@ const EnitecHome: React.FC = () => {
               <Typography variant="h6" className={styles.footerTitle}>
                 事業分野
               </Typography>
-              <Typography variant="body2" className={styles.footerLink}>
+              <Typography 
+                variant="body2" 
+                className={styles.footerLink}
+                onClick={() => handleSubItemClick("SI事業")}
+                style={{ cursor: 'pointer' }}
+              >
                 SI事業
               </Typography>
-              <Typography variant="body2" className={styles.footerLink}>
+              <Typography 
+                variant="body2" 
+                className={styles.footerLink}
+                onClick={() => handleSubItemClick("ソリューション")}
+                style={{ cursor: 'pointer' }}
+              >
                 ソリューション
               </Typography>
-              <Typography variant="body2" className={styles.footerLink}>
+              <Typography 
+                variant="body2" 
+                className={styles.footerLink}
+                onClick={() => handleSubItemClick("コンサルティング")}
+                style={{ cursor: 'pointer' }}
+              >
                 コンサルティング
               </Typography>
             </div>
@@ -892,16 +1015,36 @@ const EnitecHome: React.FC = () => {
               <Typography variant="h6" className={styles.footerTitle}>
                 採用情報
               </Typography>
-              <Typography variant="body2" className={styles.footerLink}>
+              <Typography 
+                variant="body2" 
+                className={styles.footerLink}
+                onClick={() => handleSubItemClick("人材像")}
+                style={{ cursor: 'pointer' }}
+              >
                 人材像
               </Typography>
-              <Typography variant="body2" className={styles.footerLink}>
+              <Typography 
+                variant="body2" 
+                className={styles.footerLink}
+                onClick={() => handleSubItemClick("福利厚生")}
+                style={{ cursor: 'pointer' }}
+              >
                 福利厚生
               </Typography>
-              <Typography variant="body2" className={styles.footerLink}>
+              <Typography 
+                variant="body2" 
+                className={styles.footerLink}
+                onClick={() => handleSubItemClick("募集案内")}
+                style={{ cursor: 'pointer' }}
+              >
                 募集案内
               </Typography>
-              <Typography variant="body2" className={styles.footerLink}>
+              <Typography 
+                variant="body2" 
+                className={styles.footerLink}
+                onClick={() => handleSubItemClick("志願方法")}
+                style={{ cursor: 'pointer' }}
+              >
                 志願方法
               </Typography>
             </div>
