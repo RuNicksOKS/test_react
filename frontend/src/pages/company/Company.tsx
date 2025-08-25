@@ -495,7 +495,7 @@ const TimelineLine = styled(Box)(({ theme }) => ({
   background: '#00136C',
   
   [theme.breakpoints.down('sm')]: {
-    left: '80px'
+    left: '89px'
   }
 }));
 

@@ -311,21 +311,15 @@ const Navigation: React.FC<NavigationProps> = ({ isScrolled }) => {
     } else if (subItem === "ソリューション") {
       navigate('/business');
       setTimeout(() => scrollToSection('solutions'), 100);
-    } else if (subItem === "コンサルティング") {
-      navigate('/business');
-      setTimeout(() => scrollToSection('consulting'), 100);
     } else if (subItem === "人材像") {
       navigate('/recruitment');
       setTimeout(() => scrollToSection('ideal-candidate'), 100);
     } else if (subItem === "福利厚生") {
       navigate('/recruitment');
       setTimeout(() => scrollToSection('benefits'), 100);
-    } else if (subItem === "募集案内") {
+    } else if (subItem === "採用案内") {
       navigate('/recruitment');
       setTimeout(() => scrollToSection('recruitment-info'), 100);
-    } else if (subItem === "志願方法") {
-      navigate('/recruitment');
-      setTimeout(() => scrollToSection('application-method'), 100);
     }
   };
 
@@ -336,11 +330,11 @@ const Navigation: React.FC<NavigationProps> = ({ isScrolled }) => {
     },
     {
       label: "事業分野",
-      subItems: ["SI事業", "ソリューション", "コンサルティング"]
+      subItems: ["SI事業", "ソリューション"]
     },
     {
       label: "採用情報",
-      subItems: ["人材像", "福利厚生", "募集案内", "志願方法"]
+      subItems: ["人材像", "福利厚生", "採用案内"]
     }
   ];
 

@@ -486,21 +486,15 @@ const EnitecHome: React.FC = () => {
     } else if (subItem === "ソリューション") {
       navigate('/business');
       setTimeout(() => scrollToSection('solutions'), 100);
-    } else if (subItem === "コンサルティング") {
-      navigate('/business');
-      setTimeout(() => scrollToSection('consulting'), 100);
     } else if (subItem === "人材像") {
       navigate('/recruitment');
       setTimeout(() => scrollToSection('ideal-candidate'), 100);
     } else if (subItem === "福利厚生") {
       navigate('/recruitment');
       setTimeout(() => scrollToSection('benefits'), 100);
-    } else if (subItem === "募集案内") {
+    } else if (subItem === "採用案内") {
       navigate('/recruitment');
       setTimeout(() => scrollToSection('recruitment-info'), 100);
-    } else if (subItem === "志願方法") {
-      navigate('/recruitment');
-      setTimeout(() => scrollToSection('application-method'), 100);
     }
   };
 
@@ -1001,14 +995,6 @@ const EnitecHome: React.FC = () => {
               >
                 ソリューション
               </Typography>
-              <Typography 
-                variant="body2" 
-                className={styles.footerLink}
-                onClick={() => handleSubItemClick("コンサルティング")}
-                style={{ cursor: 'pointer' }}
-              >
-                コンサルティング
-              </Typography>
             </div>
             
             <div className={styles.footerSection}>
@@ -1034,18 +1020,10 @@ const EnitecHome: React.FC = () => {
               <Typography 
                 variant="body2" 
                 className={styles.footerLink}
-                onClick={() => handleSubItemClick("募集案内")}
+                onClick={() => handleSubItemClick("採用案内")}
                 style={{ cursor: 'pointer' }}
               >
-                募集案内
-              </Typography>
-              <Typography 
-                variant="body2" 
-                className={styles.footerLink}
-                onClick={() => handleSubItemClick("志願方法")}
-                style={{ cursor: 'pointer' }}
-              >
-                志願方法
+                採用案内
               </Typography>
             </div>
           </div>
