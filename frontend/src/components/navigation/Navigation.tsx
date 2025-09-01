@@ -115,110 +115,137 @@ const RightIcons = styled(Box)(({ theme }) => ({
   alignItems: 'center'
 }));
 
-const HamburgerMenu = styled(Typography, {
-  shouldForwardProp: (prop) => prop !== 'isScrolled'
-})<{ isScrolled: boolean }>(({ theme, isScrolled }) => ({
+const HamburgerMenu = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isScrolled' && prop !== 'isOpen'
+})<{ isScrolled: boolean; isOpen: boolean }>(({ theme, isScrolled, isOpen }) => ({
   cursor: 'pointer',
-  color: isScrolled ? '#00136C' : 'white',
+  color: isOpen ? '#00136C' : (isScrolled ? '#00136C' : 'white'),
+  width: '30px',
+  height: '30px',
+  position: 'fixed',
+  top: '20px',
+  right: '20px',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  zIndex: 999999,
   [theme.breakpoints.up('md')]: {
     display: 'none'
   },
   [theme.breakpoints.down('md')]: {
-    display: 'block'
+    display: 'flex'
+  },
+  '&::before, &::after': {
+    content: '""',
+    position: 'absolute',
+    width: '20px',
+    height: '2px',
+    backgroundColor: isOpen ? '#00136C' : 'currentColor',
+    transition: 'all 0.3s ease',
+    transformOrigin: 'center'
+  },
+  '&::before': {
+    transform: isOpen ? 'rotate(45deg)' : 'translateY(-6px)'
+  },
+  '&::after': {
+    transform: isOpen ? 'rotate(-45deg)' : 'translateY(6px)'
+  },
+  '& > span': {
+    width: '20px',
+    height: '2px',
+    backgroundColor: isOpen ? '#00136C' : 'currentColor',
+    transition: 'all 0.3s ease',
+    opacity: isOpen ? 0 : 1,
+    transform: isOpen ? 'scale(0)' : 'scale(1)'
   }
 }));
 
-const StyledDrawer = styled(Drawer)(({ theme }) => ({
-  '& .MuiDrawer-paper': {
-    width: '100%',
-    backgroundColor: 'white',
-    boxShadow: 'none'
-  }
+const MobileMenu = styled(Box)<{ isOpen: boolean }>(({ theme, isOpen }) => ({
+  position: 'fixed',
+  top: 0,
+  right: 0,
+  width: '68.67%',
+  height: '100%',
+  backgroundColor: '#f8f9fa',
+  transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
+  transition: 'transform 0.3s ease-in-out',
+  zIndex: 100,
+  boxShadow: isOpen ? '0 0 20px rgba(0,0,0,0.3)' : 'none',
+  overflowY: 'auto',
+  overflowX: 'hidden'
 }));
 
 const MobileMenuContent = styled(Box)(({ theme }) => ({
-  padding: '24px'
-}));
-
-const MobileMenuHeader = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  marginBottom: '32px'
-}));
-
-const CloseButton = styled(Typography)(({ theme }) => ({
-  color: '#FF3B30',
-  fontSize: '2rem',
-  cursor: 'pointer',
-  fontWeight: 'bold'
+  padding: '24px',
+  minHeight: '100%',
+  backgroundColor: '#f8f9fa'
 }));
 
 const MenuList = styled(List)(({ theme }) => ({
-  marginTop: '32px'
+  marginTop: '70px'
 }));
 
 const MobileMenuItem = styled(Box)(({ theme }) => ({
-  marginBottom: '8px'
+  marginBottom: '16px'
 }));
 
 const StyledMenuItem = styled(ListItem)(({ theme }) => ({
-  padding: '16px 0',
+  backgroundColor: 'white',
+  borderRadius: '16px',
+  padding: '24px',
+  marginBottom: '0',
+  boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+  border: '1px solid #e9ecef',
   cursor: 'pointer',
   transition: 'all 0.3s ease',
   '&:hover': {
-    backgroundColor: '#f8f9fa'
+    backgroundColor: '#f8f9fa',
+    boxShadow: '0 6px 25px rgba(0,0,0,0.12)'
   }
 }));
 
 const MenuItemText = styled(ListItemText)(({ theme }) => ({
   '& .MuiListItemText-primary': {
-    color: '#FF3B30',
+    color: '#00136C',
     fontSize: '1.2rem',
-    fontWeight: 'bold',
-    fontFamily: "'Noto Sans JP', sans-serif"
+    fontWeight: 600,
+    fontFamily: "'Noto Sans JP', sans-serif",
+    margin: 0
   }
 }));
 
 const ChevronIcon = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'isExpanded'
 })<{ isExpanded: boolean }>(({ theme, isExpanded }) => ({
-  width: '16px',
-  height: '16px',
+  width: '24px',
+  height: '24px',
   position: 'relative',
-  marginLeft: '8px',
-  transition: 'transform 0.6s ease',
+  marginLeft: '12px',
+  transition: 'transform 0.3s ease',
   transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  color: '#00136C',
   '&::before': {
     content: '""',
-    position: 'absolute',
-    top: '80%',
-    left: 0,
-    width: '60%',
-    height: '3px',
-    backgroundColor: '#FF3B30',
-    transform: 'translateY(-60%) rotate(45deg)',
-    transformOrigin: 'right center'
-  },
-  '&::after': {
-    content: '""',
-    position: 'absolute',
-    top: '80%',
-    right: 0,
-    width: '60%',
-    height: '3px',
-    backgroundColor: '#FF3B30',
-    transform: 'translateY(-60%) rotate(-45deg)',
-    transformOrigin: 'left center'
+    width: '12px',
+    height: '12px',
+    borderRight: '2px solid #00136C',
+    borderBottom: '2px solid #00136C',
+    transform: 'rotate(45deg)',
+    transition: 'transform 0.3s ease'
   }
 }));
 
 const MobileSubItems = styled(Box)(({ theme }) => ({
-  backgroundColor: '#f8f9fa',
-  borderRadius: '8px',
-  margin: '8px 0 16px 16px',
+  backgroundColor: 'white',
+  borderRadius: '16px',
+  margin: '8px 0 0 0',
   overflow: 'hidden',
-  animation: 'slideDownMobile 0.3s ease forwards',
+  boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+  border: '1px solid #e9ecef',
+  animation: 'slideDownMobile 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards',
   '@keyframes slideDownMobile': {
     '0%': {
       opacity: 0,
@@ -227,25 +254,26 @@ const MobileSubItems = styled(Box)(({ theme }) => ({
     },
     '100%': {
       opacity: 1,
-      maxHeight: '200px',
+      maxHeight: '300px',
       transform: 'translateY(0)'
     }
   }
 }));
 
 const MobileSubItem = styled(Typography)(({ theme }) => ({
-  padding: '12px 24px',
-  color: '#666',
-  fontSize: '1rem',
+  padding: '16px 24px',
+  color: '#555',
+  fontSize: '0.95rem',
   cursor: 'pointer',
   transition: 'all 0.2s ease',
-  borderBottom: '1px solid #e0e0e0',
+  borderBottom: '1px solid #f8f9fa',
   fontFamily: "'Noto Sans JP', sans-serif",
+  lineHeight: 1.6,
   '&:last-child': {
     borderBottom: 'none'
   },
   '&:hover': {
-    backgroundColor: '#e8e8e8',
+    backgroundColor: '#f8f9fa',
     color: '#00136C',
     paddingLeft: '32px'
   }
@@ -400,41 +428,26 @@ const Navigation: React.FC<NavigationProps> = ({ isScrolled }) => {
               {/* 햄버거 메뉴 - 모바일에서만 표시 */}
               <HamburgerMenu 
                 isScrolled={isScrolled}
-                onClick={() => setIsMenuOpen(true)}
+                isOpen={isMenuOpen}
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
               >
-                ☰
+                <span></span>
               </HamburgerMenu>
             </RightIcons>
           </HeaderContent>
         </Container>
       </Header>
 
-      {/* 모바일 메뉴 Drawer - 오른쪽에서 왼쪽으로 */}
-      <StyledDrawer
-        anchor="right"
-        open={isMenuOpen}
-        onClose={() => setIsMenuOpen(false)}
-      >
+      {/* 모바일 메뉴 - 오른쪽에서 왼쪽으로 */}
+      <MobileMenu isOpen={isMenuOpen}>
         <MobileMenuContent>
-          {/* 닫기 버튼 */}
-          <MobileMenuHeader>
-            <CloseButton
-              onClick={() => setIsMenuOpen(false)}
-            >
-              ✕
-            </CloseButton>
-          </MobileMenuHeader>
-
           {/* 메뉴 아이템들 */}
           <MenuList>
             {menuItems.map((item) => (
               <MobileMenuItem key={item.label}>
-                <StyledMenuItem 
-                  onClick={() => {
-                    handleMainItemClick(item.label);
-                    setIsMenuOpen(false);
-                  }}
-                >
+                                 <StyledMenuItem 
+                   onClick={() => toggleExpandedItem(item.label)}
+                 >
                   <MenuItemText primary={item.label} />
                   <ChevronIcon isExpanded={isItemExpanded(item.label)} />
                 </StyledMenuItem>
@@ -459,7 +472,24 @@ const Navigation: React.FC<NavigationProps> = ({ isScrolled }) => {
             ))}
           </MenuList>
         </MobileMenuContent>
-      </StyledDrawer>
+      </MobileMenu>
+      
+      {/* 배경 오버레이 */}
+      {isMenuOpen && (
+        <Box
+          sx={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'rgba(0,0,0,0.5)',
+            zIndex: 99,
+            cursor: 'pointer'
+          }}
+          onClick={() => setIsMenuOpen(false)}
+        />
+      )}
     </>
   );
 };

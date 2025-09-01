@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Container, Typography, Box, Grid } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import styles from './Recruitment.module.css';
+// CSS 모듈 import 제거 - Material-UI styled components로 대체
 
 // Image
 import passionImage from '../../assets/images/passion.png';
@@ -234,8 +234,7 @@ const CircleDescription = styled(Typography)(({ theme }) => ({
 const ValuesSection = styled(Box)(({ theme }) => ({
   padding: '40px 0',
   background: 'white',
-  borderRadius: '15px',
-  marginTop: '40px'
+  borderRadius: '15px'
 }));
 
 const ValuesTitle = styled(Typography)(({ theme }) => ({
@@ -247,12 +246,14 @@ const ValuesTitle = styled(Typography)(({ theme }) => ({
   
   [theme.breakpoints.down('md')]: {
     fontSize: '1.6rem',
-    marginBottom: '30px'
+    marginBottom: '30px',
+    marginTop: '-90px'
   },
   
   [theme.breakpoints.down('sm')]: {
     fontSize: '1.4rem',
-    marginBottom: '25px'
+    marginBottom: '25px',
+    marginTop: '-90px'
   }
 }));
 
@@ -361,30 +362,13 @@ const WelfareSystemContainer = styled(Box)(({ theme }) => ({
   
   [theme.breakpoints.down('sm')]: {
     minHeight: 'auto',
-    padding: '10px 10px',
-    flexDirection: 'column',
-    gap: '20px',
-    '&::before': {
-      content: '""',
-      position: 'absolute',
-      top: '130px',
-      left: '50%',
-      width: '2px',
-      height: 'calc(100% - 180px)',
-      background: 'linear-gradient(to bottom, #bdc3c7, #ecf0f1)',
-      transform: 'translateX(-50%)',
-      zIndex: 1
-    }
-  },
-  
-  [theme.breakpoints.down('sm')]: {
-    flexDirection: 'column',
-    gap: '20px',
     padding: '10px 5px',
+    flexDirection: 'column',
+    gap: '20px',
     '&::before': {
       content: '""',
       position: 'absolute',
-      top: '130px',
+      top: '100px',
       left: '50%',
       width: '2px',
       height: 'calc(100% - 180px)',
@@ -397,8 +381,7 @@ const WelfareSystemContainer = styled(Box)(({ theme }) => ({
 
 const CentralCircle = styled(Box)(({ theme }) => ({
   position: 'absolute',
-  top: '50%',
-  left: '50%',
+  marginTop: '25px',
   transform: 'translate(-50%, -50%)',
   width: '200px',
   height: '200px',
@@ -449,16 +432,6 @@ const CentralCircle = styled(Box)(({ theme }) => ({
     top: 'auto',
     left: 'auto',
     transform: 'none',
-    width: '120px',
-    height: '120px',
-    margin: '0 auto 20px auto'
-  },
-  
-  [theme.breakpoints.down('sm')]: {
-    position: 'relative',
-    top: 'auto',
-    left: 'auto',
-    transform: 'none',
     width: '90px',
     height: '90px',
     margin: '0 auto 20px auto'
@@ -492,6 +465,7 @@ const WelfareCategory = styled(Box, {
 })<{ isAnimated?: boolean; animationDelay?: number }>(({ theme, isAnimated, animationDelay = 0 }) => ({
   position: 'absolute',
   width: '220px',
+  height: '160px',
   background: 'white',
   borderRadius: '12px',
   padding: '20px',
@@ -501,15 +475,21 @@ const WelfareCategory = styled(Box, {
   opacity: isAnimated ? 1 : 0,
   transform: isAnimated ? 'scale(1) translate(0, 0)' : 'scale(0.3) translate(0, 0)',
   transition: `all 0.8s cubic-bezier(0.4, 0, 0.2, 1) ${animationDelay}ms`,
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'flex-start',
   
   [theme.breakpoints.down('md')]: {
     width: '180px',
+    height: '140px',
     padding: '15px'
   },
   
   [theme.breakpoints.down('sm')]: {
     position: 'relative',
     width: '100%',
+    height: 'auto',
+    minHeight: '100px',
     padding: '20px',
     marginBottom: '10px',
     opacity: 1,
@@ -529,16 +509,6 @@ const WelfareCategory = styled(Box, {
       zIndex: 2,
       boxShadow: '0 1px 3px rgba(0, 0, 0, 0.15)'
     }
-  },
-  
-  [theme.breakpoints.down('sm')]: {
-    position: 'relative',
-    width: '100%',
-    padding: '20px',
-    marginBottom: '10px',
-    opacity: 1,
-    transform: 'scale(1) translate(0, 0)',
-    transition: 'none'
   }
 }));
 
@@ -793,6 +763,25 @@ const RecruitmentTitle = styled(Typography)(({ theme }) => ({
   }
 }));
 
+// Container and Content Styled Components
+const PageContainer = styled(Box)(({ theme }) => ({
+  minHeight: '100vh',
+  backgroundColor: '#f2ebe1',
+  paddingTop: '120px',
+  paddingBottom: '80px',
+  [theme.breakpoints.down('md')]: {
+    paddingTop: '100px',
+    paddingBottom: '60px'
+  }
+}));
+
+const PageContent = styled(Box)(({ theme }) => ({
+  padding: '0 20px',
+  [theme.breakpoints.down('md')]: {
+    padding: '0 15px'
+  }
+}));
+
 const Recruitment: React.FC = () => {
   const englishTitleRef = useRef<HTMLDivElement>(null);
   const mainTitleRef = useRef<HTMLDivElement>(null);
@@ -899,9 +888,9 @@ const Recruitment: React.FC = () => {
   ];
 
   return (
-    <div className={styles.container}>
+    <PageContainer>
       <StyledContainer maxWidth="lg">
-        <StyledBox className={styles.content}>
+        <PageContent>
           <EnglishTitle variant="h6" ref={englishTitleRef}>
             Recruitment
           </EnglishTitle>
@@ -1026,30 +1015,200 @@ const Recruitment: React.FC = () => {
               </SectionSubtitle>
             </TitleContainer>
             
-            <WelfareSystemContainer>
-              {/* 중앙 원형 */}
+            {/* 데스크톱 가로 배치 - 人材像과 동일한 레이아웃 */}
+            <Box sx={{
+              position: 'relative',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '40px',
+              '@media (max-width: 599px)': {
+                display: 'none'
+              }
+            }}>
+              {/* 중앙 원형 - 데스크톱에서만 표시 */}
               <CentralCircle sx={{
-                '@media (max-width: 600px)': {
+                position: 'relative',
+                top: 'auto',
+                left: 'auto',
+                transform: 'none',
+                '@media (max-width: 599px)': {
+                  display: 'none'
+                }
+              }}>
+                <CentralTitle>福利厚生制度</CentralTitle>
+              </CentralCircle>
+              
+              {/* 5개 항목 가로 배치 */}
+              <Box sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'stretch',
+                gap: '30px',
+                flexWrap: 'wrap'
+              }}>
+              <WelfareCategory 
+                isAnimated={isWelfareAnimated}
+                animationDelay={200}
+                sx={{ 
+                  position: 'relative',
+                  top: 'auto',
+                  left: 'auto',
+                  right: 'auto',
+                  bottom: 'auto',
+                  transform: 'none',
+                  width: '220px',
+                  height: '160px',
+                  opacity: 1
+                }}
+              >
+                <CategoryTitle>勤務時間・休日</CategoryTitle>
+                <CategoryList>
+                  <CategoryItem>勤務時間：平日 9:00 ~ 18:00</CategoryItem>
+                  <CategoryItem>休日：完全週休2日制、祝日、年末年始、夏期休暇（3日）</CategoryItem>
+                </CategoryList>
+              </WelfareCategory>
+              
+              <WelfareCategory 
+                isAnimated={isWelfareAnimated}
+                animationDelay={400}
+                sx={{ 
+                  position: 'relative',
+                  top: 'auto',
+                  left: 'auto',
+                  right: 'auto',
+                  bottom: 'auto',
+                  transform: 'none',
+                  width: '220px',
+                  height: '160px',
+                  opacity: 1
+                }}
+              >
+                <CategoryTitle>休暇制度</CategoryTitle>
+                <CategoryList>
+                  <CategoryItem>年次有給休暇</CategoryItem>
+                  <CategoryItem>慶弔休暇</CategoryItem>
+                  <CategoryItem>産前産後休暇</CategoryItem>
+                  <CategoryItem>特別休暇</CategoryItem>
+                </CategoryList>
+              </WelfareCategory>
+              
+              <WelfareCategory 
+                isAnimated={isWelfareAnimated}
+                animationDelay={600}
+                sx={{ 
+                  position: 'relative',
+                  top: 'auto',
+                  left: 'auto',
+                  right: 'auto',
+                  bottom: 'auto',
+                  transform: 'none',
+                  width: '220px',
+                  height: '160px',
+                  opacity: 1
+                }}
+              >
+                <CategoryTitle>給与・評価制度</CategoryTitle>
+                <CategoryList>
+                  <CategoryItem>昇給：年2回</CategoryItem>
+                  <CategoryItem>賞与：年2回（年末成果給あり）</CategoryItem>
+                  <CategoryItem>経験・スキルに応じた優遇あり</CategoryItem>
+                </CategoryList>
+              </WelfareCategory>
+              
+              <WelfareCategory 
+                isAnimated={isWelfareAnimated}
+                animationDelay={800}
+                sx={{ 
+                  position: 'relative',
+                  top: 'auto',
+                  left: 'auto',
+                  right: 'auto',
+                  bottom: 'auto',
+                  transform: 'none',
+                  width: '220px',
+                  height: '160px',
+                  opacity: 1
+                }}
+              >
+                <CategoryTitle>福利厚生・医療</CategoryTitle>
+                <CategoryList>
+                  <CategoryItem>社会保険加入</CategoryItem>
+                  <CategoryItem>年1回 定期健康診断</CategoryItem>
+                </CategoryList>
+              </WelfareCategory>
+              
+              <WelfareCategory 
+                isAnimated={isWelfareAnimated}
+                animationDelay={1000}
+                sx={{ 
+                  position: 'relative',
+                  top: 'auto',
+                  left: 'auto',
+                  right: 'auto',
+                  bottom: 'auto',
+                  transform: 'none',
+                  width: '220px',
+                  height: '160px',
+                  opacity: 1
+                }}
+              >
+                <CategoryTitle>手当・支給</CategoryTitle>
+                <CategoryList>
+                  <CategoryItem>通勤費：実費支給</CategoryItem>
+                  <CategoryItem>住宅補助手当</CategoryItem>
+                </CategoryList>
+              </WelfareCategory>
+              </Box>
+            </Box>
+            
+            {/* 모바일 세로 배치 */}
+            <WelfareSystemContainer sx={{
+              '@media (min-width: 601px)': {
+                display: 'none'
+              }
+            }}>
+              {/* 중앙 원형 - 모바일에서만 표시 */}
+              <CentralCircle sx={{
+                '@media (min-width: 600px)': {
+                  display: 'none'
+                },
+                '@media (max-width: 599px)': {
                   order: 0
                 }
               }}>
                 <CentralTitle>福利厚生制度</CentralTitle>
               </CentralCircle>
               
-              {/* 복리후생 카테고리들 - 데스크톱 원형 배치 */}
               <WelfareCategory 
                 isAnimated={isWelfareAnimated}
                 animationDelay={200}
                 sx={{ 
-                  top: '30%', 
-                  left: '17%', 
-                  transform: 'translateX(-50%)',
-                  '@media (max-width: 600px)': {
+                  '@media (min-width: 600px)': {
+                    display: 'none'
+                  },
+                  '@media (max-width: 599px)': {
                     position: 'relative',
                     top: 'auto',
                     left: 'auto',
                     transform: 'none',
-                    order: 1
+                    width: '100%',
+                    opacity: 1,
+                    order: 1,
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      top: '0%',
+                      left: '48.5%',
+                      width: '10px',
+                      height: '10px',
+                      borderRadius: '50%',
+                      background: '#316b91',
+                      border: '2px solid white',
+                      transform: 'translateY(-50%)',
+                      zIndex: 2,
+                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.15)'
+                    }
                   }
                 }}
               >
@@ -1064,15 +1223,31 @@ const Recruitment: React.FC = () => {
                 isAnimated={isWelfareAnimated}
                 animationDelay={400}
                 sx={{ 
-                  top: '5%', 
-                  right: '50%', 
-                  transform: 'translateX(50%)',
-                  '@media (max-width: 600px)': {
+                  '@media (min-width: 600px)': {
+                    display: 'none'
+                  },
+                  '@media (max-width: 599px)': {
                     position: 'relative',
                     top: 'auto',
-                    right: 'auto',
+                    left: 'auto',
                     transform: 'none',
-                    order: 3
+                    width: '100%',
+                    opacity: 1,
+                    order: 2,
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      top: '0%',
+                      left: '48.5%',
+                      width: '10px',
+                      height: '10px',
+                      borderRadius: '50%',
+                      background: '#316b91',
+                      border: '2px solid white',
+                      transform: 'translateY(-50%)',
+                      zIndex: 2,
+                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.15)'
+                    }
                   }
                 }}
               >
@@ -1089,15 +1264,31 @@ const Recruitment: React.FC = () => {
                 isAnimated={isWelfareAnimated}
                 animationDelay={600}
                 sx={{ 
-                  top: '40%', 
-                  right: '5%', 
-                  transform: 'translateY(-50%)',
-                  '@media (max-width: 600px)': {
+                  '@media (min-width: 600px)': {
+                    display: 'none'
+                  },
+                  '@media (max-width: 599px)': {
                     position: 'relative',
                     top: 'auto',
-                    right: 'auto',
+                    left: 'auto',
                     transform: 'none',
-                    order: 4
+                    width: '100%',
+                    opacity: 1,
+                    order: 3,
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      top: '0%',
+                      left: '48.5%',
+                      width: '10px',
+                      height: '10px',
+                      borderRadius: '50%',
+                      background: '#316b91',
+                      border: '2px solid white',
+                      transform: 'translateY(-50%)',
+                      zIndex: 2,
+                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.15)'
+                    }
                   }
                 }}
               >
@@ -1113,15 +1304,70 @@ const Recruitment: React.FC = () => {
                 isAnimated={isWelfareAnimated}
                 animationDelay={800}
                 sx={{ 
-                  bottom: '15%', 
-                  right: '25%', 
-                  transform: 'translateX(50%)',
-                  '@media (max-width: 600px)': {
+                  '@media (min-width: 600px)': {
+                    display: 'none'
+                  },
+                  '@media (max-width: 599px)': {
                     position: 'relative',
-                    bottom: 'auto',
-                    right: 'auto',
+                    top: 'auto',
+                    left: 'auto',
                     transform: 'none',
-                    order: 5
+                    width: '100%',
+                    opacity: 1,
+                    order: 4,
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      top: '0%',
+                      left: '48.5%',
+                      width: '10px',
+                      height: '10px',
+                      borderRadius: '50%',
+                      background: '#316b91',
+                      border: '2px solid white',
+                      transform: 'translateY(-50%)',
+                      zIndex: 2,
+                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.15)'
+                    }
+                  }
+                }}
+              >
+                <CategoryTitle>福利厚生・医療</CategoryTitle>
+                <CategoryList>
+                  <CategoryItem>社会保険加入</CategoryItem>
+                  <CategoryItem>年1回 定期健康診断</CategoryItem>
+                </CategoryList>
+              </WelfareCategory>
+              
+              <WelfareCategory 
+                isAnimated={isWelfareAnimated}
+                animationDelay={1000}
+                sx={{ 
+                  '@media (min-width: 600px)': {
+                    display: 'none'
+                  },
+                  '@media (max-width: 599px)': {
+                    position: 'relative',
+                    top: 'auto',
+                    left: 'auto',
+                    transform: 'none',
+                    width: '100%',
+                    opacity: 1,
+                    order: 5,
+                    '&::before': {
+                      content: '""',
+                      position: 'absolute',
+                      top: '0%',
+                      left: '48.5%',
+                      width: '10px',
+                      height: '10px',
+                      borderRadius: '50%',
+                      background: '#316b91',
+                      border: '2px solid white',
+                      transform: 'translateY(-50%)',
+                      zIndex: 2,
+                      boxShadow: '0 1px 3px rgba(0, 0, 0, 0.15)'
+                    }
                   }
                 }}
               >
@@ -1131,30 +1377,6 @@ const Recruitment: React.FC = () => {
                   <CategoryItem>住宅補助手当</CategoryItem>
                 </CategoryList>
               </WelfareCategory>
-              
-              <WelfareCategory 
-                isAnimated={isWelfareAnimated}
-                animationDelay={1000}
-                sx={{ 
-                  bottom: '15%', 
-                  left: '25%', 
-                  transform: 'translateX(-50%)',
-                  '@media (max-width: 600px)': {
-                    position: 'relative',
-                    bottom: 'auto',
-                    left: 'auto',
-                    transform: 'none',
-                    order: 7
-                  }
-                }}
-              >
-                <CategoryTitle>福利厚生・医療</CategoryTitle>
-                <CategoryList>
-                  <CategoryItem>社会保険加入</CategoryItem>
-                  <CategoryItem>年1回 定期健康診断</CategoryItem>
-                </CategoryList>
-              </WelfareCategory>              
-              
             </WelfareSystemContainer>
           </SectionBox>
 
@@ -1630,9 +1852,9 @@ const Recruitment: React.FC = () => {
           </SectionBox>
 
 
-        </StyledBox>
+        </PageContent>
       </StyledContainer>
-    </div>
+    </PageContainer>
   );
 };
 

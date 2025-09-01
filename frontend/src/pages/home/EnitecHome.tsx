@@ -6,7 +6,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import { useInView } from 'react-intersection-observer';
 import GoogleMap from '../../components/map/GoogleMap';
-import styles from './EnitecHome.module.css';
+// CSS 모듈 import 제거 - Material-UI styled components로 대체
 
 // images
 import aiImage from '../../assets/images/AI.jpg';
@@ -80,6 +80,120 @@ const FooterSocialIcon = styled('img')(({ theme }) => ({
   '&:hover': {
     opacity: 0.8
   }
+}));
+
+// Global Presence Section Styled Components
+const GlobalPresenceSection = styled(Box)(({ theme }) => ({
+  padding: '80px 0',
+  backgroundColor: '#f2ebe1'
+}));
+
+const CounterGrid = styled(Box)(({ theme }) => ({
+  display: 'grid',
+  gridTemplateColumns: 'repeat(3, 1fr)',
+  gap: '48px',
+  marginBottom: '48px',
+  [theme.breakpoints.down('md')]: {
+    gridTemplateColumns: '1fr',
+    gap: '32px'
+  }
+}));
+
+const CounterItem = styled(Box)(({ theme }) => ({
+  textAlign: 'center'
+}));
+
+const CounterNumber = styled(Typography)(({ theme }) => ({
+  color: '#00136C',
+  fontWeight: 900,
+  fontSize: '3.5rem',
+  marginBottom: '16px',
+  fontFamily: "'Noto Sans JP', sans-serif"
+}));
+
+const CounterLabel = styled(Typography)(({ theme }) => ({
+  color: '#666',
+  fontWeight: 600,
+  fontSize: '1.2rem',
+  fontFamily: "'Noto Sans JP', sans-serif"
+}));
+
+// Footer Styled Components
+const Footer = styled(Box)(({ theme }) => ({
+  backgroundColor: '#f2ebe1',
+  color: 'white',
+  padding: '60px 0 20px'
+}));
+
+const FooterGrid = styled(Box)(({ theme }) => ({
+  display: 'grid',
+  gridTemplateColumns: 'repeat(3, 1fr)',
+  gap: '48px',
+  marginBottom: '40px',
+  [theme.breakpoints.down('md')]: {
+    gridTemplateColumns: '1fr',
+    gap: '32px'
+  }
+}));
+
+const FooterSection = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '12px'
+}));
+
+const FooterTitle = styled(Typography)(({ theme }) => ({
+  color: '#4d4b4b',
+  fontWeight: 700,
+  fontSize: '1.2rem',
+  marginBottom: '16px',
+  fontFamily: "'Noto Sans JP', sans-serif"
+}));
+
+const FooterLink = styled(Typography)(({ theme }) => ({
+  color: '#4d4b4b',
+  cursor: 'pointer',
+  transition: 'color 0.3s ease',
+  fontFamily: "'Noto Sans JP', sans-serif",
+  width: 'fit-content',
+  '&:hover': {
+    color: 'rgb(182, 179, 179)'
+  }
+}));
+
+const FooterBottom = styled(Box)(({ theme }) => ({
+  borderTop: '1px solid #d4c5b8',
+  paddingTop: '20px'
+}));
+
+const FooterBottomContent = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  [theme.breakpoints.down('md')]: {
+    flexDirection: 'column',
+    gap: '16px',
+    textAlign: 'center'
+  }
+}));
+
+const FooterCopyright = styled(Typography)(({ theme }) => ({
+  color: '#4d4b4b',
+  fontFamily: "'Noto Sans JP', sans-serif"
+}));
+
+const FooterContact = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  gap: '16px',
+  [theme.breakpoints.down('md')]: {
+    display: 'none',
+  }
+}));
+
+const FooterEmail = styled(Typography)(({ theme }) => ({
+  color: '#4d4b4b',
+  fontFamily: "'Noto Sans JP', sans-serif"
 }));
 
 const HeroSection = styled(Box)(({ theme }) => ({
@@ -762,7 +876,7 @@ const EnitecHome: React.FC = () => {
       <LatestNewsSection>
         <Container maxWidth="xl">
           <CustomSectionTitle variant="h2">
-            Latest News
+            最新ニュース
           </CustomSectionTitle>
           
           <NewsScrollContainer
@@ -892,34 +1006,34 @@ const EnitecHome: React.FC = () => {
       </SolutionsSection>
 
       {/* Global Presence 섹션 */}
-      <div ref={ref} className={styles.globalPresenceSection}>
+      <GlobalPresenceSection ref={ref}>
         <Container maxWidth="xl">
           <GlobalPresenceTitle variant="h2">
             SI Global Presence
           </GlobalPresenceTitle>
           
-          <div className={styles.counterGrid}>
-            <div className={styles.counterItem}>
-              <Typography variant="h1" className={styles.counterNumber}>
+          <CounterGrid>
+            <CounterItem>
+              <CounterNumber variant="h1">
                 {counterValues.companies.toLocaleString()}+
-              </Typography>
-              <Typography variant="h6" className={styles.counterLabel}>SI企業数</Typography>
-            </div>
+              </CounterNumber>
+              <CounterLabel variant="h6">SI企業数</CounterLabel>
+            </CounterItem>
             
-            <div className={styles.counterItem}>
-              <Typography variant="h1" className={styles.counterNumber}>
+            <CounterItem>
+              <CounterNumber variant="h1">
                 {(counterValues.developers / 1000000).toFixed(1)}M
-              </Typography>
-              <Typography variant="h6" className={styles.counterLabel}>開発者数</Typography>
-            </div>
+              </CounterNumber>
+              <CounterLabel variant="h6">開発者数</CounterLabel>
+            </CounterItem>
             
-            <div className={styles.counterItem}>
-              <Typography variant="h1" className={styles.counterNumber}>
+            <CounterItem>
+              <CounterNumber variant="h1">
                 {counterValues.satisfaction.toFixed(1)}%
-              </Typography>
-              <Typography variant="h6" className={styles.counterLabel}>開発者満足度</Typography>
-            </div>
-          </div>
+              </CounterNumber>
+              <CounterLabel variant="h6">開発者満足度</CounterLabel>
+            </CounterItem>
+          </CounterGrid>
           
           <GoogleMap 
             title="Access"
@@ -931,123 +1045,105 @@ const EnitecHome: React.FC = () => {
             language="ja"
           />
         </Container>
-      </div>
+      </GlobalPresenceSection>
 
       {/* Footer */}
-      <div className={styles.footer}>
+      <Footer>
         <Container maxWidth="xl">
-          <div className={styles.footerGrid}>
-            <div className={styles.footerSection}>
-              <Typography variant="h6" className={styles.footerTitle}>
+          <FooterGrid>
+            <FooterSection>
+              <FooterTitle variant="h6">
                 会社情報
-              </Typography>
-              <Typography 
+              </FooterTitle>
+              <FooterLink 
                 variant="body2" 
-                className={styles.footerLink}
                 onClick={() => handleSubItemClick("代表の一言")}
-                style={{ cursor: 'pointer' }}
               >
                 代表の一言
-              </Typography>
-              <Typography 
+              </FooterLink>
+              <FooterLink 
                 variant="body2" 
-                className={styles.footerLink}
                 onClick={() => handleSubItemClick("企業理念")}
-                style={{ cursor: 'pointer' }}
               >
                 企業理念
-              </Typography>
-              <Typography 
+              </FooterLink>
+              <FooterLink 
                 variant="body2" 
-                className={styles.footerLink}
                 onClick={() => handleSubItemClick("会社概要")}
-                style={{ cursor: 'pointer' }}
               >
                 会社概要
-              </Typography>
-              <Typography 
+              </FooterLink>
+              <FooterLink 
                 variant="body2" 
-                className={styles.footerLink}
                 onClick={() => handleSubItemClick("沿革")}
-                style={{ cursor: 'pointer' }}
               >
                 沿革
-              </Typography>
-            </div>
+              </FooterLink>
+            </FooterSection>
             
-            <div className={styles.footerSection}>
-              <Typography variant="h6" className={styles.footerTitle}>
+            <FooterSection>
+              <FooterTitle variant="h6">
                 事業分野
-              </Typography>
-              <Typography 
+              </FooterTitle>
+              <FooterLink 
                 variant="body2" 
-                className={styles.footerLink}
                 onClick={() => handleSubItemClick("SI事業")}
-                style={{ cursor: 'pointer' }}
               >
                 SI事業
-              </Typography>
-              <Typography 
+              </FooterLink>
+              <FooterLink 
                 variant="body2" 
-                className={styles.footerLink}
                 onClick={() => handleSubItemClick("ソリューション")}
-                style={{ cursor: 'pointer' }}
               >
                 ソリューション
-              </Typography>
-            </div>
+              </FooterLink>
+            </FooterSection>
             
-            <div className={styles.footerSection}>
-              <Typography variant="h6" className={styles.footerTitle}>
+            <FooterSection>
+              <FooterTitle variant="h6">
                 採用情報
-              </Typography>
-              <Typography 
+              </FooterTitle>
+              <FooterLink 
                 variant="body2" 
-                className={styles.footerLink}
                 onClick={() => handleSubItemClick("人材像")}
-                style={{ cursor: 'pointer' }}
               >
                 人材像
-              </Typography>
-              <Typography 
+              </FooterLink>
+              <FooterLink 
                 variant="body2" 
-                className={styles.footerLink}
                 onClick={() => handleSubItemClick("福利厚生")}
-                style={{ cursor: 'pointer' }}
               >
                 福利厚生
-              </Typography>
-              <Typography 
+              </FooterLink>
+              <FooterLink 
                 variant="body2" 
-                className={styles.footerLink}
                 onClick={() => handleSubItemClick("採用案内")}
-                style={{ cursor: 'pointer' }}
               >
                 採用案内
-              </Typography>
-            </div>
-          </div>
+              </FooterLink>
+            </FooterSection>
+          </FooterGrid>
           
-          <div className={styles.footerBottom}>
-            <div className={styles.footerBottomContent}>
-              <Typography variant="body2" className={styles.footerCopyright}>
+          <FooterBottom>
+            <FooterBottomContent>
+              <FooterCopyright variant="body2">
                 © Enitec. All rights reserved.
-              </Typography>
+              </FooterCopyright>
               
-              <div className={styles.footerContact}>
-                <Typography variant="body2" className={styles.footerEmail}>
+              <FooterContact>
+                <FooterEmail variant="body2">
                   info@enitec.com
-                </Typography>
+                </FooterEmail>
                 <FooterSocialIcon 
                   src={copyrightIcon}
                   alt="저작권"
                   onClick={() => navigate('/copyright')}
                 />
-              </div>
-            </div>
-          </div>
+              </FooterContact>
+            </FooterBottomContent>
+          </FooterBottom>
         </Container>
-      </div>
+      </Footer>
     </ContainerWrapper>
   );
 };

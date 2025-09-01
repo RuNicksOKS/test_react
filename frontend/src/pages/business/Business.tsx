@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { Container, Typography, Box, Grid, Card, CardContent, Chip, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import styles from './Business.module.css';
+// CSS 모듈 import 제거 - Material-UI styled components로 대체
 
 // icon
 import Si_icon1 from '../../assets/icon/Si_icon1.png';
@@ -421,6 +421,25 @@ const BulletPoint = styled(Typography)(({ theme }) => ({
   }
 }));
 
+// Container and Content Styled Components
+const PageContainer = styled(Box)(({ theme }) => ({
+  minHeight: '100vh',
+  backgroundColor: '#f2ebe1',
+  paddingTop: '120px',
+  paddingBottom: '80px',
+  [theme.breakpoints.down('md')]: {
+    paddingTop: '100px',
+    paddingBottom: '60px'
+  }
+}));
+
+const PageContent = styled(Box)(({ theme }) => ({
+  padding: '0 20px',
+  [theme.breakpoints.down('md')]: {
+    padding: '0 15px'
+  }
+}));
+
 const Business: React.FC = () => {
   const englishTitleRef = useRef<HTMLDivElement>(null);
   const mainTitleRef = useRef<HTMLDivElement>(null);
@@ -465,9 +484,9 @@ const Business: React.FC = () => {
   }, []);
 
   return (
-    <div className={styles.container}>
+    <PageContainer>
       <StyledContainer maxWidth="lg">
-        <StyledBox className={styles.content}>
+        <PageContent>
           <EnglishTitle variant="h6" ref={englishTitleRef}>
             Business Fields
           </EnglishTitle>
@@ -742,9 +761,9 @@ const Business: React.FC = () => {
               </Grid>
             </SolutionSection>
           </SectionBox>
-        </StyledBox>
+        </PageContent>
       </StyledContainer>
-    </div>
+    </PageContainer>
   );
 };
 

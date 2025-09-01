@@ -1,8 +1,7 @@
-import React, { useEffect, useRef } from 'react';
-import { Container, Typography, Box, Card, CardContent, Chip, Divider } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import React, { useEffect, useRef, useState } from 'react';
+import { Container, Typography, Box, Card, CardContent, Chip } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { useSearchParams } from 'react-router-dom';
-import styles from './News.module.css';
 
 // 이미지 import
 import aiImage from '../../assets/images/AI.jpg';
@@ -11,106 +10,103 @@ import securityImage from '../../assets/images/Security.jpg';
 import semiconductorImage from '../../assets/images/Semiconductor.jpg';
 import rdImage from '../../assets/images/R&D.jpg';
 
-// Styled Components
-const NewsTitle = styled(Typography)`
-  font-size: 2rem;
-  font-weight: 700;
-  color: #00136C;
-  margin-bottom: 24px;
-  line-height: 1.3;
-`;
-
-const NewsContent = styled(Typography)`
-  font-size: 1rem;
-  line-height: 1.8;
-  color: #333;
-  margin-top: 20px;
-`;
-
-const CategoryChip = styled(Chip)`
-  background-color: #cf4506;
-  color: white;
-  font-weight: 600;
-  font-size: 0.8rem;
-`;
-
-const NewsDivider = styled(Divider)`
-  margin: 40px 0;
-  border-color: rgba(0, 19, 108, 0.1);
-`;
-
-const NewsListContainer = styled(Box)`
-  padding: 100px 0 60px 0;
-  margin-top: 50px;
-`;
-
-const NewsList = styled(Box)`
-  max-width: 900px;
-  margin: 0 auto;
-  background-color: #f2ebe1;
-  min-height: calc(100vh - 200px);
-  padding-bottom: 40px;
-`;
-
-const NewsDetailCard = styled(Card)`
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  margin-bottom: 32px;
-  border: none;
-  transition: all 0.3s ease;
-
-  &:last-child {
-    margin-bottom: 0;
+// 공통 스타일 정의
+const commonStyles = {
+  // 색상
+  colors: {
+    primary: '#00136C',
+    secondary: '#cf4506',
+    background: '#f2ebe1',
+    text: '#333',
+    white: 'white'
+  },
+  
+  // 카드 스타일
+  card: {
+    background: 'white',
+    borderRadius: '12px',
+    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
+    marginBottom: '32px',
+    border: 'none'
+  },
+  
+  // 카테고리 칩 스타일
+  categoryChip: {
+    backgroundColor: '#cf4506',
+    color: 'white',
+    fontWeight: 600,
+    fontSize: '0.8rem'
+  },
+  
+  // 제목 스타일
+  title: {
+    fontSize: '2rem',
+    fontWeight: 700,
+    color: '#00136C',
+    marginBottom: '24px',
+    lineHeight: 1.3
+  },
+  
+  // 내용 스타일
+  content: {
+    fontSize: '1rem',
+    lineHeight: 1.8,
+    color: '#333',
+    marginTop: '20px'
+  },
+  
+  // 이미지 스타일
+  image: {
+    maxWidth: '100%',
+    height: 'auto',
+    borderRadius: '8px',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
   }
-
-  &:hover {
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-    transform: translateY(-2px);
-  }
-`;
-
-const NewsDetailContent = styled(CardContent)`
-  padding: 32px;
-`;
-
-const NewsMeta = styled(Box)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-`;
-
-const NewsImageContainer = styled(Box)`
-  margin: 24px 0;
-  text-align: center;
-`;
+};
 
 const News: React.FC = () => {
+  const theme = useTheme();
   const [searchParams] = useSearchParams();
+  const [isPageLoaded, setIsPageLoaded] = useState(false);
   const newsRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   // URL 파라미터에서 뉴스 ID 가져오기
   const targetNewsId = searchParams.get('newsId');
 
+  // 페이지 로드 상태 관리
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsPageLoaded(true);
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, []);
+
   // 페이지 로드 시 특정 뉴스로 스크롤
   useEffect(() => {
-    if (targetNewsId) {
+    if (targetNewsId && isPageLoaded) {
       const newsIndex = parseInt(targetNewsId) - 1;
-      if (newsRefs.current[newsIndex]) {
-        setTimeout(() => {
-          const element = newsRefs.current[newsIndex];
-          if (element) {
-            const elementTop = element.offsetTop;
-            window.scrollTo({
-              top: elementTop - 40, // 100px 위로
-              behavior: 'smooth'
-            });
-          }
-        }, 100);
-      }
+      
+      const scrollToNews = () => {
+        const element = newsRefs.current[newsIndex];
+        if (element) {
+          // 요소의 위치 계산
+          const elementTop = element.offsetTop;
+          const headerHeight = 50;
+          const scrollPosition = elementTop - headerHeight;
+          
+          // 한 번에 정확한 위치로 스크롤
+          window.scrollTo({
+            top: scrollPosition,
+            behavior: 'smooth'
+          });
+        }
+      };
+
+      // DOM이 완전히 렌더링된 후 스크롤 실행
+      setTimeout(scrollToNews, 500);
     }
-  }, [targetNewsId]);
+  }, [targetNewsId, isPageLoaded]);
 
   const newsData = [
     {
@@ -151,54 +147,94 @@ const News: React.FC = () => {
   ];
 
   return (
-    <div className={styles.container}>
+    <Box
+      sx={{
+        minHeight: '100vh',
+        backgroundColor: commonStyles.colors.background,
+        color: commonStyles.colors.primary,
+        position: 'relative',
+        fontFamily: "'Noto Sans JP', sans-serif"
+      }}
+    >
       <Container maxWidth="lg">
         {/* 뉴스 목록 */}
-        <NewsListContainer>
-          <NewsList>
-          {newsData.map((news, index) => (
-            <NewsDetailCard 
-              key={news.id} 
-              ref={(el) => (newsRefs.current[index] = el)}
-            >
-              <NewsDetailContent>
-                <NewsMeta>
-                  <CategoryChip 
-                    label={news.category} 
-                    size="small"
-                  />
-                </NewsMeta>
+        <Box
+          sx={{
+            padding: '100px 0 60px 0',
+            marginTop: '50px'
+          }}
+        >
+          <Box
+            sx={{
+              maxWidth: '900px',
+              margin: '0 auto',
+              backgroundColor: commonStyles.colors.background,
+              minHeight: 'calc(100vh - 200px)',
+              paddingBottom: '40px'
+            }}
+          >
+            {newsData.map((news, index) => (
+              <Card
+                key={news.id}
+                ref={(el) => (newsRefs.current[index] = el)}
+                sx={commonStyles.card}
+              >
+                <CardContent
+                  sx={{
+                    padding: '32px'
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      marginBottom: '16px'
+                    }}
+                  >
+                    <Chip
+                      label={news.category}
+                      size="small"
+                      sx={commonStyles.categoryChip}
+                    />
+                  </Box>
 
-                {/* 제목 */}
-                <NewsTitle variant="h3">
-                  {news.title}
-                </NewsTitle>
+                  {/* 제목 */}
+                  <Typography
+                    variant="h3"
+                    sx={commonStyles.title}
+                  >
+                    {news.title}
+                  </Typography>
 
-                {/* 이미지 */}
-                <NewsImageContainer>
-                  <img 
-                    src={news.image} 
-                    alt={news.title}
-                    className={styles.newsImage}
-                  />
-                </NewsImageContainer>
+                  {/* 이미지 */}
+                  <Box
+                    sx={{
+                      margin: '24px 0',
+                      textAlign: 'center'
+                    }}
+                  >
+                    <img
+                      src={news.image}
+                      alt={news.title}
+                      style={commonStyles.image}
+                    />
+                  </Box>
 
-                {/* 내용 */}
-                <NewsContent variant="body1">
-                  {news.content}
-                </NewsContent>
-
-                {/* 구분선 (마지막 항목 제외) */}
-                {index < newsData.length - 1 && (
-                  <NewsDivider />
-                )}
-              </NewsDetailContent>
-            </NewsDetailCard>
-          ))}
-          </NewsList>
-        </NewsListContainer>
+                  {/* 내용 */}
+                  <Typography
+                    variant="body1"
+                    sx={commonStyles.content}
+                  >
+                    {news.content}
+                  </Typography>
+                </CardContent>
+              </Card>
+            ))}
+          </Box>
+        </Box>
       </Container>
-    </div>
+    </Box>
   );
 };
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Container, Typography, Box, Collapse } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import styles from './Company.module.css';
+// CSS 모듈 import 제거 - Material-UI styled components로 대체
 
 // images
 import ceoImage from '../../assets/images/Ceo.jpg';
@@ -439,7 +439,14 @@ const PhilosophyCardContent = styled(Typography)(({ theme }) => ({
   }
 }));
 
-
+// Philosophy Card Header Styled Component
+const PhilosophyCardHeader = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  marginBottom: '15px',
+  flexWrap: 'wrap',
+  gap: '10px'
+}));
 
 const StyledContainer = styled(Container)(({ theme }) => ({
   fontFamily: '"Noto Sans JP", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif',
@@ -454,6 +461,19 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 const StyledCollapse = styled(Collapse)(({ theme }) => ({
   fontFamily: 'inherit !important'
+}));
+
+// Container and Content Styled Components
+const PageContainer = styled(Box)(({ theme }) => ({
+  minHeight: '100vh',
+  backgroundColor: '#f2ebe1',
+  color: '#00136C',
+  paddingTop: '100px', // 네비게이션 높이 + 추가 여백
+  fontFamily: "'Noto Sans JP', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Yu Gothic', 'Meiryo', sans-serif"
+}));
+
+const PageContent = styled(Box)(({ theme }) => ({
+  padding: '50px 0'
 }));
 
 const PhilosophyMainText = styled(Typography)(({ theme }) => ({
@@ -610,9 +630,9 @@ const Company: React.FC = () => {
     setActivePhilosophy(activePhilosophy === index ? null : index);
   };
   return (
-    <div className={styles.container}>
+    <PageContainer>
       <StyledContainer maxWidth="lg">
-        <StyledBox className={styles.content}>
+        <PageContent>
           <EnglishTitle variant="h6" ref={englishTitleRef}>
             Company Information
           </EnglishTitle>
@@ -695,72 +715,48 @@ const Company: React.FC = () => {
 
             <PhilosophyGrid>
               <PhilosophyCard>
-                <Box sx={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  marginBottom: '15px',
-                  flexWrap: 'wrap',
-                  gap: '10px'
-                }}>
+                <PhilosophyCardHeader>
                   <PhilosophyIcon>1</PhilosophyIcon>
                   <PhilosophyCardTitle variant="h6">
                     Contribution
                   </PhilosophyCardTitle>
-                </Box>
+                </PhilosophyCardHeader>
                 <PhilosophyCardContent variant="body2">
                     社会のルールを守り、法令を遵守してIT技術により、社会を豊かにする。私たちは、社会の一員として果たすべき責任を常に意識し、法令や社会規範を誠実に遵守することを基本といたします。
                 </PhilosophyCardContent>
               </PhilosophyCard>
 
               <PhilosophyCard>
-                <Box sx={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  marginBottom: '15px',
-                  flexWrap: 'wrap',
-                  gap: '10px'
-                }}>
+                <PhilosophyCardHeader>
                   <PhilosophyIcon>2</PhilosophyIcon>
                   <PhilosophyCardTitle variant="h6">
                     Profit and Growth
                   </PhilosophyCardTitle>
-                </Box>
+                </PhilosophyCardHeader>
                 <PhilosophyCardContent variant="body2">
                   高度なIT技術を駆使して、お客様の発展に寄与する事により、利益と成長を図る。私たちは、最新かつ高度なIT技術を駆使し、お客様の事業発展や競争力向上に貢献することを使命としています。
                 </PhilosophyCardContent>
               </PhilosophyCard>
 
               <PhilosophyCard>
-                <Box sx={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  marginBottom: '15px',
-                  flexWrap: 'wrap',
-                  gap: '10px'
-                }}>
+                <PhilosophyCardHeader>
                   <PhilosophyIcon>3</PhilosophyIcon>
                   <PhilosophyCardTitle variant="h6">
                     Work Efficiency
                   </PhilosophyCardTitle>
-                </Box>
+                </PhilosophyCardHeader>
                 <PhilosophyCardContent variant="body2">
                   働きやすくモチベーションを高められる職場により技術を高めて仕事の効率を上げる。社員一人ひとりが安心して働ける環境を整えることは、企業の発展に欠かせない基盤です。
                 </PhilosophyCardContent>
               </PhilosophyCard>
 
               <PhilosophyCard>
-                <Box sx={{ 
-                  display: 'flex', 
-                  alignItems: 'center', 
-                  marginBottom: '15px',
-                  flexWrap: 'wrap',
-                  gap: '10px'
-                }}>
+                <PhilosophyCardHeader>
                   <PhilosophyIcon>4</PhilosophyIcon>
                   <PhilosophyCardTitle variant="h6">
                     Human Respect
                   </PhilosophyCardTitle>
-                </Box>
+                </PhilosophyCardHeader>
                 <PhilosophyCardContent variant="body2">
                   一人一人が能力を発揮して自己実現ができる人間尊重の職場をつくる。私たちは、全ての社員が持つ個性や能力を尊重し、その力を存分に発揮できる環境を築くことを重要な使命と考えています。
                 </PhilosophyCardContent>
@@ -880,9 +876,9 @@ const Company: React.FC = () => {
               </TimelineItem>
             </TimelineContainer>
           </SectionBox>
-        </StyledBox>
+        </PageContent>
       </StyledContainer>
-    </div>
+    </PageContainer>
   );
 };
 

@@ -1,7 +1,6 @@
 import React from 'react';
-import { Typography } from '@mui/material';
+import { Typography, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import styles from './GoogleMap.module.css';
 
 interface GoogleMapProps {
   title?: string;
@@ -21,12 +20,83 @@ interface GoogleMapProps {
 }
 
 // Styled Components
-const MapTitle = styled(Typography)`
-  margin-bottom: 20px !important;
-  text-align: center !important;
-  color: #00136C !important;
-  font-weight: bold !important;
-`;
+
+const GoogleMapContainer = styled(Box)(({ theme }) => ({
+  marginTop: '40px',
+  padding: '20px',
+  backgroundColor: 'rgba(0,19,108,0.05)',
+  borderRadius: '12px',
+  border: '1px solid rgba(0,19,108,0.1)',
+  boxShadow: '0 2px 8px rgba(0,0,0,0.05)',
+  width: '100%',
+  maxWidth: '100%',
+  overflow: 'hidden',
+  boxSizing: 'border-box',
+  [theme.breakpoints.down('md')]: {
+    marginTop: '20px',
+    padding: '15px',
+    width: '100%',
+    maxWidth: '100%',
+    overflow: 'hidden',
+    boxSizing: 'border-box'
+  },
+  [theme.breakpoints.down('sm')]: {
+    marginTop: '15px',
+    padding: '10px',
+    width: '100%',
+    maxWidth: '100%',
+    overflow: 'hidden',
+    boxSizing: 'border-box'
+  },
+  [theme.breakpoints.up('lg')]: {
+    marginTop: '50px',
+    padding: '30px',
+    width: '100%',
+    maxWidth: '100%'
+  }
+}));
+
+const MapWrapper = styled(Box)(({ theme }) => ({
+  borderRadius: '8px',
+  overflow: 'hidden',
+  boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+  width: '100%',
+  maxWidth: '100%',
+  boxSizing: 'border-box',
+  [theme.breakpoints.down('md')]: {
+    width: '100%',
+    maxWidth: '100%',
+    overflow: 'hidden',
+    boxSizing: 'border-box'
+  },
+  [theme.breakpoints.down('sm')]: {
+    width: '100%',
+    maxWidth: '100%',
+    overflow: 'hidden',
+    boxSizing: 'border-box'
+  }
+}));
+
+const GoogleMapIframe = styled('iframe')(({ theme }) => ({
+  display: 'block',
+  width: '100%',
+  height: '100%',
+  maxWidth: '100%',
+  boxSizing: 'border-box',
+  border: 0,
+  [theme.breakpoints.down('md')]: {
+    width: '100% !important',
+    maxWidth: '100%',
+    overflow: 'hidden',
+    boxSizing: 'border-box'
+  },
+  [theme.breakpoints.down('sm')]: {
+    width: '100% !important',
+    maxWidth: '100%',
+    overflow: 'hidden',
+    boxSizing: 'border-box'
+  }
+}));
 
 const GoogleMap: React.FC<GoogleMapProps> = ({ 
   title = "Global Presence",
@@ -60,31 +130,34 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   const finalMapUrl = apiKey ? mapUrl : fallbackUrl;
   
   return (
-    <div 
-      className={`${styles.googleMapContainer} ${className}`}
+    <GoogleMapContainer 
+      className={className}
       style={{ width, height, margin, padding, maxWidth, minHeight, maxHeight }}
     >
-      <MapTitle variant="h6">
+      <Typography 
+        variant="h6"
+        sx={{
+          marginBottom: '20px',
+          textAlign: 'center',
+          color: '#00136C',
+          fontWeight: 'bold'
+        }}
+      >
         {title}
-      </MapTitle>
-      <div 
-        className={styles.mapWrapper} 
+      </Typography>
+      <MapWrapper 
         style={{ height: `calc(${height} - 100px)`, width: '100%' }}
       >
-        <iframe
-          width="100%"
-          height="100%"
-          style={{ border: 0 }}
+        <GoogleMapIframe
           loading="lazy"
           allowFullScreen
           referrerPolicy="no-referrer-when-downgrade"
           src={finalMapUrl}
           title={`${title} - ${address}`}
-          className={styles.googleMapIframe}
           sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-top-navigation"
         />
-      </div>
-    </div>
+      </MapWrapper>
+    </GoogleMapContainer>
   );
 };
 
