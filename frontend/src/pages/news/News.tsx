@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Container, Typography, Box, Card, CardContent, Chip } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { useTheme } from '@mui/material/styles';
 import { useSearchParams } from 'react-router-dom';
 
@@ -10,59 +11,150 @@ import securityImage from '../../assets/images/Security.jpg';
 import semiconductorImage from '../../assets/images/Semiconductor.jpg';
 import rdImage from '../../assets/images/R&D.jpg';
 
-// 공통 스타일 정의
-const commonStyles = {
-  // 색상
-  colors: {
-    primary: '#00136C',
-    secondary: '#cf4506',
-    background: '#f2ebe1',
-    text: '#333',
-    white: 'white'
+// Styled Components
+const NewsContainer = styled(Box)(({ theme }) => ({
+  minHeight: '100vh',
+  backgroundColor: '#f2ebe1',
+  color: '#00136C',
+  position: 'relative',
+  fontFamily: "'Noto Sans JP', sans-serif"
+}));
+
+const NewsSection = styled(Box)(({ theme }) => ({
+  padding: '100px 0 60px 0',
+  marginTop: '50px',
+  [theme.breakpoints.down('md')]: {
+    padding: '80px 0 40px 0',
+    marginTop: '40px'
   },
-  
-  // 카드 스타일
-  card: {
-    background: 'white',
-    borderRadius: '12px',
-    boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
-    marginBottom: '32px',
-    border: 'none'
-  },
-  
-  // 카테고리 칩 스타일
-  categoryChip: {
-    backgroundColor: '#cf4506',
-    color: 'white',
-    fontWeight: 600,
-    fontSize: '0.8rem'
-  },
-  
-  // 제목 스타일
-  title: {
-    fontSize: '2rem',
-    fontWeight: 700,
-    color: '#00136C',
-    marginBottom: '24px',
-    lineHeight: 1.3
-  },
-  
-  // 내용 스타일
-  content: {
-    fontSize: '1rem',
-    lineHeight: 1.8,
-    color: '#333',
-    marginTop: '20px'
-  },
-  
-  // 이미지 스타일
-  image: {
-    maxWidth: '100%',
-    height: 'auto',
-    borderRadius: '8px',
-    boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+  [theme.breakpoints.down('sm')]: {
+    padding: '60px 0 30px 0',
+    marginTop: '30px'
   }
-};
+}));
+
+const NewsContentWrapper = styled(Box)(({ theme }) => ({
+  maxWidth: '900px',
+  margin: '0 auto',
+  backgroundColor: '#f2ebe1',
+  minHeight: 'calc(100vh - 200px)',
+  paddingBottom: '40px',
+  [theme.breakpoints.down('md')]: {
+    maxWidth: '100%',
+    padding: '0 20px 30px 20px',
+    minHeight: 'calc(100vh - 160px)'
+  },
+  [theme.breakpoints.down('sm')]: {
+    padding: '0 16px 20px 16px',
+    minHeight: 'calc(100vh - 120px)'
+  }
+}));
+
+const NewsCard = styled(Card)(({ theme }) => ({
+  background: 'white',
+  borderRadius: '12px',
+  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
+  marginBottom: '32px',
+  border: 'none',
+  [theme.breakpoints.down('md')]: {
+    marginBottom: '24px',
+    borderRadius: '8px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    marginBottom: '20px',
+    borderRadius: '6px'
+  }
+}));
+
+const NewsCardContent = styled(CardContent)(({ theme }) => ({
+  padding: '32px',
+  [theme.breakpoints.down('md')]: {
+    padding: '24px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    padding: '20px 16px'
+  }
+}));
+
+const CategoryChip = styled(Chip)(({ theme }) => ({
+  backgroundColor: '#cf4506',
+  color: 'white',
+  fontWeight: 600,
+  fontSize: '0.8rem',
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '0.7rem',
+    padding: '2px 8px'
+  }
+}));
+
+const NewsTitle = styled(Typography)(({ theme }) => ({
+  fontSize: '2rem',
+  fontWeight: 700,
+  color: '#00136C',
+  marginBottom: '24px',
+  lineHeight: 1.3,
+  [theme.breakpoints.down('md')]: {
+    fontSize: '1.75rem',
+    marginBottom: '20px',
+    lineHeight: 1.4
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '1.5rem',
+    marginBottom: '16px',
+    lineHeight: 1.3
+  }
+}));
+
+const NewsImageContainer = styled(Box)(({ theme }) => ({
+  margin: '24px 0',
+  textAlign: 'center',
+  [theme.breakpoints.down('md')]: {
+    margin: '20px 0'
+  },
+  [theme.breakpoints.down('sm')]: {
+    margin: '16px 0'
+  }
+}));
+
+const NewsImage = styled('img')(({ theme }) => ({
+  maxWidth: '100%',
+  height: 'auto',
+  borderRadius: '8px',
+  boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+  [theme.breakpoints.down('md')]: {
+    borderRadius: '6px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    borderRadius: '4px'
+  }
+}));
+
+const NewsContent = styled(Typography)(({ theme }) => ({
+  fontSize: '1rem',
+  lineHeight: 1.8,
+  color: '#333',
+  marginTop: '20px',
+  [theme.breakpoints.down('md')]: {
+    fontSize: '0.95rem',
+    lineHeight: 1.7,
+    marginTop: '16px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '0.9rem',
+    lineHeight: 1.6,
+    marginTop: '12px'
+  }
+}));
+
+const ChipContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  marginBottom: '16px',
+  [theme.breakpoints.down('sm')]: {
+    marginBottom: '12px'
+  }
+}));
 
 const News: React.FC = () => {
   const theme = useTheme();
@@ -147,94 +239,48 @@ const News: React.FC = () => {
   ];
 
   return (
-    <Box
-      sx={{
-        minHeight: '100vh',
-        backgroundColor: commonStyles.colors.background,
-        color: commonStyles.colors.primary,
-        position: 'relative',
-        fontFamily: "'Noto Sans JP', sans-serif"
-      }}
-    >
+    <NewsContainer>
       <Container maxWidth="lg">
         {/* 뉴스 목록 */}
-        <Box
-          sx={{
-            padding: '100px 0 60px 0',
-            marginTop: '50px'
-          }}
-        >
-          <Box
-            sx={{
-              maxWidth: '900px',
-              margin: '0 auto',
-              backgroundColor: commonStyles.colors.background,
-              minHeight: 'calc(100vh - 200px)',
-              paddingBottom: '40px'
-            }}
-          >
+        <NewsSection>
+          <NewsContentWrapper>
             {newsData.map((news, index) => (
-              <Card
+              <NewsCard
                 key={news.id}
                 ref={(el) => (newsRefs.current[index] = el)}
-                sx={commonStyles.card}
               >
-                <CardContent
-                  sx={{
-                    padding: '32px'
-                  }}
-                >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      marginBottom: '16px'
-                    }}
-                  >
-                    <Chip
+                <NewsCardContent>
+                  <ChipContainer>
+                    <CategoryChip
                       label={news.category}
                       size="small"
-                      sx={commonStyles.categoryChip}
                     />
-                  </Box>
+                  </ChipContainer>
 
                   {/* 제목 */}
-                  <Typography
-                    variant="h3"
-                    sx={commonStyles.title}
-                  >
+                  <NewsTitle variant="h3">
                     {news.title}
-                  </Typography>
+                  </NewsTitle>
 
                   {/* 이미지 */}
-                  <Box
-                    sx={{
-                      margin: '24px 0',
-                      textAlign: 'center'
-                    }}
-                  >
-                    <img
+                  <NewsImageContainer>
+                    <NewsImage
                       src={news.image}
                       alt={news.title}
-                      style={commonStyles.image}
                     />
-                  </Box>
+                  </NewsImageContainer>
 
                   {/* 내용 */}
-                  <Typography
-                    variant="body1"
-                    sx={commonStyles.content}
-                  >
+                  <NewsContent variant="body1">
                     {news.content}
-                  </Typography>
-                </CardContent>
-              </Card>
+                  </NewsContent>
+                </NewsCardContent>
+              </NewsCard>
             ))}
-          </Box>
-        </Box>
+          </NewsContentWrapper>
+        </NewsSection>
       </Container>
-    </Box>
+    </NewsContainer>
   );
 };
 

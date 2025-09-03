@@ -18,8 +18,8 @@ RUN npm run build
 # Production stage
 FROM nginx:alpine as production
 
-# nginx 설정 복사 (frontend/nginx/nginx.conf 사용)
-COPY nginx/nginx.conf /etc/nginx/nginx.conf
+# nginx 설정을 직접 생성 (외부 파일 의존성 제거)
+RUN echo 'events { worker_connections 1024; } http { include /etc/nginx/mime.types; default_type application/octet-stream; sendfile on; keepalive_timeout 65; server { listen 80; server_name localhost; location / { root /usr/share/nginx/html; index index.html index.htm; try_files $uri $uri/ /index.html; } error_page 500 502 503 504 /50x.html; location = /50x.html { root /usr/share/nginx/html; } } }' > /etc/nginx/nginx.conf
 
 # 빌드된 파일 복사
 COPY --from=build /usr/workspace/build /usr/share/nginx/html

@@ -175,3 +175,37 @@ data/
 data_bak/
 database_setting/
 volumes/
+
+# Deployment Security - 민감한 배포 파일들
+# SSL 인증서 및 개인키
+deploy/configs/nginx/ssl/
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+
+# 환경 변수 파일들
+.env.*
+!.env.example
+deploy/.env*
+
+# AWS/Cloud 인증 정보
+.aws/
+.aws-credentials
+aws-credentials.json
+
+# SSH 키 및 인증 정보
+*.pem
+id_rsa*
+*.pub
+ssh/
+
+# Docker 관련 민감 정보
+docker-compose.override.yml
+docker-compose.local.yml
+
+# 로컬 개발 설정
+config.local.yml
+settings.local.py
+local_settings.py

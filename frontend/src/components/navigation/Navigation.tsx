@@ -160,7 +160,9 @@ const HamburgerMenu = styled(Box, {
   }
 }));
 
-const MobileMenu = styled(Box)<{ isOpen: boolean }>(({ theme, isOpen }) => ({
+const MobileMenu = styled(Box, {
+  shouldForwardProp: (prop) => prop !== 'isOpen'
+})<{ isOpen: boolean }>(({ theme, isOpen }) => ({
   position: 'fixed',
   top: 0,
   right: 0,

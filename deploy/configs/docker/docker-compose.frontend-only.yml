@@ -1,0 +1,25 @@
+version: '3.9'
+
+services:
+  frontend-only:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+      target: production
+    container_name: "frontend-only"
+    ports:
+      - "80:80"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - frontend-network
+
+networks:
+  frontend-network:
+    driver: bridge

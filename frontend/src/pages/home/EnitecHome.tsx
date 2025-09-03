@@ -65,10 +65,19 @@ const SolutionIconTypography = styled(Typography)(({ theme }) => ({
 // Global Presence Title Styled Component
 const GlobalPresenceTitle = styled(Typography)(({ theme }) => ({
   textAlign: 'center',
-  marginBottom: '48px',
+  marginBottom: '38px',
   color: '#00136C',
   fontWeight: 500,
-  fontFamily: "'Noto Sans JP', sans-serif"
+  fontFamily: "'Noto Sans JP', sans-serif",
+  fontSize: '3.0rem',
+  [theme.breakpoints.down('md')]: {
+    fontSize: '2.5rem',
+    marginBottom: '25px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '2rem',
+    marginBottom: '12px'
+  },
 }));
 
 // Footer Social Icon Styled Component
@@ -106,16 +115,30 @@ const CounterItem = styled(Box)(({ theme }) => ({
 const CounterNumber = styled(Typography)(({ theme }) => ({
   color: '#00136C',
   fontWeight: 900,
-  fontSize: '3.5rem',
+  fontSize: '3rem',
   marginBottom: '16px',
-  fontFamily: "'Noto Sans JP', sans-serif"
+  fontFamily: "'Noto Sans JP', sans-serif",
+  [theme.breakpoints.down('md')]: {
+    fontSize: '2.5rem',
+    marginBottom: '12px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '2rem',
+    marginBottom: '8px'
+  },
 }));
 
 const CounterLabel = styled(Typography)(({ theme }) => ({
   color: '#666',
   fontWeight: 600,
   fontSize: '1.2rem',
-  fontFamily: "'Noto Sans JP', sans-serif"
+  fontFamily: "'Noto Sans JP', sans-serif",
+  [theme.breakpoints.down('md')]: {
+    fontSize: '1rem'
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '0.9rem'
+  },
 }));
 
 // Footer Styled Components
@@ -325,10 +348,12 @@ const HeroTitle = styled(Typography)(({ theme }) => ({
   marginBottom: '24px',
   textShadow: '2px 2px 4px rgba(0,0,0,0.5)',
   [theme.breakpoints.down('md')]: {
-    fontSize: '2.5rem'
+    fontSize: '2.5rem',
+    marginBottom: '20px'
   },
   [theme.breakpoints.down('sm')]: {
-    fontSize: '2rem'
+    fontSize: '2rem',
+    marginBottom: '16px'
   }
 }));
 
@@ -337,7 +362,12 @@ const HeroSubtitle = styled(Typography)(({ theme }) => ({
   marginBottom: '40px',
   textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
   [theme.breakpoints.down('md')]: {
-    fontSize: '1.2rem'
+    fontSize: '1.2rem',
+    marginBottom: '32px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '1rem',
+    marginBottom: '24px'
   }
 }));
 
@@ -346,7 +376,16 @@ const CustomSectionTitle = styled(Typography)(({ theme }) => ({
   marginBottom: '48px',
   color: '#00136C',
   fontWeight: 500,
-  fontFamily: "'Noto Sans JP', sans-serif"
+  fontFamily: "'Noto Sans JP', sans-serif",
+  fontSize: '3.5rem',
+  [theme.breakpoints.down('md')]: {
+    fontSize: '2.5rem',
+    marginBottom: '36px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '1.5rem',
+    marginBottom: '24px'
+  },
 }));
 
 // 추가 Styled Components
@@ -498,7 +537,15 @@ const SectionTitle = styled(Typography)(({ theme }) => ({
   color: '#00136C',
   fontWeight: 700,
   fontSize: '2.5rem',
-  fontFamily: "'Noto Sans JP', sans-serif"
+  fontFamily: "'Noto Sans JP', sans-serif",
+  [theme.breakpoints.down('md')]: {
+    fontSize: '2.0rem',
+    marginBottom: '36px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '1.5rem',
+    marginBottom: '24px'
+  },
 }));
 
 const SolutionsGrid = styled(Box)(({ theme }) => ({
@@ -633,7 +680,7 @@ const EnitecHome: React.FC = () => {
       const stepValue = {
         companies: 15000 / steps,
         developers: 27000000 / steps,
-        satisfaction: 80 / steps
+        satisfaction: 75 / steps
       };
 
       let currentStep = 0;

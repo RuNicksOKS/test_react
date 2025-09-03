@@ -245,13 +245,13 @@ const ValuesTitle = styled(Typography)(({ theme }) => ({
   marginBottom: '40px',
   
   [theme.breakpoints.down('md')]: {
-    fontSize: '1.6rem',
+    fontSize: '1.5rem',
     marginBottom: '30px',
     marginTop: '-90px'
   },
   
   [theme.breakpoints.down('sm')]: {
-    fontSize: '1.4rem',
+    fontSize: '1.3rem',
     marginBottom: '25px',
     marginTop: '-90px'
   }
@@ -321,12 +321,12 @@ const TalentTitle = styled(Typography)(({ theme }) => ({
   lineHeight: 1.2,
   
   [theme.breakpoints.down('md')]: {
-    fontSize: '1.2rem',
+    fontSize: '1.15rem',
     marginBottom: '12px'
   },
   
   [theme.breakpoints.down('sm')]: {
-    fontSize: '1.1rem',
+    fontSize: '1rem',
     marginBottom: '10px'
   }
 }));
@@ -338,11 +338,11 @@ const TalentDescription = styled(Typography)(({ theme }) => ({
   lineHeight: 1.6,
   
   [theme.breakpoints.down('md')]: {
-    fontSize: '0.95rem'
+    fontSize: '0.9rem'
   },
   
   [theme.breakpoints.down('sm')]: {
-    fontSize: '0.9rem'
+    fontSize: '0.8rem'
   }
 }));
 
@@ -359,10 +359,9 @@ const WelfareSystemContainer = styled(Box)(({ theme }) => ({
     minHeight: '550px',
     padding: '15px 15px'
   },
-  
   [theme.breakpoints.down('sm')]: {
     minHeight: 'auto',
-    padding: '10px 5px',
+    padding: '10px',
     flexDirection: 'column',
     gap: '20px',
     '&::before': {
@@ -426,7 +425,6 @@ const CentralCircle = styled(Box)(({ theme }) => ({
     width: '160px',
     height: '160px'
   },
-  
   [theme.breakpoints.down('sm')]: {
     position: 'relative',
     top: 'auto',
@@ -561,17 +559,11 @@ const CategoryItem = styled(Typography)(({ theme }) => ({
   }
 }));
 
-
-
 const StyledContainer = styled(Container)(({ theme }) => ({
   fontFamily: '"Noto Sans JP", "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif',
   '& *': {
     fontFamily: 'inherit !important'
   }
-}));
-
-const StyledBox = styled(Box)(({ theme }) => ({
-  fontFamily: 'inherit !important'
 }));
 
 const DownloadButton = styled('a')(({ theme }) => ({
@@ -741,11 +733,7 @@ const TableHeader = styled(Box)(({ theme }) => ({
 
 const TableContent = styled(Box)(({ theme }) => ({
   padding: '20px',
-  borderBottom: '1px solid #ddd',
-  
-  [theme.breakpoints.down('sm')]: {
-    borderBottom: '1px solid #ddd'
-  }
+  borderBottom: '1px solid #ddd'
 }));
 
 const TableContentLast = styled(Box)(({ theme }) => ({
@@ -760,6 +748,9 @@ const RecruitmentTitle = styled(Typography)(({ theme }) => ({
   
   [theme.breakpoints.down('sm')]: {
     fontSize: '1.5rem'
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '1.3rem'
   }
 }));
 
@@ -1199,13 +1190,13 @@ const Recruitment: React.FC = () => {
                       content: '""',
                       position: 'absolute',
                       top: '0%',
-                      left: '48.5%',
+                      left: '50%',
                       width: '10px',
                       height: '10px',
                       borderRadius: '50%',
                       background: '#316b91',
                       border: '2px solid white',
-                      transform: 'translateY(-50%)',
+                      transform: 'translate(-50%, -50%)',
                       zIndex: 2,
                       boxShadow: '0 1px 3px rgba(0, 0, 0, 0.15)'
                     }
@@ -1238,13 +1229,13 @@ const Recruitment: React.FC = () => {
                       content: '""',
                       position: 'absolute',
                       top: '0%',
-                      left: '48.5%',
+                      left: '50%',
                       width: '10px',
                       height: '10px',
                       borderRadius: '50%',
                       background: '#316b91',
                       border: '2px solid white',
-                      transform: 'translateY(-50%)',
+                      transform: 'translate(-50%, -50%)',
                       zIndex: 2,
                       boxShadow: '0 1px 3px rgba(0, 0, 0, 0.15)'
                     }
@@ -1279,13 +1270,13 @@ const Recruitment: React.FC = () => {
                       content: '""',
                       position: 'absolute',
                       top: '0%',
-                      left: '48.5%',
+                      left: '50%',
                       width: '10px',
                       height: '10px',
                       borderRadius: '50%',
                       background: '#316b91',
                       border: '2px solid white',
-                      transform: 'translateY(-50%)',
+                      transform: 'translate(-50%, -50%)',
                       zIndex: 2,
                       boxShadow: '0 1px 3px rgba(0, 0, 0, 0.15)'
                     }
@@ -1319,13 +1310,13 @@ const Recruitment: React.FC = () => {
                       content: '""',
                       position: 'absolute',
                       top: '0%',
-                      left: '48.5%',
+                      left: '50%',
                       width: '10px',
                       height: '10px',
                       borderRadius: '50%',
                       background: '#316b91',
                       border: '2px solid white',
-                      transform: 'translateY(-50%)',
+                      transform: 'translate(-50%, -50%)',
                       zIndex: 2,
                       boxShadow: '0 1px 3px rgba(0, 0, 0, 0.15)'
                     }
@@ -1358,13 +1349,13 @@ const Recruitment: React.FC = () => {
                       content: '""',
                       position: 'absolute',
                       top: '0%',
-                      left: '48.5%',
+                      left: '50%',
                       width: '10px',
                       height: '10px',
                       borderRadius: '50%',
                       background: '#316b91',
                       border: '2px solid white',
-                      transform: 'translateY(-50%)',
+                      transform: 'translate(-50%, -50%)',
                       zIndex: 2,
                       boxShadow: '0 1px 3px rgba(0, 0, 0, 0.15)'
                     }

@@ -61,7 +61,6 @@ const MainTitle = styled(Typography)(({ theme }) => ({
     marginTop: '-30px',
     marginBottom: '70px'
   },
-  
   [theme.breakpoints.down('sm')]: {
     fontSize: '2rem',
     marginTop: '-20px',
@@ -148,10 +147,6 @@ const StyledContainer = styled(Container)(({ theme }) => ({
   }
 }));
 
-const StyledBox = styled(Box)(({ theme }) => ({
-  fontFamily: 'inherit !important'
-}));
-
 const ServiceChip = styled(Chip)(({ theme }) => ({
   backgroundColor: '#f8f9fa',
   color: '#00136C',
@@ -163,12 +158,12 @@ const ServiceChip = styled(Chip)(({ theme }) => ({
   height: '32px',
   
   [theme.breakpoints.down('md')]: {
-    fontSize: '0.85rem',
+    fontSize: '0.80rem',
     height: '28px'
   },
   
   [theme.breakpoints.down('sm')]: {
-    fontSize: '0.8rem',
+    fontSize: '0.75rem',
     height: '26px',
     margin: '6px 6px 6px 0'
   }
@@ -255,7 +250,7 @@ const ServiceHeader = styled(Typography)(({ theme }) => ({
   },
   
   [theme.breakpoints.down('sm')]: {
-    fontSize: '0.95rem',
+    fontSize: '0.9rem',
     marginBottom: '12px',
     textAlign: 'left'
   }
@@ -273,7 +268,7 @@ const ResponsiveText = styled(Typography)(({ theme }) => ({
   },
   
   [theme.breakpoints.down('sm')]: {
-    fontSize: '0.95rem',
+    fontSize: '0.85rem',
     lineHeight: 1.6,
     marginBottom: '15px'
   }

@@ -102,11 +102,11 @@ const SectionTitle = styled(Typography)(({ theme }) => ({
   whiteSpace: 'nowrap',
   
   [theme.breakpoints.down('md')]: {
-    fontSize: '1.8rem'
+    fontSize: '1.7rem'
   },
   
   [theme.breakpoints.down('sm')]: {
-    fontSize: '1.5rem'
+    fontSize: '1.4rem'
   }
 }));
 
@@ -118,11 +118,11 @@ const SectionSubtitle = styled(Typography)(({ theme }) => ({
   textAlign: 'left',
   
   [theme.breakpoints.down('md')]: {
-    fontSize: '1.1rem'
+    fontSize: '1rem'
   },
   
   [theme.breakpoints.down('sm')]: {
-    fontSize: '1rem'
+    fontSize: '0.9rem'
   }
 }));
 
@@ -178,22 +178,19 @@ const CeoMainMessage = styled(Typography)(({ theme }) => ({
   right: '0',
   top: '50%',
   transform: 'translateY(-50%)',
-  width: '60%',
+  width: '100%',
   zIndex: 10, // 이미지 위로 지나가도록 높은 z-index
   whiteSpace: 'nowrap', // 줄바꿈 방지
   
   // 태블릿 반응형
   [theme.breakpoints.down('md')]: {
-    fontSize: '1.8rem',
-    width: '50%',
+    fontSize: '1.6rem',
     whiteSpace: 'normal' // 태블릿에서는 줄바꿈 허용
   },
-  
   // 모바일 반응형
   [theme.breakpoints.down('sm')]: {
     position: 'relative',
-    fontSize: '1.5rem',
-    width: '100%',
+    fontSize: '1.1rem',
     textAlign: 'center',
     marginTop: '20px',
     whiteSpace: 'normal',
@@ -201,13 +198,6 @@ const CeoMainMessage = styled(Typography)(({ theme }) => ({
     top: 'auto',
     transform: 'none'
   }
-}));
-
-const SectionContent = styled(Typography)(({ theme }) => ({
-  fontSize: '1.1rem',
-  lineHeight: 1.8,
-  color: '#333',
-  textAlign: 'justify'
 }));
 
 const CeoPointsContainer = styled(Box)(({ theme }) => ({
@@ -237,7 +227,15 @@ const PointNumber = styled(Typography)(({ theme }) => ({
   fontSize: '1.5rem',
   fontWeight: 700,
   color: '#db9615',
-  marginBottom: '15px'
+  marginBottom: '15px',
+  // 태블릿 반응형
+  [theme.breakpoints.down('md')]: {
+    fontSize: '1.2rem',
+  },
+  // 모바일 반응형
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '1rem',
+  }
 }));
 
 const PointTitle = styled(Typography)(({ theme }) => ({
@@ -245,14 +243,30 @@ const PointTitle = styled(Typography)(({ theme }) => ({
   fontWeight: 700,
   color: '#00136C',
   marginBottom: '15px',
-  lineHeight: 1.4
+  lineHeight: 1.4,
+  // 태블릿 반응형
+  [theme.breakpoints.down('md')]: {
+    fontSize: '1.2rem',
+  },
+  // 모바일 반응형
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '1rem',
+  }
 }));
 
 const PointContent = styled(Typography)(({ theme }) => ({
   fontSize: '1rem',
   lineHeight: 1.8,
   color: '#333',
-  textAlign: 'justify'
+  textAlign: 'justify',
+  // 태블릿 반응형
+  [theme.breakpoints.down('md')]: {
+    fontSize: '0.9rem',
+  },
+  // 모바일 반응형
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '0.8rem',
+  }
 }));
 
 const CompanyInfoContainer = styled(Box)(({ theme }) => ({
@@ -291,44 +305,6 @@ const InfoValue = styled('span')(({ theme }) => ({
     width: '200px'
   }
 }));
-
-const PhilosophyCircle = styled(Box)(({ theme }) => ({
-  width: '130px',
-  height: '130px',
-  borderRadius: '50%',
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  background: 'linear-gradient(135deg, #00136C 0%, #db9615 100%)',
-  color: 'white',
-  cursor: 'pointer',
-  transition: 'all 0.3s ease',
-  boxShadow: '0 4px 15px rgba(0, 0, 0, 0.2)',
-  margin: '0 auto 20px',
-  '&:hover': {
-    transform: 'scale(1.05)',
-    boxShadow: '0 8px 25px rgba(0, 0, 0, 0.3)',
-  },
-  '&.active': {
-    background: 'linear-gradient(135deg, #db9615 0%, #00136C 100%)',
-    transform: 'scale(1.1)',
-  }
-}));
-
-const CircleNumber = styled(Typography)(({ theme }) => ({
-  fontSize: '2rem',
-  fontWeight: 900,
-  marginBottom: '6px'
-}));
-
-const CircleTitle = styled(Typography)(({ theme }) => ({
-  fontSize: '0.9rem',
-  fontWeight: 600,
-  textAlign: 'center',
-  lineHeight: 1.2
-}));
-
 
 const PhilosophyGrid = styled(Box)(({ theme }) => ({
   display: 'grid',
@@ -424,18 +400,18 @@ const PhilosophyCardTitle = styled(Typography)(({ theme }) => ({
 }));
 
 const PhilosophyCardContent = styled(Typography)(({ theme }) => ({
-  fontSize: '1.1rem',
+  fontSize: '1rem',
   color: '#666',
   lineHeight: 1.6,
   textAlign: 'left',
   wordBreak: 'break-word',
   
   [theme.breakpoints.down('md')]: {
-    fontSize: '1rem'
+    fontSize: '0.9rem'
   },
   
   [theme.breakpoints.down('sm')]: {
-    fontSize: '0.95rem'
+    fontSize: '0.8rem'
   }
 }));
 
@@ -453,14 +429,6 @@ const StyledContainer = styled(Container)(({ theme }) => ({
   '& *': {
     fontFamily: 'inherit !important'
   }
-}));
-
-const StyledBox = styled(Box)(({ theme }) => ({
-  fontFamily: 'inherit !important'
-}));
-
-const StyledCollapse = styled(Collapse)(({ theme }) => ({
-  fontFamily: 'inherit !important'
 }));
 
 // Container and Content Styled Components
@@ -513,9 +481,8 @@ const TimelineLine = styled(Box)(({ theme }) => ({
   bottom: '0',
   width: '4px',
   background: '#00136C',
-  
   [theme.breakpoints.down('sm')]: {
-    left: '89px'
+    left: '110px'
   }
 }));
 
@@ -527,6 +494,9 @@ const TimelineItem = styled(Box)(({ theme }) => ({
   
   '&:last-child': {
     marginBottom: '0'
+  },
+  [theme.breakpoints.down('sm')]: {
+    right: '20px'
   }
 }));
 
@@ -540,13 +510,7 @@ const TimelineDot = styled(Box)(({ theme }) => ({
   background: '#8B5CF6',
   border: '4px solid white',
   boxShadow: '0 0 0 4px #00136C',
-  zIndex: 2,
-  
-  [theme.breakpoints.down('sm')]: {
-    left: '80px',
-    width: '14px',
-    height: '14px'
-  }
+  zIndex: 2
 }));
 
 const TimelineDate = styled(Typography)(({ theme }) => ({
@@ -558,10 +522,12 @@ const TimelineDate = styled(Typography)(({ theme }) => ({
   paddingRight: '30px',
   lineHeight: 1.4,
   
-  [theme.breakpoints.down('sm')]: {
-    width: '70px',
-    paddingRight: '20px',
+  [theme.breakpoints.down('md')]: {
     fontSize: '1rem'
+  },
+  
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '0.9rem'
   }
 }));
 
@@ -572,9 +538,11 @@ const TimelineContent = styled(Typography)(({ theme }) => ({
   marginLeft: '50px',
   flex: 1,
   
-  [theme.breakpoints.down('sm')]: {
-    marginLeft: '30px',
+  [theme.breakpoints.down('md')]: {
     fontSize: '1rem'
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '0.8rem'
   }
 }));
 
@@ -652,7 +620,7 @@ const Company: React.FC = () => {
             <CeoMessageContainer>
               <CeoImage src={ceoImage} alt="CEO" />
               <CeoMainMessage variant="h5">
-                人から始まり、人で終わる<br />
+                人から始まり人で終わる<br />
                 人は会社の成長に大きな<br />
                 影響を与える
               </CeoMainMessage>
@@ -842,7 +810,7 @@ const Company: React.FC = () => {
               <TimelineItem>
                 <TimelineDot />
                 <TimelineDate variant="body1">2008 09</TimelineDate>
-                <TimelineContent variant="body1">ASP(Application Service Provider)基盤医療機器管理ソリューション「ME-Pro ME機器管理システム」開発及びサービス開始</TimelineContent>
+                <TimelineContent variant="body1">ASP基盤医療機器管理ソリューション「ME-Pro ME機器管理システム」開発及びサービス開始</TimelineContent>
               </TimelineItem>
               
               <TimelineItem>
