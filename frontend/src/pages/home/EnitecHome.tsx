@@ -94,7 +94,13 @@ const FooterSocialIcon = styled('img')(({ theme }) => ({
 // Global Presence Section Styled Components
 const GlobalPresenceSection = styled(Box)(({ theme }) => ({
   padding: '80px 0',
-  backgroundColor: '#f2ebe1'
+  backgroundColor: '#f2ebe1',
+  [theme.breakpoints.down('md')]: {
+    padding: '60px 0'
+  },
+  [theme.breakpoints.down('sm')]: {
+    padding: '40px 0'
+  }
 }));
 
 const CounterGrid = styled(Box)(({ theme }) => ({
@@ -104,7 +110,12 @@ const CounterGrid = styled(Box)(({ theme }) => ({
   marginBottom: '48px',
   [theme.breakpoints.down('md')]: {
     gridTemplateColumns: '1fr',
-    gap: '32px'
+    gap: '32px',
+    marginBottom: '36px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    gap: '24px',
+    marginBottom: '24px'
   }
 }));
 
@@ -145,7 +156,13 @@ const CounterLabel = styled(Typography)(({ theme }) => ({
 const Footer = styled(Box)(({ theme }) => ({
   backgroundColor: '#f2ebe1',
   color: 'white',
-  padding: '60px 0 20px'
+  padding: '60px 0 20px',
+  [theme.breakpoints.down('md')]: {
+    padding: '48px 0 16px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    padding: '36px 0 12px'
+  }
 }));
 
 const FooterGrid = styled(Box)(({ theme }) => ({
@@ -153,9 +170,13 @@ const FooterGrid = styled(Box)(({ theme }) => ({
   gridTemplateColumns: 'repeat(3, 1fr)',
   gap: '48px',
   marginBottom: '40px',
+  marginTop: '-50px',
   [theme.breakpoints.down('md')]: {
-    gridTemplateColumns: '1fr',
-    gap: '32px'
+    gap: '32px',
+    marginBottom: '32px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    display: 'none'
   }
 }));
 
@@ -170,7 +191,15 @@ const FooterTitle = styled(Typography)(({ theme }) => ({
   fontWeight: 700,
   fontSize: '1.2rem',
   marginBottom: '16px',
-  fontFamily: "'Noto Sans JP', sans-serif"
+  fontFamily: "'Noto Sans JP', sans-serif",
+  [theme.breakpoints.down('md')]: {
+    fontSize: '1.1rem',
+    marginBottom: '14px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '1rem',
+    marginBottom: '12px'
+  }
 }));
 
 const FooterLink = styled(Typography)(({ theme }) => ({
@@ -181,12 +210,24 @@ const FooterLink = styled(Typography)(({ theme }) => ({
   width: 'fit-content',
   '&:hover': {
     color: 'rgb(182, 179, 179)'
+  },
+  [theme.breakpoints.down('md')]: {
+    fontSize: '0.9rem'
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '0.8rem'
   }
 }));
 
 const FooterBottom = styled(Box)(({ theme }) => ({
   borderTop: '1px solid #d4c5b8',
-  paddingTop: '20px'
+  paddingTop: '20px',
+  [theme.breakpoints.down('md')]: {
+    paddingTop: '16px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    paddingTop: '12px'
+  }
 }));
 
 const FooterBottomContent = styled(Box)(({ theme }) => ({
@@ -197,12 +238,21 @@ const FooterBottomContent = styled(Box)(({ theme }) => ({
     flexDirection: 'column',
     gap: '16px',
     textAlign: 'center'
+  },
+  [theme.breakpoints.down('sm')]: {
+    gap: '12px'
   }
 }));
 
 const FooterCopyright = styled(Typography)(({ theme }) => ({
   color: '#4d4b4b',
-  fontFamily: "'Noto Sans JP', sans-serif"
+  fontFamily: "'Noto Sans JP', sans-serif",
+  [theme.breakpoints.down('md')]: {
+    fontSize: '0.9rem'
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '0.8rem'
+  }
 }));
 
 const FooterContact = styled(Box)(({ theme }) => ({
@@ -216,7 +266,13 @@ const FooterContact = styled(Box)(({ theme }) => ({
 
 const FooterEmail = styled(Typography)(({ theme }) => ({
   color: '#4d4b4b',
-  fontFamily: "'Noto Sans JP', sans-serif"
+  fontFamily: "'Noto Sans JP', sans-serif",
+  [theme.breakpoints.down('md')]: {
+    fontSize: '0.9rem'
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '0.8rem'
+  }
 }));
 
 const HeroSection = styled(Box)(({ theme }) => ({
@@ -385,7 +441,7 @@ const CustomSectionTitle = styled(Typography)(({ theme }) => ({
   [theme.breakpoints.down('sm')]: {
     fontSize: '1.5rem',
     marginBottom: '24px'
-  },
+  }
 }));
 
 // 추가 Styled Components
@@ -481,6 +537,12 @@ const NewsScrollContent = styled(Box)(({ theme }) => ({
   '@keyframes scroll': {
     '0%': { transform: 'translateX(0)' },
     '100%': { transform: 'translateX(-109%)' }
+  },
+  [theme.breakpoints.down('md')]: {
+    gap: '20px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    gap: '16px'
   }
 }));
 
@@ -494,26 +556,50 @@ const NewsCard = styled(Box)(({ theme }) => ({
   '&:hover': {
     transform: 'translateY(-8px)',
     boxShadow: '0 8px 30px rgba(0,0,0,0.15)'
+  },
+  [theme.breakpoints.down('md')]: {
+    minWidth: '250px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    minWidth: '200px'
   }
 }));
 
 const NewsImage = styled(Box)(({ theme }) => ({
   height: '200px',
-  overflow: 'hidden'
+  overflow: 'hidden',
+  [theme.breakpoints.down('md')]: {
+    height: '180px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    height: '160px'
+  }
 }));
 
 const NewsContent = styled(Box)(({ theme }) => ({
   padding: '20px',
   display: 'flex',
   flexDirection: 'column',
-  height: '150px'
+  height: '150px',
+  [theme.breakpoints.down('md')]: {
+    padding: '16px',
+    height: '130px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    padding: '12px',
+    height: '110px'
+  }
 }));
 
 const NewsCategory = styled(Typography)(({ theme }) => ({
   color: '#cf4506',
   fontWeight: 600,
   fontSize: '0.8rem',
-  marginBottom: '8px'
+  marginBottom: '8px',
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '0.7rem',
+    marginBottom: '6px'
+  }
 }));
 
 const NewsTitle = styled(Typography)(({ theme }) => ({
@@ -522,13 +608,27 @@ const NewsTitle = styled(Typography)(({ theme }) => ({
   fontSize: '1rem',
   lineHeight: 1.4,
   marginBottom: '12px',
-  flex: 1
+  flex: 1,
+  [theme.breakpoints.down('md')]: {
+    fontSize: '0.9rem',
+    marginBottom: '10px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '0.8rem',
+    marginBottom: '8px'
+  }
 }));
 
 // Solutions 섹션 Styled Components
 const SolutionsSection = styled(Box)(({ theme }) => ({
   padding: '20px 0',
-  backgroundColor: '#f2ebe1'
+  backgroundColor: '#f2ebe1',
+  [theme.breakpoints.down('md')]: {
+    marginTop: '-70px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    marginTop: '-150px'
+  }
 }));
 
 const SectionTitle = styled(Typography)(({ theme }) => ({
@@ -555,6 +655,10 @@ const SolutionsGrid = styled(Box)(({ theme }) => ({
   [theme.breakpoints.down('md')]: {
     gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
     gap: '24px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+    gap: '16px'
   }
 }));
 
@@ -568,13 +672,31 @@ const SolutionCard = styled(Box)(({ theme }) => ({
   '&:hover': {
     transform: 'translateY(-8px)',
     boxShadow: '0 8px 30px rgba(0,0,0,0.15)'
+  },
+  [theme.breakpoints.down('md')]: {
+    padding: '24px',
+    borderRadius: '14px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    padding: '16px',
+    borderRadius: '12px'
   }
 }));
 
 const SolutionIcon = styled('img')(({ theme }) => ({
   width: '64px',
   height: '64px',
-  marginBottom: '24px'
+  marginBottom: '24px',
+  [theme.breakpoints.down('md')]: {
+    width: '56px',
+    height: '56px',
+    marginBottom: '20px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    width: '48px',
+    height: '48px',
+    marginBottom: '16px'
+  }
 }));
 
 const SolutionTitle = styled(Typography)(({ theme }) => ({
@@ -582,13 +704,29 @@ const SolutionTitle = styled(Typography)(({ theme }) => ({
   fontWeight: 700,
   fontSize: '1.5rem',
   marginBottom: '16px',
-  fontFamily: "'Noto Sans JP', sans-serif"
+  fontFamily: "'Noto Sans JP', sans-serif",
+  [theme.breakpoints.down('md')]: {
+    fontSize: '1.3rem',
+    marginBottom: '14px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '1.1rem',
+    marginBottom: '12px'
+  }
 }));
 
 const SolutionDescription = styled(Typography)(({ theme }) => ({
   color: '#666',
   lineHeight: 1.6,
-  fontFamily: "'Noto Sans JP', sans-serif"
+  fontFamily: "'Noto Sans JP', sans-serif",
+  [theme.breakpoints.down('md')]: {
+    fontSize: '0.9rem',
+    lineHeight: 1.5
+  },
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '0.8rem',
+    lineHeight: 1.4
+  }
 }));
 
 const EnitecHome: React.FC = () => {
@@ -823,7 +961,6 @@ const EnitecHome: React.FC = () => {
       {/* Hero 섹션 */}
       <HeroSection>
         <Swiper
-          ref={swiperRef}
           modules={[Navigation, Pagination, Autoplay]}
           spaceBetween={0}
           slidesPerView={1}
