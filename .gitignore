@@ -178,7 +178,7 @@ volumes/
 
 # Deployment Security - 민감한 배포 파일들
 # SSL 인증서 및 개인키
-deploy/configs/nginx/ssl/
+deploy
 *.pem
 *.key
 *.crt

@@ -45,9 +45,9 @@ http://localhost:9000
 ------------------------------------------------------------------
 # 유저에 권한주기
 
-sudo usermod -aG sudo runicks
+sudo usermod -aG sudo {유저이름}
 
-sudo usermod -aG docker runicks
+sudo usermod -aG docker {유저이름}
 
 ---------------------------------------------------------------------
 # docker compose 설치

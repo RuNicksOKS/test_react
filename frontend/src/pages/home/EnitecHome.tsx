@@ -4,7 +4,9 @@ import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import type { SwiperRef } from 'swiper/react';
 import { useInView } from 'react-intersection-observer';
+import Marquee from 'react-fast-marquee';
 import GoogleMap from '../../components/map/GoogleMap';
 // CSS 모듈 import 제거 - Material-UI styled components로 대체
 
@@ -429,18 +431,15 @@ const HeroSubtitle = styled(Typography)(({ theme }) => ({
 
 const CustomSectionTitle = styled(Typography)(({ theme }) => ({
   textAlign: 'center',
-  marginBottom: '48px',
   color: '#00136C',
   fontWeight: 500,
   fontFamily: "'Noto Sans JP', sans-serif",
   fontSize: '3.5rem',
   [theme.breakpoints.down('md')]: {
-    fontSize: '2.5rem',
-    marginBottom: '36px'
+    fontSize: '2.5rem'
   },
   [theme.breakpoints.down('sm')]: {
-    fontSize: '1.5rem',
-    marginBottom: '24px'
+    fontSize: '1.5rem'
   }
 }));
 
@@ -453,13 +452,21 @@ const SlideControls = styled(Box)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
-  gap: '20px'
+  gap: '20px',
+  [theme.breakpoints.down('md')]: {
+    bottom: '30px',
+    left: '30px',
+    gap: '18px'
+  }
 }));
 
 const SlideIndicators = styled(Box)(({ theme }) => ({
   display: 'flex',
   gap: '12px',
-  justifyContent: 'center'
+  justifyContent: 'center',
+  [theme.breakpoints.down('md')]: {
+    gap: '11px'
+  }
 }));
 
 const SlideIndicator = styled(Box, {
@@ -475,6 +482,10 @@ const SlideIndicator = styled(Box, {
   '&:hover': {
     backgroundColor: 'white',
     transform: 'scale(1.05)'
+  },
+  [theme.breakpoints.down('md')]: {
+    width: isActive ? '22px' : '11px',
+    height: '10px'
   }
 }));
 
@@ -482,7 +493,10 @@ const SlideControlButtons = styled(Box)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   gap: '16px',
-  justifyContent: 'center'
+  justifyContent: 'center',
+  [theme.breakpoints.down('md')]: {
+    gap: '12px'
+  }
 }));
 
 const SlideButton = styled(Typography, {
@@ -496,6 +510,9 @@ const SlideButton = styled(Typography, {
   '&:hover': {
     transform: direction === 'left' ? 'translateX(-4px)' : 'translateX(4px)',
     textShadow: '0 0 10px rgba(255,255,255,0.8)'
+  },
+  [theme.breakpoints.down('md')]: {
+    fontSize: '1.5rem'
   }
 }));
 
@@ -508,41 +525,44 @@ const PlayPauseButton = styled(Typography)(({ theme }) => ({
   '&:hover': {
     transform: 'scale(1.1)',
     textShadow: '0 0 10px rgba(255,255,255,0.8)'
+  },
+  [theme.breakpoints.down('md')]: {
+    fontSize: '1.2rem'
   }
 }));
 
 // News 섹션 Styled Components
 const LatestNewsSection = styled(Box)(({ theme }) => ({
   padding: '70px 0',
-  backgroundColor: '#f2ebe1'
-}));
-
-const NewsScrollContainer = styled(Box)(({ theme }) => ({
-  overflow: 'hidden',
-  position: 'relative',
-  minHeight: '450px',
-  '&:hover': {
-    '--scroll-paused': 'paused'
+  height: '430px',
+  [theme.breakpoints.down('md')]: {
+    padding: '50px 0',
+    height: '380px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    padding: '40px 0',
+    height: '350px'
   }
 }));
 
-const NewsScrollContent = styled(Box)(({ theme }) => ({
-  display: 'flex',
-  gap: '24px',
-  paddingTop: '10px',
-  animation: 'scroll 20s linear infinite',
-  '&:hover': {
-    animationPlayState: 'paused'
-  },
-  '@keyframes scroll': {
-    '0%': { transform: 'translateX(0)' },
-    '100%': { transform: 'translateX(-109%)' }
-  },
+const NewsMarquee = styled(Marquee)(({ theme }) => ({
+  height: '430px',
   [theme.breakpoints.down('md')]: {
-    gap: '20px'
+    height: '380px'
   },
   [theme.breakpoints.down('sm')]: {
-    gap: '16px'
+    height: '350px'
+  }
+}));
+
+const NewsCardWrapper = styled('div')(({ theme }) => ({
+  marginRight: '24px',
+  display: 'inline-block',
+  [theme.breakpoints.down('md')]: {
+    marginRight: '20px'
+  },
+  [theme.breakpoints.down('sm')]: {
+    marginRight: '16px'
   }
 }));
 
@@ -621,14 +641,7 @@ const NewsTitle = styled(Typography)(({ theme }) => ({
 
 // Solutions 섹션 Styled Components
 const SolutionsSection = styled(Box)(({ theme }) => ({
-  padding: '20px 0',
-  backgroundColor: '#f2ebe1',
-  [theme.breakpoints.down('md')]: {
-    marginTop: '-70px'
-  },
-  [theme.breakpoints.down('sm')]: {
-    marginTop: '-150px'
-  }
+  padding: '20px 0'
 }));
 
 const SectionTitle = styled(Typography)(({ theme }) => ({
@@ -797,12 +810,7 @@ const EnitecHome: React.FC = () => {
     }
   };
 
-  const swiperRef = useRef<{ swiper?: { 
-    autoplay?: { stop: () => void; start: () => void };
-    slidePrev: () => void;
-    slideNext: () => void;
-    slideTo: (index: number) => void;
-  } }>(null);
+  const swiperRef = useRef<SwiperRef>(null);
   const prevSlideRef = useRef(0);
 
   // 카운터 애니메이션
@@ -961,6 +969,7 @@ const EnitecHome: React.FC = () => {
       {/* Hero 섹션 */}
       <HeroSection>
         <Swiper
+          ref={swiperRef}
           modules={[Navigation, Pagination, Autoplay]}
           spaceBetween={0}
           slidesPerView={1}
@@ -1063,14 +1072,14 @@ const EnitecHome: React.FC = () => {
             最新ニュース
           </CustomSectionTitle>
           
-          <NewsScrollContainer
-            onMouseEnter={() => document.documentElement.style.setProperty('--scroll-paused', 'paused')}
-            onMouseLeave={() => document.documentElement.style.setProperty('--scroll-paused', 'running')}
+          <NewsMarquee
+            speed={50}
+            pauseOnHover={true}
+            gradient={false}
           >
-            <NewsScrollContent>
-              {/* 원본 뉴스 카드들 */}
-              {latestNews.map((news) => (
-                <NewsCard key={news.id}>
+            {latestNews.map((news) => (
+              <NewsCardWrapper key={news.id}>
+                <NewsCard>
                   <NewsImage>
                     <img 
                       src={news.thumbnail} 
@@ -1094,63 +1103,9 @@ const EnitecHome: React.FC = () => {
                     </NewsDetailsButton>
                   </NewsContent>
                 </NewsCard>
-              ))}
-              {/* 첫 번째 복제본 */}
-              {latestNews.map((news) => (
-                <NewsCard key={`clone-1-${news.id}`}>
-                  <NewsImage>
-                    <img 
-                      src={news.thumbnail} 
-                      alt={news.title}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
-                  </NewsImage>
-                  <NewsContent>
-                    <NewsCategory variant="caption">
-                      {news.category}
-                    </NewsCategory>
-                    <NewsTitle variant="h6">
-                      {news.title}
-                    </NewsTitle>
-                    <NewsDetailsButton
-                      variant="outlined"
-                      size="small"
-                      onClick={() => navigate(`/news?newsId=${news.id}`)}
-                    >
-                      Details
-                    </NewsDetailsButton>
-                  </NewsContent>
-                </NewsCard>
-              ))}
-              {/* 두 번째 복제본 */}
-              {latestNews.map((news) => (
-                <NewsCard key={`clone-2-${news.id}`}>
-                  <NewsImage>
-                    <img 
-                      src={news.thumbnail} 
-                      alt={news.title}
-                      style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                    />
-                  </NewsImage>
-                  <NewsContent>
-                    <NewsCategory variant="caption">
-                      {news.category}
-                    </NewsCategory>
-                    <NewsTitle variant="h6">
-                      {news.title}
-                    </NewsTitle>
-                    <NewsDetailsButton
-                      variant="outlined"
-                      size="small"
-                      onClick={() => navigate(`/news?newsId=${news.id}`)}
-                    >
-                      Details
-                    </NewsDetailsButton>
-                  </NewsContent>
-                </NewsCard>
-              ))}
-            </NewsScrollContent>
-          </NewsScrollContainer>
+              </NewsCardWrapper>
+            ))}
+          </NewsMarquee>
         </Container>
       </LatestNewsSection>
 

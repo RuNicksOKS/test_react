@@ -1,0 +1,121 @@
+# Git
+.git
+.gitignore
+
+# IDE files
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Dependencies
+node_modules
+
+# Build outputs
+build
+dist
+
+# Environment files
+.env.local
+.env.development
+.env.test
+
+# Python 관련
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+*.manifest
+*.spec
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Python 테스트 및 커버리지
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Python 가상환경
+.venv/
+venv/
+ENV/
+env.bak/
+venv.bak/
+env/
+
+# Python 패키지 관리
+Pipfile.lock
+poetry.lock
+pyproject.toml
+
+# 데이터베이스
+*.sqlite3
+*.sqlite3-journal
+postgres_data/
+data/
+data_bak/
+database_setting/
+volumes/
+
+# 배포 및 보안 파일
+deploy/
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+.aws/
+.aws-credentials
+aws-credentials.json
+id_rsa*
+ssh/
+docker-compose.override.yml
+docker-compose.local.yml
+config.local.yml
+settings.local.py
+local_settings.py
+
+# Git 키 파일
+vscode_git_push
+vscode_git_push.pub
+
+# 기타
+memo.txt
+*.swp
+*.swo
+*~
+
