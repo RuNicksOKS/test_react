@@ -556,18 +556,27 @@ const NewsMarquee = styled(Marquee)(({ theme }) => ({
 }));
 
 const NewsCardWrapper = styled('div')(({ theme }) => ({
-  marginRight: '24px',
-  display: 'inline-block',
+  // iOS에서 transform 애니메이션과 flex 수축 문제 해결
+  flex: '0 0 auto',        // 절대 수축 금지
+  display: 'inline-block', // 폭 계산 안정화 (react-fast-marquee가 inline 흐름에 유리)
+  whiteSpace: 'normal',    // 카드 내부 줄바꿈 허용
+  // 카드 고정 폭으로 더 안정적으로 설정
+  width: '280px',          // 기본 폭
+  marginRight: '16px',
   [theme.breakpoints.down('md')]: {
-    marginRight: '20px'
+    width: '250px',
+    marginRight: '14px'
   },
   [theme.breakpoints.down('sm')]: {
-    marginRight: '16px'
+    width: '200px',
+    marginRight: '12px'
   }
 }));
 
 const NewsCard = styled(Box)(({ theme }) => ({
-  minWidth: '300px',
+  // NewsCardWrapper의 고정 폭에 맞춰 조정
+  width: '100%',           // 부모의 고정 폭을 100% 사용
+  minWidth: '280px',       // 기본 최소 폭
   backgroundColor: 'white',
   borderRadius: '12px',
   boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
