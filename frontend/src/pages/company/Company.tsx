@@ -280,12 +280,31 @@ const InfoItem = styled(Typography)(({ theme }) => ({
   lineHeight: 1.6,
   color: '#333',
   padding: '12px 0',
-  borderBottom: '1px solid #e0e0e0'
+  borderBottom: '1px solid #e0e0e0',
+  
+  [theme.breakpoints.down('md')]: {
+    fontSize: '1rem',
+    padding: '10px 0'
+  },
+  
+  [theme.breakpoints.down('sm')]: {
+    fontSize: '0.9rem',
+    padding: '8px 0'
+  }
 }));
 
 const InfoLabel = styled('strong')(({ theme }) => ({
   color: '#00136C',
-  marginRight: '12px'
+  marginRight: '12px',
+  fontSize: 'inherit',
+  
+  [theme.breakpoints.down('md')]: {
+    marginRight: '10px'
+  },
+  
+  [theme.breakpoints.down('sm')]: {
+    marginRight: '8px'
+  }
 }));
 
 const InfoValue = styled('span')(({ theme }) => ({
@@ -296,13 +315,16 @@ const InfoValue = styled('span')(({ theme }) => ({
   wordBreak: 'break-word',
   whiteSpace: 'normal',
   verticalAlign: 'top',
+  fontSize: 'inherit',
   
   [theme.breakpoints.down('md')]: {
     width: '250px'
   },
   
   [theme.breakpoints.down('sm')]: {
-    width: '200px'
+    width: '100%',
+    display: 'block',
+    marginTop: '4px'
   }
 }));
 
@@ -503,14 +525,22 @@ const TimelineItem = styled(Box)(({ theme }) => ({
 const TimelineDot = styled(Box)(({ theme }) => ({
   position: 'absolute',
   left: '120px',
-  top: '8px',
+  top: '3px',
   width: '16px',
   height: '16px',
   borderRadius: '50%',
   background: '#8B5CF6',
   border: '4px solid white',
   boxShadow: '0 0 0 4px #00136C',
-  zIndex: 2
+  zIndex: 2,
+  
+  [theme.breakpoints.down('md')]: {
+    top: '1.5px'
+  },
+  
+  [theme.breakpoints.down('sm')]: {
+    top: '0px'
+  }
 }));
 
 const TimelineDate = styled(Typography)(({ theme }) => ({

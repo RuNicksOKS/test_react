@@ -730,7 +730,7 @@ const Business: React.FC = () => {
                 <Grid item xs={12} md={6} sx={{ order: { xs: 1, md: 1 } }}>
                   <SolutionContentBox>
                     <SolutionTitle variant="h4">
-                      最高の成果, 持続可能なメンテナンス
+                      最高の成果<br/>持続可能なメンテナンス
                     </SolutionTitle>
                     <SolutionDescription variant="body1">
                       単純納品を超えて長期的な安定性を保障し、持続可能な価値を提供します。

@@ -4,9 +4,7 @@ import { styled } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 
 // Styled Components
-const Header = styled('div', {
-  shouldForwardProp: (prop) => prop !== 'isScrolled'
-})<{ isScrolled: boolean }>(({ theme, isScrolled }) => ({
+const Header = styled('div')(({ theme }) => ({
   position: 'fixed',
   top: 0,
   left: 0,
@@ -14,8 +12,8 @@ const Header = styled('div', {
   zIndex: 1000,
   transition: 'all 0.3s ease',
   fontFamily: "'Noto Sans JP', sans-serif",
-  backgroundColor: isScrolled ? 'white' : 'transparent',
-  boxShadow: isScrolled ? '0 2px 10px rgba(0,0,0,0.1)' : 'none'
+  backgroundColor: 'white',
+  boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
 }));
 
 const HeaderContent = styled(Box)(({ theme }) => ({
@@ -45,9 +43,7 @@ const NavigationItemContainer = styled(Box)(({ theme }) => ({
   cursor: 'pointer'
 }));
 
-const NavigationItem = styled(Typography, {
-  shouldForwardProp: (prop) => prop !== 'isScrolled'
-})<{ isScrolled: boolean }>(({ theme, isScrolled }) => ({
+const NavigationItem = styled(Typography)(({ theme }) => ({
   cursor: 'pointer',
   transition: 'color 0.3s ease',
   padding: '8px 0',
@@ -55,7 +51,7 @@ const NavigationItem = styled(Typography, {
   fontFamily: "'Noto Sans JP', sans-serif",
   fontSize: '1.1rem',
   fontWeight: '550',
-  color: isScrolled ? '#00136C' : 'white'
+  color: '#00136C'
 }));
 
 const DropdownMenu = styled(Box)(({ theme }) => ({
@@ -116,10 +112,10 @@ const RightIcons = styled(Box)(({ theme }) => ({
 }));
 
 const HamburgerMenu = styled(Box, {
-  shouldForwardProp: (prop) => prop !== 'isScrolled' && prop !== 'isOpen'
-})<{ isScrolled: boolean; isOpen: boolean }>(({ theme, isScrolled, isOpen }) => ({
+  shouldForwardProp: (prop) => prop !== 'isOpen'
+})<{ isOpen: boolean }>(({ theme, isOpen }) => ({
   cursor: 'pointer',
-  color: isOpen ? '#00136C' : (isScrolled ? '#00136C' : 'white'),
+  color: '#00136C',
   width: '30px',
   height: '30px',
   position: 'fixed',
@@ -140,7 +136,7 @@ const HamburgerMenu = styled(Box, {
     position: 'absolute',
     width: '20px',
     height: '2px',
-    backgroundColor: isOpen ? '#00136C' : 'currentColor',
+    backgroundColor: '#00136C',
     transition: 'all 0.3s ease',
     transformOrigin: 'center'
   },
@@ -153,7 +149,7 @@ const HamburgerMenu = styled(Box, {
   '& > span': {
     width: '20px',
     height: '2px',
-    backgroundColor: isOpen ? '#00136C' : 'currentColor',
+    backgroundColor: '#00136C',
     transition: 'all 0.3s ease',
     opacity: isOpen ? 0 : 1,
     transform: isOpen ? 'scale(0)' : 'scale(1)'
@@ -281,16 +277,14 @@ const MobileSubItem = styled(Typography)(({ theme }) => ({
   }
 }));
 
-interface NavigationProps {
-  isScrolled: boolean;
-}
+interface NavigationProps {}
 
 interface MenuItem {
   label: string;
   subItems: string[];
 }
 
-const Navigation: React.FC<NavigationProps> = ({ isScrolled }) => {
+const Navigation: React.FC<NavigationProps> = () => {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
@@ -383,7 +377,7 @@ const Navigation: React.FC<NavigationProps> = ({ isScrolled }) => {
   return (
     <>
       {/* 헤더 */}
-      <Header isScrolled={isScrolled}>
+      <Header>
         <Container maxWidth="xl">
           <HeaderContent>
             {/* 로고 */}
@@ -402,7 +396,6 @@ const Navigation: React.FC<NavigationProps> = ({ isScrolled }) => {
                   onMouseLeave={() => setHoveredItem(null)}
                 >
                   <NavigationItem 
-                    isScrolled={isScrolled}
                     onClick={() => handleMainItemClick(item.label)}
                   >
                     {item.label}
@@ -429,7 +422,6 @@ const Navigation: React.FC<NavigationProps> = ({ isScrolled }) => {
             <RightIcons>
               {/* 햄버거 메뉴 - 모바일에서만 표시 */}
               <HamburgerMenu 
-                isScrolled={isScrolled}
                 isOpen={isMenuOpen}
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
               >

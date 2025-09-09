@@ -33,7 +33,7 @@ function App() {
   return (
     <div>
       {/* 전역 네비게이션 컴포넌트 */}
-      <NavigationComponent isScrolled={isScrolled} />
+      <NavigationComponent />
       
       {/* 라우트 컴포넌트들이 여기에 렌더링됩니다 */}
       <Outlet />
